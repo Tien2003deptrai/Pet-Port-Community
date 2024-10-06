@@ -1,0 +1,28 @@
+1.Models
+- Definition: Models represent the structure of your data in application.
+Each model corresponds to a table in the database.
+- Perpose : They define the attributes (columns) and the relationships (associations)
+between different tables
+- Example : If you have 'User' model (id, name), and could establish a relationship like 
+User.hasMany(Post)
+
+2.Migrations    
+- Definition: Migrations are files that define the changes to the database schema.
+- Perpose : They allow you to make changes to the database schema without losing data.
+- Example : If you add a new column to a table, you can create a migration file 
+to add that column to the table.
+
+3.Seeds
+- Definition: Seeds are files that contain sample data that can be used to populate
+the database.
+- Perpose : They allow you to pre-populate the database with sample data.
+- Example : If you have a 'User' model with sample data, you can create a seed file 
+to populate the database with that data.
+
+-------------------
+npx sequelize-cli migration:generate --name create-users
+npx sequelize-cli seed:generate --name user-seeder
+
+cd src
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
