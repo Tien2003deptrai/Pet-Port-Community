@@ -23,4 +23,6 @@ router.get('/with-reviews', ProductController.getProductsWithReviews);
 
 router.get('/filter', ProductController.filterProducts);
 
+router.get('/:id', ProductController.getProductById);
+
 module.exports = router;

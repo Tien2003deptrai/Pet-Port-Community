@@ -9,6 +9,7 @@ const helmet = require('helmet');
 const { limiter, corsOptions } = require('./utils');
 
 const setupSwaggerDocs = require('./swagger/swagger');
+require('module-alias/register');
 
 // Middleware
 const {

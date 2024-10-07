@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const { Product, User, Category, Review, Op } = require('../models');
 
 const ProductController = {
@@ -34,8 +35,56 @@ const ProductController = {
 
   async getAll(req, res) {
     try {
-      const products = await Product.findAll();
+      const products = await Product.findAll(
+        {
+          include: [
+            {
+              model: Category,
+              as: 'Category',
+              attributes: ['id', 'name'],
+            },
+            {
+              model: Review,
+              as: 'ProductReviews',
+              attributes: ['id', 'rating', 'comment', 'createdAt'],
+              required: false,
+            },
+          ],
+        }
+      );
       res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
+
+  async getProductById(req, res) {
+    try {
+      const { id } = req.params;
+      const product = await Product.findByPk(id, {
+        include: [
+          {
+            model: Category,
+            as: 'Category',
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Review,
+            as: 'ProductReviews',
+            attributes: ['id', 'rating', 'comment', 'createdAt'],
+            required: false,
+          },
+        ],
+      });
+
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+
+      res.json(product);
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
