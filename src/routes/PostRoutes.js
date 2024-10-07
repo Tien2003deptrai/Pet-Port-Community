@@ -1,20 +1,13 @@
 const express = require('express');
 const { PostController } = require('../controllers');
-const PostValidation = require('../validations/postValidation');
+const PostValidation = require('../validations/PostValidation');
 const router = express.Router();
 
-router.post(
-	'/',
-	PostValidation.create,
-	PostController.create
-);
+router.post('/', PostValidation.create, PostController.create);
 
 router.get('/', PostController.getAll);
 
-router.get(
-	'/with-user-info',
-	PostController.getPostsWithUserInfo
-);
+router.get('/with-user-info', PostController.getPostsWithUserInfo);
 
 router.get('/search', PostController.searchPostsByTitle);
 

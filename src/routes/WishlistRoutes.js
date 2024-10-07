@@ -1,25 +1,15 @@
 const express = require('express');
 const { ServiceController } = require('../controllers');
-const ServiceValidation = require('../validations/serviceValidation');
+const ServiceValidation = require('../validations/ServiceValidation');
 const router = express.Router();
 
-router.post(
-	'/',
-	ServiceValidation.create,
-	ServiceController.create
-);
+router.post('/', ServiceValidation.create, ServiceController.create);
 
 router.get('/', ServiceController.getAll);
 
-router.get(
-	'/doctor/:doctor_id',
-	ServiceController.getServicesByDoctor
-);
+router.get('/doctor/:doctor_id', ServiceController.getServicesByDoctor);
 
-router.get(
-	'/category/:category_id',
-	ServiceController.getServicesByCategory
-);
+router.get('/category/:category_id', ServiceController.getServicesByCategory);
 
 router.get('/active', ServiceController.getActiveServices);
 

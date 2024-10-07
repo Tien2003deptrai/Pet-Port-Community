@@ -1,13 +1,9 @@
 const express = require('express');
 const { CategoryController } = require('../controllers');
-const CategoryValidation = require('../validations/categoryValidation');
+const CategoryValidation = require('../validations/CategoryValidation');
 const router = express.Router();
 
-router.post(
-	'/',
-	CategoryValidation.create,
-	CategoryController.create
-);
+router.post('/', CategoryValidation.create, CategoryController.create);
 
 router.get('/', CategoryController.getAll);
 

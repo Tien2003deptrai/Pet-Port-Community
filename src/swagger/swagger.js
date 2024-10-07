@@ -4,7 +4,7 @@ const YAML = require('yamljs');
 const path = require('path');
 
 const swaggerDocument = YAML.load(
-	path.join(__dirname, '../swagger/docs/DocSwagger.yaml')
+  path.join(__dirname, '../swagger/docs/DocSwagger.yaml'),
 );
 
 /**
@@ -12,20 +12,20 @@ const swaggerDocument = YAML.load(
  * @param {object} app - Đối tượng ứng dụng Express
  */
 const setupSwaggerDocs = (app) => {
-	app.use(
-		'/api-docs',
-		swaggerUi.serve,
-		swaggerUi.setup(swaggerDocument, {
-			swaggerOptions: {
-				docExpansion: 'none',
-				// defaultModelsExpandDepth: -1,
-				operationsSorter: 'alpha',
-				tagsSorter: 'alpha',
-				filter: true,
-				deepLinking: true,
-			},
-		})
-	);
+  app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, {
+      swaggerOptions: {
+        docExpansion: 'none',
+        // defaultModelsExpandDepth: -1,
+        operationsSorter: 'alpha',
+        tagsSorter: 'alpha',
+        filter: true,
+        deepLinking: true,
+      },
+    }),
+  );
 };
 
 module.exports = setupSwaggerDocs;

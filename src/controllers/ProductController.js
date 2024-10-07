@@ -1,282 +1,247 @@
-const {
-	Product,
-	User,
-	Category,
-	Review,
-	Op,
-} = require('../models');
+const { Product, User, Category, Review, Op } = require('../models');
 
 const ProductController = {
-	async create(req, res) {
-		const {
-			sales_center_id,
-			category_id,
-			name,
-			description,
-			price,
-			stock_quantity,
-			sku,
-			images,
-		} = req.body;
-		try {
-			const product = await Product.create({
-				sales_center_id,
-				category_id,
-				name,
-				description,
-				price,
-				stock_quantity,
-				sku,
-				images,
-			});
-			res.status(201).json(product);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+  async create(req, res) {
+    const {
+      sales_center_id,
+      category_id,
+      name,
+      description,
+      price,
+      stock_quantity,
+      sku,
+      images,
+    } = req.body;
+    try {
+      const product = await Product.create({
+        sales_center_id,
+        category_id,
+        name,
+        description,
+        price,
+        stock_quantity,
+        sku,
+        images,
+      });
+      res.status(201).json(product);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async getAll(req, res) {
-		try {
-			const products = await Product.findAll();
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+  async getAll(req, res) {
+    try {
+      const products = await Product.findAll();
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async getPaginatedAndSelectedProducts(req, res) {
-		const { limit, skip, select } = req.query;
+  async getPaginatedAndSelectedProducts(req, res) {
+    const { limit, skip, select } = req.query;
 
-		const limitValue = parseInt(limit) || 10;
-		const skipValue = parseInt(skip) || 0;
+    const limitValue = parseInt(limit) || 10;
+    const skipValue = parseInt(skip) || 0;
 
-		let selectedFields = null;
-		let includeReviews = true;
+    let selectedFields = null;
+    let includeReviews = true;
 
-		if (select) {
-			const userSelectedFields = select.split(',');
-			selectedFields = ['id', ...userSelectedFields];
+    if (select) {
+      const userSelectedFields = select.split(',');
+      selectedFields = ['id', ...userSelectedFields];
 
-			includeReviews = false;
-		}
+      includeReviews = false;
+    }
 
-		try {
-			const options = {
-				limit: limitValue,
-				where: {
-					id: {
-						[Op.gte]: skipValue,
-					},
-				},
-				attributes: selectedFields
-					? selectedFields
-					: undefined,
-			};
+    try {
+      const options = {
+        limit: limitValue,
+        where: {
+          id: {
+            [Op.gte]: skipValue,
+          },
+        },
+        attributes: selectedFields ? selectedFields : undefined,
+      };
 
-			if (includeReviews) {
-				options.include = [
-					{
-						model: Review,
-						attributes: [
-							'id',
-							'rating',
-							'comment',
-							'createdAt',
-						],
-						as: 'ProductReviews',
-					},
-				];
-			}
+      if (includeReviews) {
+        options.include = [
+          {
+            model: Review,
+            attributes: ['id', 'rating', 'comment', 'createdAt'],
+            as: 'ProductReviews',
+          },
+        ];
+      }
 
-			const products = await Product.findAll(options);
+      const products = await Product.findAll(options);
 
-			if (products.length === 0) {
-				return res
-					.status(200)
-					.json({
-						message: 'No products found',
-						products,
-					});
-			}
+      if (products.length === 0) {
+        return res.status(200).json({
+          message: 'No products found',
+          products,
+        });
+      }
 
-			res.status(200).json({ products: products });
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+      res.status(200).json({ products: products });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async search(req, res) {
-		const { name, category_id } = req.query;
-		try {
-			const whereClause = {};
-			if (name) {
-				whereClause.name = {
-					[Op.like]: `%${name}%`,
-				};
-			}
-			if (category_id) {
-				whereClause.category_id = category_id;
-			}
+  async search(req, res) {
+    const { name, category_id } = req.query;
+    try {
+      const whereClause = {};
+      if (name) {
+        whereClause.name = {
+          [Op.like]: `%${name}%`,
+        };
+      }
+      if (category_id) {
+        whereClause.category_id = category_id;
+      }
 
-			const products = await Product.findAll({
-				where: whereClause,
-			});
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+      const products = await Product.findAll({
+        where: whereClause,
+      });
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async getActiveProducts(req, res) {
-		try {
-			const products = await Product.findAll({
-				where: { is_active: true },
-			});
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+  async getActiveProducts(req, res) {
+    try {
+      const products = await Product.findAll({
+        where: { is_active: true },
+      });
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async getSortedProducts(req, res) {
-		const { sort } = req.query;
-		try {
-			const products = await Product.findAll({
-				order: [
-					[
-						'price',
-						sort === 'desc' ? 'DESC' : 'ASC',
-					],
-				],
-			});
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+  async getSortedProducts(req, res) {
+    const { sort } = req.query;
+    try {
+      const products = await Product.findAll({
+        order: [['price', sort === 'desc' ? 'DESC' : 'ASC']],
+      });
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async getProductsWithSeller(req, res) {
-		try {
-			const products = await Product.findAll({
-				include: [
-					{
-						model: User,
-						as: 'SalesCenter',
-						attributes: [
-							'id',
-							'full_name',
-							'business_name',
-						],
-					},
-				],
-			});
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+  async getProductsWithSeller(req, res) {
+    try {
+      const products = await Product.findAll({
+        include: [
+          {
+            model: User,
+            as: 'SalesCenter',
+            attributes: ['id', 'full_name', 'business_name'],
+          },
+        ],
+      });
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async getProductsWithCategory(req, res) {
-		try {
-			const products = await Product.findAll({
-				include: [
-					{
-						model: Category,
-						as: 'Category',
-						attributes: ['id', 'name'],
-					},
-				],
-			});
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+  async getProductsWithCategory(req, res) {
+    try {
+      const products = await Product.findAll({
+        include: [
+          {
+            model: Category,
+            as: 'Category',
+            attributes: ['id', 'name'],
+          },
+        ],
+      });
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async getProductsWithReviews(req, res) {
-		try {
-			const products = await Product.findAll({
-				include: [
-					{
-						model: Review,
-						as: 'ProductReviews',
-						attributes: [
-							'id',
-							'rating',
-							'comment',
-							'createdAt',
-						],
-						required: false, // Cho phép sản phẩm không có đánh giá cũng sẽ được trả về
-					},
-				],
-			});
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+  async getProductsWithReviews(req, res) {
+    try {
+      const products = await Product.findAll({
+        include: [
+          {
+            model: Review,
+            as: 'ProductReviews',
+            attributes: ['id', 'rating', 'comment', 'createdAt'],
+            required: false, // Cho phép sản phẩm không có đánh giá cũng sẽ được trả về
+          },
+        ],
+      });
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 
-	async filterProducts(req, res) {
-		const {
-			category_id,
-			min_price,
-			max_price,
-			is_active,
-		} = req.query;
-		try {
-			const whereClause = {};
-			if (category_id) {
-				whereClause.category_id = category_id;
-			}
-			if (min_price) {
-				whereClause.price = { [Op.gte]: min_price };
-			}
-			if (max_price) {
-				whereClause.price = { [Op.lte]: max_price };
-			}
-			if (is_active !== undefined) {
-				whereClause.is_active =
-					is_active === 'true';
-			}
+  async filterProducts(req, res) {
+    const { category_id, min_price, max_price, is_active } = req.query;
+    try {
+      const whereClause = {};
+      if (category_id) {
+        whereClause.category_id = category_id;
+      }
+      if (min_price) {
+        whereClause.price = { [Op.gte]: min_price };
+      }
+      if (max_price) {
+        whereClause.price = { [Op.lte]: max_price };
+      }
+      if (is_active !== undefined) {
+        whereClause.is_active = is_active === 'true';
+      }
 
-			const products = await Product.findAll({
-				where: whereClause,
-			});
-			res.json(products);
-		} catch (error) {
-			res.status(500).json({
-				message: 'Server error',
-				error,
-			});
-		}
-	},
+      const products = await Product.findAll({
+        where: whereClause,
+      });
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
 };
 
 module.exports = ProductController;

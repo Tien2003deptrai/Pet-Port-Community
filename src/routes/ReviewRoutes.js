@@ -1,40 +1,21 @@
 const express = require('express');
 const { ReviewController } = require('../controllers');
-const ReviewValidation = require('../validations/reviewValidation');
+const ReviewValidation = require('../validations/ReviewValidation');
 const router = express.Router();
 
-router.post(
-	'/',
-	ReviewValidation.create,
-	ReviewController.create
-);
+router.post('/', ReviewValidation.create, ReviewController.create);
 
 router.get('/', ReviewController.getAll);
 
-router.get(
-	'/average-rating',
-	ReviewController.getAverageRating
-);
+router.get('/average-rating', ReviewController.getAverageRating);
 
-router.get(
-	'/product/:product_id',
-	ReviewController.getReviewsByProduct
-);
+router.get('/product/:product_id', ReviewController.getReviewsByProduct);
 
-router.get(
-	'/user/:reviewer_id',
-	ReviewController.getReviewsByUser
-);
+router.get('/user/:reviewer_id', ReviewController.getReviewsByUser);
 
-router.get(
-	'/service/:service_id',
-	ReviewController.getReviewsByService
-);
+router.get('/service/:service_id', ReviewController.getReviewsByService);
 
-router.get(
-	'/best-worst',
-	ReviewController.getBestAndWorstReview
-);
+router.get('/best-worst', ReviewController.getBestAndWorstReview);
 
 router.put('/verify/:id', ReviewController.verifyReview);
 
