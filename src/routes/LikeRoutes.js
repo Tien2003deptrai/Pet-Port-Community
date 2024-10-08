@@ -1,6 +1,6 @@
 const express = require('express');
-const { LikeController } = require('../controllers');
-const LikeValidation = require('../validations/LikeValidation');
+const { LikeController } = require('@controllers');
+const { LikeValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', LikeValidation.create, LikeController.create);

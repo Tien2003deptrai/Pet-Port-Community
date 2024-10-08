@@ -49,6 +49,11 @@ const ProductController = {
               attributes: ['id', 'rating', 'comment', 'createdAt'],
               required: false,
             },
+            {
+              model: User,
+              as: 'SalesCenter',
+              attributes: ['id', 'full_name', 'business_name'],
+            },
           ],
         }
       );
@@ -76,6 +81,11 @@ const ProductController = {
             as: 'ProductReviews',
             attributes: ['id', 'rating', 'comment', 'createdAt'],
             required: false,
+          },
+          {
+            model: User,
+            as: 'SalesCenter',
+            attributes: ['id', 'full_name', 'business_name'],
           },
         ],
       });
@@ -123,9 +133,19 @@ const ProductController = {
       if (includeReviews) {
         options.include = [
           {
+            model: Category,
+            as: 'Category',
+            attributes: ['id', 'name', 'createdAt'],
+          },
+          {
             model: Review,
-            attributes: ['id', 'rating', 'comment', 'createdAt'],
             as: 'ProductReviews',
+            attributes: ['id', 'rating', 'comment', 'createdAt'],
+          },
+          {
+            model: User,
+            as: 'SalesCenter',
+            attributes: ['id', 'full_name', 'business_name'],
           },
         ];
       }

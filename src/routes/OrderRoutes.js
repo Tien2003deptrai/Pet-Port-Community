@@ -1,6 +1,6 @@
 const express = require('express');
-const { OrderController } = require('../controllers');
-const OrderValidation = require('../validations/OrderItemValidation');
+const { OrderController } = require('@controllers');
+const { OrderValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', OrderValidation.create, OrderController.createOrder);

@@ -1,6 +1,7 @@
 const express = require('express');
-const { CommentController } = require('../controllers');
-const CommentValidation = require('../validations/CommentValidation');
+const { CommentController } = require('@controllers');
+const { CommentValidation } = require('@validations');
+
 const router = express.Router();
 
 router.post('/', CommentValidation.create, CommentController.create);

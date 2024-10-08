@@ -1,6 +1,6 @@
 const express = require('express');
-const { PostController } = require('../controllers');
-const PostValidation = require('../validations/PostValidation');
+const { PostController } = require('@controllers');
+const { PostValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', PostValidation.create, PostController.create);

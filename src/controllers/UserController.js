@@ -1,7 +1,6 @@
-const { User } = require('../models');
+const { User, Op } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Op } = require('sequelize');
 const crypto = require('crypto');
 const {
   generateRefreshTokenAndSetCookie,

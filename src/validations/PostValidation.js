@@ -1,9 +1,45 @@
-const { body } = require('express-validator');
+const { body, param, query } = require('express-validator');
 
-const create = [
-  body('user_id').notEmpty().withMessage('User ID is required'),
-  body('title').notEmpty().withMessage('Title is required'),
-  body('content').notEmpty().withMessage('Content is required'),
-];
+const PostValidation = {
+  create: [
+    body('user_id')
+      .notEmpty().withMessage('User ID is required')
+      .isInt().withMessage('User ID must be a valid integer'),
+    body('title')
+      .notEmpty().withMessage('Title is required')
+      .isString().withMessage('Title must be a valid string'),
+    body('content')
+      .notEmpty().withMessage('Content is required')
+      .isString().withMessage('Content must be a valid string'),
+    body('image_url')
+      .optional()
+      .isURL().withMessage('Image URL must be a valid URL'),
+  ],
 
-module.exports = { create };
+  update: [
+    param('id').isInt().withMessage('Post ID must be a valid integer'),
+    body('title').optional().isString().withMessage('Title must be a valid string'),
+    body('content').optional().isString().withMessage('Content must be a valid string'),
+    body('image_url').optional().isURL().withMessage('Image URL must be a valid URL'),
+  ],
+
+  getById: [
+    param('id').isInt().withMessage('Post ID must be a valid integer'),
+  ],
+
+  delete: [
+    param('id').isInt().withMessage('Post ID must be a valid integer'),
+  ],
+
+  getPostsByUser: [
+    param('user_id').isInt().withMessage('User ID must be a valid integer'),
+  ],
+
+  searchPostsByTitle: [
+    query('title')
+      .notEmpty().withMessage('Title query is required')
+      .isString().withMessage('Title must be a valid string'),
+  ],
+};
+
+module.exports = PostValidation;

@@ -1,6 +1,6 @@
 const express = require('express');
-const { ReviewController } = require('../controllers');
-const ReviewValidation = require('../validations/ReviewValidation');
+const { ReviewController } = require('@controllers');
+const { ReviewValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', ReviewValidation.create, ReviewController.create);

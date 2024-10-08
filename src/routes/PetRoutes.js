@@ -1,6 +1,6 @@
 const express = require('express');
-const { PetController } = require('../controllers');
-const PetValidation = require('../validations/PetValidation');
+const { PetController } = require('@controllers');
+const { PetValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', PetValidation.create, PetController.create);

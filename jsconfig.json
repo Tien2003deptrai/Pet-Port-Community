@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
     "baseUrl": ".",
     "paths": {
       "@root/*": [
@@ -53,6 +55,6 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*" // Include all files in the src directory
   ]
 }

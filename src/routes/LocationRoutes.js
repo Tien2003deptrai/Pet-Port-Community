@@ -1,6 +1,6 @@
 const express = require('express');
-const { LocationController } = require('../controllers');
-const LocationValidation = require('../validations/LocationValidation');
+const { LocationController } = require('@controllers');
+const { LocationValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', LocationValidation.create, LocationController.create);

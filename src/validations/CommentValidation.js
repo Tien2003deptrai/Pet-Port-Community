@@ -1,9 +1,48 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 
-const create = [
-  body('post_id').notEmpty().withMessage('Post ID is required'),
-  body('user_id').notEmpty().withMessage('User ID is required'),
-  body('content').notEmpty().withMessage('Content is required'),
-];
+const CommentValidation = {
+  create: [
+    body('post_id')
+      .notEmpty().withMessage('Post ID is required')
+      .isInt().withMessage('Post ID must be a valid integer'),
+    body('user_id')
+      .notEmpty().withMessage('User ID is required')
+      .isInt().withMessage('User ID must be a valid integer'),
+    body('content')
+      .notEmpty().withMessage('Content is required')
+      .isString().withMessage('Content must be a valid string'),
+  ],
 
-module.exports = { create };
+  update: [
+    param('id').isInt().withMessage('Comment ID must be a valid integer'),
+    body('content')
+      .optional()
+      .isString().withMessage('Content must be a valid string'),
+  ],
+
+  getById: [
+    param('id').isInt().withMessage('Comment ID must be a valid integer'),
+  ],
+
+  delete: [
+    param('id').isInt().withMessage('Comment ID must be a valid integer'),
+  ],
+
+  getCommentsByPost: [
+    param('post_id')
+      .notEmpty().withMessage('Post ID is required')
+      .isInt().withMessage('Post ID must be a valid integer'),
+  ],
+
+  getCommentsByUser: [
+    param('user_id')
+      .notEmpty().withMessage('User ID is required')
+      .isInt().withMessage('User ID must be a valid integer'),
+  ],
+
+  checkCommentExists: [
+    param('id').isInt().withMessage('Comment ID must be a valid integer'),
+  ],
+};
+
+module.exports = CommentValidation;

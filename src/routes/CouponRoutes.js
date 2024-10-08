@@ -1,6 +1,6 @@
 const express = require('express');
-const { CouponController } = require('../controllers');
-const CouponValidation = require('../validations/CouponValidation');
+const { CouponController } = require('@controllers');
+const { CouponValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', CouponValidation.create, CouponController.create);

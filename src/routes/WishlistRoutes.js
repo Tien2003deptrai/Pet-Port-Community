@@ -1,6 +1,6 @@
 const express = require('express');
-const { ServiceController } = require('../controllers');
-const ServiceValidation = require('../validations/ServiceValidation');
+const { ServiceController } = require('@controllers');
+const { ServiceValidation } = require('@validations');
 const router = express.Router();
 
 router.post('/', ServiceValidation.create, ServiceController.create);
