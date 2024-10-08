@@ -12,4 +12,10 @@ const sequelize = new Sequelize(
   },
 );
 
+// const sequelize = new Sequelize('aaa11', 'root', 'Tien2003@', {
+//   host: 'db',
+//   dialect: 'mysql',
+//   logging: false,
+// });
+
 module.exports = sequelize;

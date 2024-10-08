@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const { Product, User, Category, Review, Op } = require('../models');
 
 const ProductController = {
