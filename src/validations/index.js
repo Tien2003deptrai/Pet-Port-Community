@@ -15,19 +15,19 @@ const UserValidation = require('./UserValidation');
 const WishlistValidation = require('./WishlistValidation');
 
 module.exports = {
-    AppointmentValidation,
-    CategoryValidation,
-    CommentValidation,
-    CouponValidation,
-    LikeValidation,
-    LocationValidation,
-    OrderValidation,
-    PaymentValidation,
-    PetValidation,
-    PostValidation,
-    ProductValidation,
-    ReviewValidation,
-    ServiceValidation,
-    UserValidation,
-    WishlistValidation
-}
+  AppointmentValidation,
+  CategoryValidation,
+  CommentValidation,
+  CouponValidation,
+  LikeValidation,
+  LocationValidation,
+  OrderValidation,
+  PaymentValidation,
+  PetValidation,
+  PostValidation,
+  ProductValidation,
+  ReviewValidation,
+  ServiceValidation,
+  UserValidation,
+  WishlistValidation,
+};

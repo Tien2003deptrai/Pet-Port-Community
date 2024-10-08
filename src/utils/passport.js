@@ -1,6 +1,6 @@
 const passport = require('passport');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
-const { Account, Role } = require('../models');
+const { User } = require('../models');
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -8,19 +8,12 @@ const opts = {
 };
 
 passport.use(
-  new JwtStrategy(opts, async (jwt_payload, done) => {
-    console.log('JWT Payload:', jwt_payload);
+  new JwtStrategy(opts, async (payload, done) => {
     try {
-      const account = await Account.findByPk(jwt_payload.userId, {
-        include: [
-          {
-            model: Role,
-            attributes: ['roleName'],
-          },
-        ],
-      });
-      if (account) {
-        return done(null, account);
+      console.log('JWT Payload:', payload);
+      const user = await User.findByPk(payload.userId);
+      if (user) {
+        return done(null, user);
       }
       return done(null, false);
     } catch (error) {
@@ -28,3 +21,5 @@ passport.use(
     }
   }),
 );
+
+module.exports = passport;

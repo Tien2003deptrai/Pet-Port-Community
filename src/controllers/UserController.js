@@ -17,7 +17,7 @@ const {
 const UserController = {
   async register(req, res) {
     try {
-      const { username, password, email, phone } = req.body;
+      const { username, password, email } = req.body;
 
       const existingUser = await User.findOne({
         where: {
@@ -35,13 +35,15 @@ const UserController = {
       const verificationToken = Math.floor(
         100000 + Math.random() * 900000,
       ).toString();
+
       const newUser = await User.create({
         username,
         password: hashedPassword,
         email,
-        phone,
-        verificationToken,
-        verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
+        verification_token: verificationToken,
+        verification_token_expires_at: new Date(
+          Date.now() + 24 * 60 * 60 * 1000,
+        ),
       });
 
       // await UserController.sendSMS(phone, `Your verification code is: ${verificationToken}`);
@@ -85,8 +87,8 @@ const UserController = {
     try {
       const user = await User.findOne({
         where: {
-          verificationToken: code,
-          verificationTokenExpiresAt: {
+          verification_token: code,
+          verification_token_expires_at: {
             [Op.gt]: new Date(),
           },
         },
@@ -194,10 +196,10 @@ const UserController = {
       const resetToken = crypto.randomBytes(20).toString('hex');
       const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000;
 
-      user.resetPasswordToken = resetToken;
-      user.resetPasswordExpiresAt = resetTokenExpiresAt;
+      user.reset_password_token = resetToken;
+      user.reset_password_expires_at = resetTokenExpiresAt;
 
-      await user.save(); // Save the user with the reset token
+      await user.save();
 
       await sendPasswordResetEmail(
         user.email,
@@ -223,9 +225,9 @@ const UserController = {
     try {
       const user = await User.findOne({
         where: {
-          resetPasswordToken: token,
-          resetPasswordExpiresAt: {
-            [Op.gt]: new Date(),
+          reset_password_token: token, // Correct snake_case naming
+          reset_password_expires_at: {
+            [Op.gt]: new Date(), // Check if token is still valid
           },
         },
       });

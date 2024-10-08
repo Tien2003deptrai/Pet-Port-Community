@@ -5,14 +5,18 @@ const router = express.Router();
 
 router.post('/', CategoryValidation.create, CategoryController.create);
 
-router.get('/', CategoryController.getAll);
+router.get('/', CategoryValidation.update, CategoryController.getAll);
 
-router.get('/:id', CategoryController.getById);
+router.get('/:id', CategoryValidation.getById, CategoryController.getById);
 
-router.put('/:id', CategoryController.update);
+router.put('/:id', CategoryValidation.update, CategoryController.update);
 
-router.delete('/:id', CategoryController.delete);
+router.delete('/:id', CategoryValidation.delete, CategoryController.delete);
 
-router.get('/type/:type', CategoryController.getByType);
+router.get(
+  '/type/:type',
+  CategoryValidation.getByType,
+  CategoryController.getByType,
+);
 
 module.exports = router;

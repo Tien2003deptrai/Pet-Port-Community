@@ -4,9 +4,8 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const chalk = require('chalk');
-const passport = require('passport');
 const helmet = require('helmet');
-const { limiter, corsOptions, errorHandler } = require('./utils');
+const { limiter, corsOptions, errorHandler, passport } = require('./utils');
 
 const setupSwaggerDocs = require('./swagger/swagger');
 require('module-alias/register');

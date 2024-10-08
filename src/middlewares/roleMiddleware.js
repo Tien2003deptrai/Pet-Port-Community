@@ -1,5 +1,5 @@
 exports.authorizeRole = (roles) => (req, res, next) => {
-  const userRole = req.user.Role.roleName;
+  const userRole = req.user.role;
   console.log('User role:', userRole);
 
   if (roles.includes(userRole)) {

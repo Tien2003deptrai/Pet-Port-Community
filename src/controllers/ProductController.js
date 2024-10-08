@@ -34,28 +34,26 @@ const ProductController = {
 
   async getAll(req, res) {
     try {
-      const products = await Product.findAll(
-        {
-          include: [
-            {
-              model: Category,
-              as: 'Category',
-              attributes: ['id', 'name'],
-            },
-            {
-              model: Review,
-              as: 'ProductReviews',
-              attributes: ['id', 'rating', 'comment', 'createdAt'],
-              required: false,
-            },
-            {
-              model: User,
-              as: 'SalesCenter',
-              attributes: ['id', 'full_name', 'business_name'],
-            },
-          ],
-        }
-      );
+      const products = await Product.findAll({
+        include: [
+          {
+            model: Category,
+            as: 'Category',
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Review,
+            as: 'ProductReviews',
+            attributes: ['id', 'rating', 'comment', 'createdAt'],
+            required: false,
+          },
+          {
+            model: User,
+            as: 'SalesCenter',
+            attributes: ['id', 'full_name', 'business_name'],
+          },
+        ],
+      });
       res.json(products);
     } catch (error) {
       res.status(500).json({

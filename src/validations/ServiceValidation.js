@@ -3,33 +3,45 @@ const { body, param } = require('express-validator');
 const ServiceValidation = {
   create: [
     body('doctor_id')
-      .notEmpty().withMessage('Doctor ID is required')
-      .isInt().withMessage('Doctor ID must be a valid integer'),
+      .notEmpty()
+      .withMessage('Doctor ID is required')
+      .isInt()
+      .withMessage('Doctor ID must be a valid integer'),
     body('category_id')
-      .notEmpty().withMessage('Category ID is required')
-      .isInt().withMessage('Category ID must be a valid integer'),
+      .notEmpty()
+      .withMessage('Category ID is required')
+      .isInt()
+      .withMessage('Category ID must be a valid integer'),
     body('name')
-      .notEmpty().withMessage('Service name is required')
-      .isString().withMessage('Service name must be a valid string'),
+      .notEmpty()
+      .withMessage('Service name is required')
+      .isString()
+      .withMessage('Service name must be a valid string'),
     body('description')
       .optional()
-      .isString().withMessage('Description must be a valid string'),
+      .isString()
+      .withMessage('Description must be a valid string'),
     body('price')
-      .notEmpty().withMessage('Price is required')
-      .isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+      .notEmpty()
+      .withMessage('Price is required')
+      .isFloat({ gt: 0 })
+      .withMessage('Price must be a positive number'),
   ],
 
   update: [
     param('id').isInt().withMessage('Service ID must be a valid integer'),
     body('name')
       .optional()
-      .isString().withMessage('Service name must be a valid string'),
+      .isString()
+      .withMessage('Service name must be a valid string'),
     body('description')
       .optional()
-      .isString().withMessage('Description must be a valid string'),
+      .isString()
+      .withMessage('Description must be a valid string'),
     body('price')
       .optional()
-      .isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+      .isFloat({ gt: 0 })
+      .withMessage('Price must be a positive number'),
   ],
 
   getById: [
@@ -45,7 +57,9 @@ const ServiceValidation = {
   ],
 
   getServicesByCategory: [
-    param('category_id').isInt().withMessage('Category ID must be a valid integer'),
+    param('category_id')
+      .isInt()
+      .withMessage('Category ID must be a valid integer'),
   ],
 };
 

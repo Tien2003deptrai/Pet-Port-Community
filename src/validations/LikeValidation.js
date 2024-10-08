@@ -3,15 +3,21 @@ const { body, param } = require('express-validator');
 const LikeValidation = {
   create: [
     body('user_id')
-      .notEmpty().withMessage('User ID is required')
-      .isInt().withMessage('User ID must be a valid integer'),
-    body('post_id').optional().isInt().withMessage('Post ID must be a valid integer'),
-    body('comment_id').optional().isInt().withMessage('Comment ID must be a valid integer'),
+      .notEmpty()
+      .withMessage('User ID is required')
+      .isInt()
+      .withMessage('User ID must be a valid integer'),
+    body('post_id')
+      .optional()
+      .isInt()
+      .withMessage('Post ID must be a valid integer'),
+    body('comment_id')
+      .optional()
+      .isInt()
+      .withMessage('Comment ID must be a valid integer'),
   ],
 
-  delete: [
-    param('id').isInt().withMessage('Like ID must be a valid integer'),
-  ],
+  delete: [param('id').isInt().withMessage('Like ID must be a valid integer')],
 
   deleteAllLikesByUser: [
     param('user_id').isInt().withMessage('User ID must be a valid integer'),
@@ -19,27 +25,45 @@ const LikeValidation = {
 
   getLikesByPost: [
     param('post_id')
-      .notEmpty().withMessage('Post ID is required')
-      .isInt().withMessage('Post ID must be a valid integer'),
+      .notEmpty()
+      .withMessage('Post ID is required')
+      .isInt()
+      .withMessage('Post ID must be a valid integer'),
   ],
 
   getLikesByComment: [
     param('comment_id')
-      .notEmpty().withMessage('Comment ID is required')
-      .isInt().withMessage('Comment ID must be a valid integer'),
+      .notEmpty()
+      .withMessage('Comment ID is required')
+      .isInt()
+      .withMessage('Comment ID must be a valid integer'),
   ],
 
   checkIfLiked: [
     body('user_id')
-      .notEmpty().withMessage('User ID is required')
-      .isInt().withMessage('User ID must be a valid integer'),
-    body('post_id').optional().isInt().withMessage('Post ID must be a valid integer'),
-    body('comment_id').optional().isInt().withMessage('Comment ID must be a valid integer'),
+      .notEmpty()
+      .withMessage('User ID is required')
+      .isInt()
+      .withMessage('User ID must be a valid integer'),
+    body('post_id')
+      .optional()
+      .isInt()
+      .withMessage('Post ID must be a valid integer'),
+    body('comment_id')
+      .optional()
+      .isInt()
+      .withMessage('Comment ID must be a valid integer'),
   ],
 
   getTotalLikes: [
-    param('post_id').optional().isInt().withMessage('Post ID must be a valid integer'),
-    param('comment_id').optional().isInt().withMessage('Comment ID must be a valid integer'),
+    param('post_id')
+      .optional()
+      .isInt()
+      .withMessage('Post ID must be a valid integer'),
+    param('comment_id')
+      .optional()
+      .isInt()
+      .withMessage('Comment ID must be a valid integer'),
   ],
 };
 

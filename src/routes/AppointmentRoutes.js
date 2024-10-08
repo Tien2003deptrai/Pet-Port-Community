@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', AppointmentValidation.create, AppointmentController.create);
 
-router.get('/', AppointmentController.getAll);
+router.get('/', AppointmentValidation.update, AppointmentController.getAll);
 
 router.get('/:id', AppointmentController.getById);
 
