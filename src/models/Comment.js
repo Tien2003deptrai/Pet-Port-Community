@@ -8,7 +8,7 @@ const Comment = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    user_id: {
+    petOwner_Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

@@ -1,4 +1,4 @@
-const { Review, sequelize, Op } = require('../models');
+const { Review, User, Product, Service, sequelize, Op } = require('../models');
 
 const ReviewController = {
   async create(req, res) {
@@ -32,7 +32,25 @@ const ReviewController = {
 
   async getAll(req, res) {
     try {
-      const reviews = await Review.findAll();
+      const reviews = await Review.findAll({
+        include: [
+          {
+            model: User,
+            as: 'PetOwner', 
+            attributes: ['id', 'username', 'full_name'],
+          },
+          {
+            model: Product,
+            as: 'Product', 
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Service,
+            as: 'Service', 
+            attributes: ['id', 'name'],
+          },
+        ],
+      });
       res.json(reviews);
     } catch (error) {
       res.status(500).json({
@@ -45,7 +63,25 @@ const ReviewController = {
   async getById(req, res) {
     const { id } = req.params;
     try {
-      const review = await Review.findByPk(id);
+      const review = await Review.findByPk(id, {
+        include: [
+          {
+            model: User,
+            as: 'PetOwner', 
+            attributes: ['id', 'username', 'full_name'],
+          },
+          {
+            model: Product,
+            as: 'Product', 
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Service,
+            as: 'Service', 
+            attributes: ['id', 'name'],
+          },
+        ],
+      });
       if (!review) return res.status(404).json({ message: 'Review not found' });
       res.json(review);
     } catch (error) {
@@ -114,6 +150,13 @@ const ReviewController = {
     try {
       const reviews = await Review.findAll({
         where: { product_id },
+        include: [
+          {
+            model: User,
+            as: 'PetOwner', 
+            attributes: ['id', 'username', 'full_name'],
+          },
+        ],
       });
       res.json(reviews);
     } catch (error) {
@@ -124,11 +167,23 @@ const ReviewController = {
     }
   },
 
-  async getReviewsByUser(req, res) {
+  async getReviewsByPetOwner(req, res) {
     const { reviewer_id } = req.params;
     try {
       const reviews = await Review.findAll({
         where: { reviewer_id },
+        include: [
+          {
+            model: Product,
+            as: 'Product', 
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Service,
+            as: 'Service', 
+            attributes: ['id', 'name'],
+          },
+        ],
       });
       res.json(reviews);
     } catch (error) {
@@ -144,6 +199,18 @@ const ReviewController = {
     try {
       const reviews = await Review.findAll({
         where: { service_id },
+        include: [
+          {
+            model: User,
+            as: 'PetOwner', 
+            attributes: ['id', 'username', 'full_name'],
+          },
+          {
+            model: Product,
+            as: 'Product', 
+            attributes: ['id', 'name'],
+          },
+        ],
       });
       res.json(reviews);
     } catch (error) {

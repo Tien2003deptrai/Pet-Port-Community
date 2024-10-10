@@ -2,10 +2,10 @@ const { Like, User, Post, Comment, Op } = require('../models');
 
 const LikeController = {
   async create(req, res) {
-    const { user_id, post_id, comment_id } = req.body;
+    const { petOwner_Id, post_id, comment_id } = req.body;
     try {
       const like = await Like.create({
-        user_id,
+        petOwner_Id,
         post_id,
         comment_id,
       });
@@ -24,17 +24,17 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'UserLikes', 
             attributes: ['id', 'username', 'full_name'],
           },
           {
             model: Post,
-            as: 'Post',
+            as: 'Post', 
             attributes: ['id', 'title'],
           },
           {
             model: Comment,
-            as: 'Comment',
+            as: 'Comment', 
             attributes: ['id', 'content'],
           },
         ],
@@ -56,7 +56,7 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'User', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -78,7 +78,7 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'User', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -93,10 +93,10 @@ const LikeController = {
   },
 
   async checkIfLiked(req, res) {
-    const { user_id, post_id, comment_id } = req.body;
+    const { petOwner_Id, post_id, comment_id } = req.body;
     try {
       const like = await Like.findOne({
-        where: { user_id, post_id, comment_id },
+        where: { petOwner_Id, post_id, comment_id },
       });
       res.json({ liked: !!like });
     } catch (error) {
@@ -140,10 +140,10 @@ const LikeController = {
     }
   },
 
-  async deleteAllLikesByUser(req, res) {
-    const { user_id } = req.params;
+  async deleteAllLikesByPetOwner(req, res) {
+    const { petOwner_Id } = req.params;
     try {
-      await Like.destroy({ where: { user_id } });
+      await Like.destroy({ where: { petOwner_Id } });
       res.status(204).send();
     } catch (error) {
       res.status(500).json({

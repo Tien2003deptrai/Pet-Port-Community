@@ -21,9 +21,9 @@ const CategoryController = {
     try {
       const categories = await Category.findAll({
         include: [
-          { model: Product, as: 'Products' },
-          { model: Service, as: 'Services' },
-          { model: Pet, as: 'Pets' },
+          { model: Product, as: 'CategoryProducts' }, 
+          { model: Service, as: 'CategoryServices' }, 
+          { model: Pet, as: 'CategoryPets' }, 
         ],
       });
       res.json(categories);
@@ -40,9 +40,9 @@ const CategoryController = {
     try {
       const category = await Category.findByPk(id, {
         include: [
-          { model: Product, as: 'Products' },
-          { model: Service, as: 'Services' },
-          { model: Pet, as: 'Pets' },
+          { model: Product, as: 'CategoryProducts' }, 
+          { model: Service, as: 'CategoryServices' }, 
+          { model: Pet, as: 'CategoryPets' }, 
         ],
       });
       if (!category)
@@ -122,9 +122,9 @@ const CategoryController = {
       const categories = await Category.findAll({
         where: { type },
         include: [
-          { model: Product, as: 'Products' },
-          { model: Service, as: 'Services' },
-          { model: Pet, as: 'Pets' },
+          { model: Product, as: 'CategoryProducts' }, 
+          { model: Service, as: 'CategoryServices' }, 
+          { model: Pet, as: 'CategoryPets' }, 
         ],
       });
       res.json(categories);

@@ -11,9 +11,6 @@ const OrderItem = sequelize.define(
     product_id: {
       type: DataTypes.INTEGER,
     },
-    service_id: {
-      type: DataTypes.INTEGER,
-    },
     quantity: {
       type: DataTypes.INTEGER,
       defaultValue: 1,

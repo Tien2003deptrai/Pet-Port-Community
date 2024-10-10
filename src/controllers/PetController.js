@@ -40,12 +40,12 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'Owner',
+            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category',
+            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -67,12 +67,12 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'Owner',
+            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category',
+            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -119,12 +119,12 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'Owner',
+            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category',
+            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -164,12 +164,12 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'Owner',
+            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category',
+            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -192,12 +192,12 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'Owner',
+            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category',
+            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -220,12 +220,12 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'Owner',
+            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category',
+            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],

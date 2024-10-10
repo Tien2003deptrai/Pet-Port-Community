@@ -4,7 +4,7 @@ const sequelize = require('../config/database');
 const Order = sequelize.define(
   'Order',
   {
-    customer_id: {
+    petOwner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

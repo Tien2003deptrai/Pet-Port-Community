@@ -11,7 +11,7 @@ router.get('/average-rating', ReviewController.getAverageRating);
 
 router.get('/product/:product_id', ReviewController.getReviewsByProduct);
 
-router.get('/user/:reviewer_id', ReviewController.getReviewsByUser);
+router.get('/pet_owner/:reviewer_id', ReviewController.getReviewsByPetOwner);
 
 router.get('/service/:service_id', ReviewController.getReviewsByService);
 

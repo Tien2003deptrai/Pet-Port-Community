@@ -2,10 +2,10 @@ const { Post, User, Op } = require('../models');
 
 const PostController = {
   async create(req, res) {
-    const { user_id, title, content, image_url } = req.body;
+    const { petOwner_Id, title, content, image_url } = req.body;
     try {
       const post = await Post.create({
-        user_id,
+        petOwner_Id,
         title,
         content,
         image_url,
@@ -25,7 +25,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'Author',
+            as: 'PostOwner', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -46,7 +46,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'Author',
+            as: 'PostOwner', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -74,7 +74,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'Author',
+            as: 'PostOwner', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -105,14 +105,14 @@ const PostController = {
   },
 
   async getPostsByUser(req, res) {
-    const { user_id } = req.params;
+    const { petOwner_Id } = req.params;
     try {
       const posts = await Post.findAll({
-        where: { user_id },
+        where: { petOwner_Id },
         include: [
           {
             model: User,
-            as: 'Author',
+            as: 'PostOwner', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -132,7 +132,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'Author',
+            as: 'PostOwner', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -158,7 +158,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'Author',
+            as: 'PostOwner', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -180,7 +180,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'Author',
+            as: 'PostOwner', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],

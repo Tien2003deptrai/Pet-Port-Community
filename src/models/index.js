@@ -1,7 +1,6 @@
 const { Op } = require('sequelize');
 const sequelize = require('../config/database');
 
-// Import models
 const User = require('./User');
 const Location = require('./Location');
 const Category = require('./Category');
@@ -11,6 +10,7 @@ const Service = require('./Service');
 const Appointment = require('./Appointment');
 const Order = require('./Order');
 const OrderItem = require('./OrderItem');
+const OrderService = require('./OrderService');
 const Payment = require('./Payment');
 const Post = require('./Post');
 const Comment = require('./Comment');
@@ -19,7 +19,7 @@ const Review = require('./Review');
 const Coupon = require('./Coupon');
 const Wishlist = require('./Wishlist');
 
-// Thiết lập mối quan hệ giữa User và Location
+// User - Location
 User.belongsTo(Location, {
   foreignKey: 'location_id',
   as: 'Location',
@@ -29,34 +29,37 @@ Location.hasMany(User, {
   as: 'Users',
 });
 
-// Thiết lập mối quan hệ giữa User và Pet
-User.hasMany(Pet, { foreignKey: 'owner_id', as: 'Pets' });
+// User - Pet
+User.hasMany(Pet, {
+  foreignKey: 'owner_id',
+  as: 'OwnedPets',
+});
 Pet.belongsTo(User, {
   foreignKey: 'owner_id',
-  as: 'Owner',
+  as: 'PetOwner',
 });
 
-// Thiết lập mối quan hệ giữa User và Product
+// User - Product
 User.hasMany(Product, {
   foreignKey: 'sales_center_id',
-  as: 'Products',
+  as: 'SalesCenterProducts',
 });
 Product.belongsTo(User, {
   foreignKey: 'sales_center_id',
   as: 'SalesCenter',
 });
 
-// Thiết lập mối quan hệ giữa User và Service
+// User - Service
 User.hasMany(Service, {
   foreignKey: 'doctor_id',
-  as: 'Services',
+  as: 'DoctorServices',
 });
 Service.belongsTo(User, {
   foreignKey: 'doctor_id',
   as: 'Doctor',
 });
 
-// Thiết lập mối quan hệ giữa User và Appointment (pet_owner)
+// User - Appointment (Pet Owner)
 User.hasMany(Appointment, {
   foreignKey: 'pet_owner_id',
   as: 'PetOwnerAppointments',
@@ -66,7 +69,7 @@ Appointment.belongsTo(User, {
   as: 'PetOwner',
 });
 
-// Thiết lập mối quan hệ giữa User và Appointment (doctor)
+// User - Appointment (Doctor)
 User.hasMany(Appointment, {
   foreignKey: 'doctor_id',
   as: 'DoctorAppointments',
@@ -76,45 +79,51 @@ Appointment.belongsTo(User, {
   as: 'Doctor',
 });
 
-// Thiết lập mối quan hệ giữa User và Order
+// User - Order
 User.hasMany(Order, {
-  foreignKey: 'customer_id',
-  as: 'Orders',
+  foreignKey: 'petOwner_id',
+  as: 'PetOwnerOrders',
 });
 Order.belongsTo(User, {
-  foreignKey: 'customer_id',
-  as: 'Customer',
+  foreignKey: 'petOwner_id',
+  as: 'PetOwner',
 });
 
-// Thiết lập mối quan hệ giữa User và Post
-User.hasMany(Post, { foreignKey: 'user_id', as: 'Posts' });
-Post.belongsTo(User, {
-  foreignKey: 'user_id',
-  as: 'Author',
+// User - Review
+User.hasMany(Review, {
+  foreignKey: 'reviewer_id',
+  as: 'PetOwnerReviews',
+});
+Review.belongsTo(User, {
+  foreignKey: 'reviewer_id',
+  as: 'PetOwner',
 });
 
-// Thiết lập mối quan hệ giữa Post và Comment
+// Post - Comment
 Post.hasMany(Comment, {
   foreignKey: 'post_id',
-  as: 'Comments',
+  as: 'PostComments',
 });
 Comment.belongsTo(Post, {
   foreignKey: 'post_id',
   as: 'Post',
 });
 
-// Thiết lập mối quan hệ giữa User và Like
-User.hasMany(Like, { foreignKey: 'user_id', as: 'Likes' });
-Like.belongsTo(User, { foreignKey: 'user_id', as: 'User' });
+// User - Like
+User.hasMany(Like, { foreignKey: 'petOwner_Id', as: 'UserLikes' });
+Like.belongsTo(User, {
+  foreignKey: 'petOwner_Id',
+  as: 'UserLikes',
+});
 
-// Thiết lập mối quan hệ giữa Post và Like
+// Post - Like
 Post.hasMany(Like, {
   foreignKey: 'post_id',
   as: 'PostLikes',
 });
 Like.belongsTo(Post, { foreignKey: 'post_id', as: 'Post' });
 
-// Thiết lập mối quan hệ giữa Comment và Like
+// Comment - Like
 Comment.hasMany(Like, {
   foreignKey: 'comment_id',
   as: 'CommentLikes',
@@ -124,17 +133,7 @@ Like.belongsTo(Comment, {
   as: 'Comment',
 });
 
-// Thiết lập mối quan hệ giữa User và Review
-User.hasMany(Review, {
-  foreignKey: 'reviewer_id',
-  as: 'Reviews',
-});
-Review.belongsTo(User, {
-  foreignKey: 'reviewer_id',
-  as: 'Reviewer',
-});
-
-// Thiết lập mối quan hệ giữa Product và Review
+// Product - Review
 Product.hasMany(Review, {
   foreignKey: 'product_id',
   as: 'ProductReviews',
@@ -144,7 +143,7 @@ Review.belongsTo(Product, {
   as: 'Product',
 });
 
-// Thiết lập mối quan hệ giữa Service và Review
+// Service - Review
 Service.hasMany(Review, {
   foreignKey: 'service_id',
   as: 'ServiceReviews',
@@ -154,37 +153,37 @@ Review.belongsTo(Service, {
   as: 'Service',
 });
 
-// Thiết lập mối quan hệ giữa Category và Product
+// Category - Product
 Category.hasMany(Product, {
   foreignKey: 'category_id',
-  as: 'Products',
+  as: 'CategoryProducts',
 });
 Product.belongsTo(Category, {
   foreignKey: 'category_id',
   as: 'Category',
 });
 
-// Thiết lập mối quan hệ giữa Category và Service
+// Category - Service
 Category.hasMany(Service, {
   foreignKey: 'category_id',
-  as: 'Services',
+  as: 'CategoryServices',
 });
 Service.belongsTo(Category, {
   foreignKey: 'category_id',
   as: 'Category',
 });
 
-// Thiết lập mối quan hệ giữa Category và Pet
+// Category - Pet
 Category.hasMany(Pet, {
   foreignKey: 'category_id',
-  as: 'Pets',
+  as: 'CategoryPets',
 });
 Pet.belongsTo(Category, {
   foreignKey: 'category_id',
   as: 'Category',
 });
 
-// Thiết lập mối quan hệ giữa Order và OrderItem
+// Order - OrderItem
 Order.hasMany(OrderItem, {
   foreignKey: 'order_id',
   as: 'OrderItems',
@@ -194,90 +193,115 @@ OrderItem.belongsTo(Order, {
   as: 'Order',
 });
 
-// Thiết lập mối quan hệ giữa Product và OrderItem
+// Order - OrderService
+Order.hasMany(OrderService, {
+  foreignKey: 'order_id',
+  as: 'OrderServices',
+});
+OrderService.belongsTo(Order, {
+  foreignKey: 'order_id',
+  as: 'Order',
+});
+
+// Product - OrderItem
 Product.hasMany(OrderItem, {
   foreignKey: 'product_id',
-  as: 'OrderItems',
+  as: 'ProductOrderItems',
 });
 OrderItem.belongsTo(Product, {
   foreignKey: 'product_id',
   as: 'Product',
 });
 
-// Thiết lập mối quan hệ giữa Service và OrderItem
-Service.hasMany(OrderItem, {
+// Service - OrderService
+Service.hasMany(OrderService, {
   foreignKey: 'service_id',
-  as: 'OrderItems',
+  as: 'ServiceOrderServices',
 });
-OrderItem.belongsTo(Service, {
+OrderService.belongsTo(Service, {
   foreignKey: 'service_id',
   as: 'Service',
 });
 
-// Thiết lập mối quan hệ giữa Order và Payment
+// Order - Payment
 Order.hasMany(Payment, {
   foreignKey: 'order_id',
-  as: 'Payments',
+  as: 'OrderPayments',
 });
 Payment.belongsTo(Order, {
   foreignKey: 'order_id',
   as: 'Order',
 });
 
-// Thiết lập mối quan hệ giữa Coupon và Product
+// Product - Coupon
 Coupon.belongsTo(Product, {
   foreignKey: 'product_id',
-  as: 'Product',
+  as: 'CouponProduct',
 });
 Product.hasMany(Coupon, {
   foreignKey: 'product_id',
-  as: 'Coupons',
+  as: 'ProductCoupons',
 });
 
-// Thiết lập mối quan hệ giữa Wishlist và User, Product, Service
+// User - Wishlist
 Wishlist.belongsTo(User, {
   foreignKey: 'user_id',
   as: 'User',
 });
+
+// Product - Wishlist
 Wishlist.belongsTo(Product, {
   foreignKey: 'product_id',
-  as: 'Product',
-});
-Wishlist.belongsTo(Service, {
-  foreignKey: 'service_id',
-  as: 'Service',
+  as: 'WishlistProduct',
 });
 
-// **Thiết lập mối quan hệ mới giữa Pet và Appointment**
+// Service - Wishlist
+Wishlist.belongsTo(Service, {
+  foreignKey: 'service_id',
+  as: 'WishlistService',
+});
+
+// Pet - Appointment
 Pet.hasMany(Appointment, {
   foreignKey: 'pet_id',
-  as: 'Appointments',
+  as: 'PetAppointments',
 });
 Appointment.belongsTo(Pet, {
   foreignKey: 'pet_id',
   as: 'Pet',
 });
 
+// Appointment - Service
 Appointment.belongsTo(Service, {
   foreignKey: 'service_id',
   as: 'Service',
 });
 Service.hasMany(Appointment, {
   foreignKey: 'service_id',
-  as: 'Appointments',
+  as: 'ServiceAppointments',
 });
 
-// models/Comment.js
+// User - Comment
 Comment.belongsTo(User, {
-  foreignKey: 'user_id',
-  as: 'User',
+  foreignKey: 'petOwner_Id',
+  as: 'CommentUser',
 });
 User.hasMany(Comment, {
-  foreignKey: 'user_id',
-  as: 'Comments',
+  foreignKey: 'petOwner_Id',
+  as: 'UserComments',
 });
 
-// Export models và sequelize instance
+// Post - User
+Post.belongsTo(User, {
+  foreignKey: 'petOwner_Id',
+  as: 'PostOwner',
+});
+User.hasMany(Post, {
+  foreignKey: 'petOwner_Id',
+  as: 'Posts',
+});
+
+// Xuất khẩu các mô hình và sequelize
 module.exports = {
   sequelize,
   Op,
@@ -290,6 +314,7 @@ module.exports = {
   Appointment,
   Order,
   OrderItem,
+  OrderService,
   Payment,
   Post,
   Comment,

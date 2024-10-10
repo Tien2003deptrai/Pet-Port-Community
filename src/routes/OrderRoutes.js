@@ -3,9 +3,11 @@ const { OrderController } = require('@controllers');
 const { OrderValidation } = require('@validations');
 const router = express.Router();
 
-router.post('/', OrderValidation.create, OrderController.createOrder);
-
 router.get('/', OrderController.getAll);
+
+router.post('/products', OrderValidation.createOrderProduct, OrderController.createOrderProduct);
+
+router.post('/services', OrderValidation.createOrderService, OrderController.createOrderProduct);
 
 router.get('/total-orders', OrderController.getTotalOrders);
 
@@ -17,7 +19,7 @@ router.put('/:id', OrderController.update);
 
 router.delete('/:id', OrderController.delete);
 
-router.get('/customer/:customerId', OrderController.getOrdersByCustomer);
+router.get('/pet_owner/:petOwner_id', OrderController.getOrdersByPetOwner);
 
 router.get('/details/:id', OrderController.getOrderDetails);
 

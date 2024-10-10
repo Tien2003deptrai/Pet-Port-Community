@@ -36,7 +36,7 @@ const CouponController = {
         include: [
           {
             model: Product,
-            as: 'Product',
+            as: 'CouponProduct',
             attributes: ['id', 'name', 'description'],
           },
         ],
@@ -57,7 +57,7 @@ const CouponController = {
         include: [
           {
             model: Product,
-            as: 'Product',
+            as: 'CouponProduct',
             attributes: ['id', 'name', 'description'],
           },
         ],
@@ -100,7 +100,7 @@ const CouponController = {
         include: [
           {
             model: Product,
-            as: 'Product',
+            as: 'CouponProduct',
             attributes: ['id', 'name', 'description'],
           },
         ],
@@ -143,7 +143,7 @@ const CouponController = {
         include: [
           {
             model: Product,
-            as: 'Product',
+            as: 'CouponProduct',
             attributes: ['id', 'name', 'description'],
           },
         ],
@@ -170,7 +170,7 @@ const CouponController = {
         include: [
           {
             model: Product,
-            as: 'Product',
+            as: 'CouponProduct',
             attributes: ['id', 'name', 'description'],
           },
         ],
@@ -199,7 +199,7 @@ const CouponController = {
         include: [
           {
             model: Product,
-            as: 'Product',
+            as: 'CouponProduct',
             attributes: ['id', 'name', 'description'],
           },
         ],

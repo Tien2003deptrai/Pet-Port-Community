@@ -16,9 +16,9 @@ router.delete('/:id', CommentController.delete);
 
 router.get('/post/:post_id', CommentController.getCommentsByPost);
 
-router.get('/user/:user_id', CommentController.getCommentsByUser);
+router.get('/pet_owner/:petOwner_Id', CommentController.getCommentsByPetOwner);
 
-router.get('/with-user-info', CommentController.getCommentsWithUserInfo);
+router.get('/with-petOwner-info', CommentController.getCommentsWithPetOwnerInfo);
 
 router.get('/exists/:id', CommentController.checkCommentExists);
 

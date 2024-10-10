@@ -4,7 +4,7 @@ const sequelize = require('../config/database');
 const Post = sequelize.define(
   'Post',
   {
-    user_id: {
+    petOwner_Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

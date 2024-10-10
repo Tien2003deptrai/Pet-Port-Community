@@ -38,10 +38,12 @@ const WishlistController = {
         include: [
           {
             model: Product,
+            as: 'WishlistProduct', 
             attributes: ['id', 'name', 'price'],
           },
           {
             model: Service,
+            as: 'WishlistService', 
             attributes: ['id', 'name', 'price'],
           },
         ],

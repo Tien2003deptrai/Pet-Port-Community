@@ -21,6 +21,6 @@ router.put('/:id', PostController.update);
 
 router.delete('/:id', PostController.delete);
 
-router.get('/user/:user_id', PostController.getPostsByUser);
+router.get('/pet_owner/:petOwner_Id', PostController.getPostsByUser);
 
 module.exports = router;

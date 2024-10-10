@@ -1,5 +1,5 @@
 const express = require('express');
-const { authenticateJWT, authorizeRole } = require('../middlewares');
+const { authorizeRole } = require('../middlewares');
 const router = express.Router();
 
 // test
@@ -9,20 +9,20 @@ router.use('/categories', require('./test/categories'));
 
 // api routes
 router.use('/auth', require('./UserRoutes'));
-router.use('/orders', authenticateJWT, require('./OrderRoutes'));
-router.use('/payments', authenticateJWT, require('./PaymentRoutes'));
-router.use('/locations', authenticateJWT, require('./LocationRoutes'));
-router.use('/categories', authenticateJWT, require('./CategoryRoutes'));
-router.use('/pets', authenticateJWT, require('./PetRoutes'));
-router.use('/products', authenticateJWT, authorizeRole(['PetOwner']), require('./ProductRoutes'));
-router.use('/services', authenticateJWT, require('./ServiceRoutes'));
-router.use('/appointments', authenticateJWT, require('./AppointmentRoutes'));
-router.use('/posts', authenticateJWT, require('./PostRoutes'));
-router.use('/comments', authenticateJWT, require('./CommentRoutes'));
-router.use('/likes', authenticateJWT, require('./LikeRoutes'));
-router.use('/reviews', authenticateJWT, require('./ReviewRoutes'));
-router.use('/coupons', authenticateJWT, require('./CouponRoutes'));
-router.use('/wishlists', authenticateJWT, require('./WishlistRoutes'));
+router.use('/orders', require('./OrderRoutes'));
+router.use('/payments', require('./PaymentRoutes'));
+router.use('/locations', require('./LocationRoutes'));
+router.use('/categories', require('./CategoryRoutes'));
+router.use('/pets', require('./PetRoutes'));
+router.use('/products',require('./ProductRoutes'));
+router.use('/services', require('./ServiceRoutes'));
+router.use('/appointments', require('./AppointmentRoutes'));
+router.use('/posts', require('./PostRoutes'));
+router.use('/comments', require('./CommentRoutes'));
+router.use('/likes', require('./LikeRoutes'));
+router.use('/reviews', require('./ReviewRoutes'));
+router.use('/coupons', require('./CouponRoutes'));
+router.use('/wishlists', require('./WishlistRoutes'));
 
 // test report
 router.use('/reports', require('./ReportRoutes'));

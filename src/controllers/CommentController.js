@@ -2,11 +2,11 @@ const { Comment, User } = require('../models');
 
 const CommentController = {
   async create(req, res) {
-    const { post_id, user_id, content } = req.body;
+    const { post_id, petOwner_Id, content } = req.body;
     try {
       const comment = await Comment.create({
         post_id,
-        user_id,
+        petOwner_Id,
         content,
       });
       res.status(201).json(comment);
@@ -24,7 +24,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'CommentUser', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -45,7 +45,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'CommentUser', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -72,7 +72,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'CommentUser', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -111,7 +111,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'CommentUser', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -125,15 +125,15 @@ const CommentController = {
     }
   },
 
-  async getCommentsByUser(req, res) {
-    const { user_id } = req.params;
+  async getCommentsByPetOwner(req, res) {
+    const { petOwner_Id } = req.params;
     try {
       const comments = await Comment.findAll({
-        where: { user_id },
+        where: { petOwner_Id },
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'CommentUser', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -147,13 +147,13 @@ const CommentController = {
     }
   },
 
-  async getCommentsWithUserInfo(req, res) {
+  async getCommentsWithPetOwnerInfo(req, res) {
     try {
       const comments = await Comment.findAll({
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'CommentUser', 
             attributes: ['id', 'username', 'full_name'],
           },
         ],
