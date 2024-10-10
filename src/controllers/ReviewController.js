@@ -36,17 +36,17 @@ const ReviewController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', 
+            as: 'PetOwner',
             attributes: ['id', 'username', 'full_name'],
           },
           {
             model: Product,
-            as: 'Product', 
+            as: 'Product',
             attributes: ['id', 'name'],
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             attributes: ['id', 'name'],
           },
         ],
@@ -67,17 +67,17 @@ const ReviewController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', 
+            as: 'PetOwner',
             attributes: ['id', 'username', 'full_name'],
           },
           {
             model: Product,
-            as: 'Product', 
+            as: 'Product',
             attributes: ['id', 'name'],
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             attributes: ['id', 'name'],
           },
         ],
@@ -153,7 +153,7 @@ const ReviewController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', 
+            as: 'PetOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -175,12 +175,12 @@ const ReviewController = {
         include: [
           {
             model: Product,
-            as: 'Product', 
+            as: 'Product',
             attributes: ['id', 'name'],
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             attributes: ['id', 'name'],
           },
         ],
@@ -202,12 +202,12 @@ const ReviewController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', 
+            as: 'PetOwner',
             attributes: ['id', 'username', 'full_name'],
           },
           {
             model: Product,
-            as: 'Product', 
+            as: 'Product',
             attributes: ['id', 'name'],
           },
         ],

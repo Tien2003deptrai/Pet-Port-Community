@@ -25,7 +25,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'PostOwner', 
+            as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -46,7 +46,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'PostOwner', 
+            as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -74,7 +74,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'PostOwner', 
+            as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -112,7 +112,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'PostOwner', 
+            as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -132,7 +132,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'PostOwner', 
+            as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -158,7 +158,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'PostOwner', 
+            as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -180,7 +180,7 @@ const PostController = {
         include: [
           {
             model: User,
-            as: 'PostOwner', 
+            as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
         ],

@@ -24,17 +24,17 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'UserLikes', 
+            as: 'UserLikes',
             attributes: ['id', 'username', 'full_name'],
           },
           {
             model: Post,
-            as: 'Post', 
+            as: 'Post',
             attributes: ['id', 'title'],
           },
           {
             model: Comment,
-            as: 'Comment', 
+            as: 'Comment',
             attributes: ['id', 'content'],
           },
         ],
@@ -56,7 +56,7 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'User', 
+            as: 'User',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -78,7 +78,7 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'User', 
+            as: 'User',
             attributes: ['id', 'username', 'full_name'],
           },
         ],

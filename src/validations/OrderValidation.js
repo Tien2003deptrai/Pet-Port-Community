@@ -75,9 +75,7 @@ const OrderValidation = {
     param('id').isInt().withMessage('Order ID must be a valid integer'),
   ],
 
-  delete: [
-    param('id').isInt().withMessage('Order ID must be a valid integer'),
-  ],
+  delete: [param('id').isInt().withMessage('Order ID must be a valid integer')],
 
   getOrdersByCustomer: [
     param('petOwner_id')

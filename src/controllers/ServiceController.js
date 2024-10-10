@@ -28,12 +28,12 @@ const ServiceController = {
         include: [
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -55,12 +55,12 @@ const ServiceController = {
         include: [
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -91,12 +91,12 @@ const ServiceController = {
         include: [
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -137,12 +137,12 @@ const ServiceController = {
         include: [
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -165,12 +165,12 @@ const ServiceController = {
         include: [
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -192,12 +192,12 @@ const ServiceController = {
         include: [
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name', 'type'],
           },
         ],

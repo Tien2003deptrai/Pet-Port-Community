@@ -17,6 +17,9 @@ router.get('/total/:post_id/:comment_id', LikeController.getTotalLikes);
 
 router.delete('/:id', LikeController.delete);
 
-router.delete('/pet_onwer/:petOwner_Id', LikeController.deleteAllLikesByPetOwner);
+router.delete(
+  '/pet_onwer/:petOwner_Id',
+  LikeController.deleteAllLikesByPetOwner,
+);
 
 module.exports = router;

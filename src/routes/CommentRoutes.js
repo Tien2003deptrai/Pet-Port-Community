@@ -18,7 +18,10 @@ router.get('/post/:post_id', CommentController.getCommentsByPost);
 
 router.get('/pet_owner/:petOwner_Id', CommentController.getCommentsByPetOwner);
 
-router.get('/with-petOwner-info', CommentController.getCommentsWithPetOwnerInfo);
+router.get(
+  '/with-petOwner-info',
+  CommentController.getCommentsWithPetOwnerInfo,
+);
 
 router.get('/exists/:id', CommentController.checkCommentExists);
 

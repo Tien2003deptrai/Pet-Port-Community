@@ -61,7 +61,7 @@ const AppointmentController = {
         include: [
           {
             model: Pet,
-            as: 'Pet', 
+            as: 'Pet',
             include: [
               {
                 model: User,
@@ -70,7 +70,7 @@ const AppointmentController = {
               },
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -78,7 +78,7 @@ const AppointmentController = {
           },
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: [
               'id',
               'username',
@@ -89,11 +89,11 @@ const AppointmentController = {
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             include: [
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -120,7 +120,7 @@ const AppointmentController = {
         include: [
           {
             model: Pet,
-            as: 'Pet', 
+            as: 'Pet',
             include: [
               {
                 model: User,
@@ -137,7 +137,7 @@ const AppointmentController = {
           },
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: [
               'id',
               'username',
@@ -148,11 +148,11 @@ const AppointmentController = {
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             include: [
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -194,12 +194,12 @@ const AppointmentController = {
             include: [
               {
                 model: User,
-                as: 'PetOwner', 
+                as: 'PetOwner',
                 attributes: ['id', 'username', 'full_name', 'email'],
               },
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -207,7 +207,7 @@ const AppointmentController = {
           },
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: [
               'id',
               'username',
@@ -218,7 +218,7 @@ const AppointmentController = {
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             include: [
               {
                 model: Category,
@@ -268,16 +268,16 @@ const AppointmentController = {
         include: [
           {
             model: Pet,
-            as: 'Pet', 
+            as: 'Pet',
             include: [
               {
                 model: User,
-                as: 'PetOwner', 
+                as: 'PetOwner',
                 attributes: ['id', 'username', 'full_name', 'email'],
               },
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -285,7 +285,7 @@ const AppointmentController = {
           },
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: [
               'id',
               'username',
@@ -296,7 +296,7 @@ const AppointmentController = {
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             include: [
               {
                 model: Category,
@@ -327,16 +327,16 @@ const AppointmentController = {
         include: [
           {
             model: Pet,
-            as: 'Pet', 
+            as: 'Pet',
             include: [
               {
                 model: User,
-                as: 'PetOwner', 
+                as: 'PetOwner',
                 attributes: ['id', 'username', 'full_name', 'email'],
               },
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -344,7 +344,7 @@ const AppointmentController = {
           },
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: [
               'id',
               'username',
@@ -355,11 +355,11 @@ const AppointmentController = {
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             include: [
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -386,16 +386,16 @@ const AppointmentController = {
         include: [
           {
             model: Pet,
-            as: 'Pet', 
+            as: 'Pet',
             include: [
               {
                 model: User,
-                as: 'PetOwner', 
+                as: 'PetOwner',
                 attributes: ['id', 'username', 'full_name', 'email'],
               },
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -403,7 +403,7 @@ const AppointmentController = {
           },
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             attributes: [
               'id',
               'username',
@@ -414,11 +414,11 @@ const AppointmentController = {
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             include: [
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -443,16 +443,16 @@ const AppointmentController = {
         include: [
           {
             model: Pet,
-            as: 'Pet', 
+            as: 'Pet',
             include: [
               {
                 model: User,
-                as: 'PetOwner', 
+                as: 'PetOwner',
                 attributes: ['id', 'username', 'full_name', 'email'],
               },
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -460,11 +460,11 @@ const AppointmentController = {
           },
           {
             model: User,
-            as: 'Doctor', 
+            as: 'Doctor',
             include: [
               {
                 model: Location,
-                as: 'Location', 
+                as: 'Location',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -478,11 +478,11 @@ const AppointmentController = {
           },
           {
             model: Service,
-            as: 'Service', 
+            as: 'Service',
             include: [
               {
                 model: Category,
-                as: 'Category', 
+                as: 'Category',
                 attributes: ['id', 'name', 'type'],
               },
             ],
@@ -537,4 +537,3 @@ const AppointmentController = {
 };
 
 module.exports = AppointmentController;
-

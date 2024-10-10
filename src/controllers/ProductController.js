@@ -38,18 +38,18 @@ const ProductController = {
         include: [
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name'],
           },
           {
             model: Review,
-            as: 'ProductReviews', 
+            as: 'ProductReviews',
             attributes: ['id', 'rating', 'comment', 'createdAt'],
             required: false,
           },
           {
             model: User,
-            as: 'SalesCenter', 
+            as: 'SalesCenter',
             attributes: ['id', 'full_name', 'business_name'],
           },
         ],
@@ -70,18 +70,18 @@ const ProductController = {
         include: [
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name'],
           },
           {
             model: Review,
-            as: 'ProductReviews', 
+            as: 'ProductReviews',
             attributes: ['id', 'rating', 'comment', 'createdAt'],
             required: false,
           },
           {
             model: User,
-            as: 'SalesCenter', 
+            as: 'SalesCenter',
             attributes: ['id', 'full_name', 'business_name'],
           },
         ],
@@ -131,17 +131,17 @@ const ProductController = {
         options.include = [
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name', 'createdAt'],
           },
           {
             model: Review,
-            as: 'ProductReviews', 
+            as: 'ProductReviews',
             attributes: ['id', 'rating', 'comment', 'createdAt'],
           },
           {
             model: User,
-            as: 'SalesCenter', 
+            as: 'SalesCenter',
             attributes: ['id', 'full_name', 'business_name'],
           },
         ];
@@ -183,12 +183,12 @@ const ProductController = {
         include: [
           {
             model: User,
-            as: 'SalesCenter', 
+            as: 'SalesCenter',
             attributes: ['id', 'full_name', 'business_name'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name'],
           },
         ],
@@ -224,7 +224,7 @@ const ProductController = {
         include: [
           {
             model: User,
-            as: 'SalesCenter', 
+            as: 'SalesCenter',
             attributes: ['id', 'full_name', 'business_name'],
           },
         ],
@@ -244,7 +244,7 @@ const ProductController = {
         include: [
           {
             model: User,
-            as: 'SalesCenter', 
+            as: 'SalesCenter',
             attributes: ['id', 'full_name', 'business_name'],
           },
         ],
@@ -264,7 +264,7 @@ const ProductController = {
         include: [
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name'],
           },
         ],
@@ -284,7 +284,7 @@ const ProductController = {
         include: [
           {
             model: Review,
-            as: 'ProductReviews', 
+            as: 'ProductReviews',
             attributes: ['id', 'rating', 'comment', 'createdAt'],
             required: false, // Cho phép sản phẩm không có đánh giá cũng sẽ được trả về
           },
@@ -321,12 +321,12 @@ const ProductController = {
         include: [
           {
             model: User,
-            as: 'SalesCenter', 
+            as: 'SalesCenter',
             attributes: ['id', 'full_name', 'business_name'],
           },
           {
             model: Category,
-            as: 'Category', 
+            as: 'Category',
             attributes: ['id', 'name'],
           },
         ],

@@ -24,7 +24,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'CommentUser', 
+            as: 'CommentUser',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -45,7 +45,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'CommentUser', 
+            as: 'CommentUser',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -72,7 +72,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'CommentUser', 
+            as: 'CommentUser',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -111,7 +111,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'CommentUser', 
+            as: 'CommentUser',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -133,7 +133,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'CommentUser', 
+            as: 'CommentUser',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -153,7 +153,7 @@ const CommentController = {
         include: [
           {
             model: User,
-            as: 'CommentUser', 
+            as: 'CommentUser',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
