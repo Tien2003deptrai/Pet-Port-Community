@@ -7,6 +7,8 @@ router.post('/', PetValidation.create, PetController.create);
 
 router.get('/', PetController.getAll);
 
+router.get('/count', PetController.countPets);
+
 router.get('/:id', PetController.getById);
 
 router.put('/:id', PetController.update);
@@ -19,6 +21,5 @@ router.get('/category/:category_id', PetController.getPetsByCategory);
 
 router.get('/gender/:gender', PetController.getPetsByGender);
 
-router.get('/count', PetController.countPets);
 
 module.exports = router;

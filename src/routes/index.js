@@ -11,17 +11,17 @@ router.use('/categories', require('./test/categories'));
 router.use('/auth', require('./UserRoutes'));
 router.use('/orders', authenticateJWT, require('./OrderRoutes'));
 router.use('/payments', authenticateJWT, require('./PaymentRoutes'));
-router.use('/locations', authenticateJWT, require('./LocationRoutes'));
-router.use('/categories', authenticateJWT, require('./CategoryRoutes'));
+router.use('/locations', require('./LocationRoutes'));
+router.use('/categories', require('./CategoryRoutes'));
 router.use('/pets', authenticateJWT, require('./PetRoutes'));
 router.use('/products', require('./ProductRoutes'));
-router.use('/services', authenticateJWT, require('./ServiceRoutes'));
+router.use('/services', require('./ServiceRoutes'));
 router.use('/appointments', authenticateJWT, require('./AppointmentRoutes'));
 router.use('/posts', require('./PostRoutes'));
 router.use('/comments', require('./CommentRoutes'));
-router.use('/likes', authenticateJWT, require('./LikeRoutes'));
-router.use('/reviews', authenticateJWT, require('./ReviewRoutes'));
-router.use('/coupons', authenticateJWT, require('./CouponRoutes'));
+router.use('/likes', require('./LikeRoutes'));
+router.use('/reviews', require('./ReviewRoutes'));
+router.use('/coupons', require('./CouponRoutes'));
 router.use('/wishlists', authenticateJWT, require('./WishlistRoutes'));
 
 // test report

@@ -2,12 +2,11 @@ const { Location, User } = require('@models');
 
 const LocationController = {
   async create(req, res) {
-    const { name, type, parent_id } = req.body;
+    const { name, type } = req.body;
     try {
       const location = await Location.create({
         name,
         type,
-        parent_id,
       });
       res.status(201).json(location);
     } catch (error) {
@@ -65,10 +64,10 @@ const LocationController = {
 
   async update(req, res) {
     const { id } = req.params;
-    const { name, type, parent_id } = req.body;
+    const { name, type } = req.body;
     try {
       const [updated] = await Location.update(
-        { name, type, parent_id },
+        { name, type },
         { where: { id } },
       );
       if (!updated)
@@ -112,7 +111,7 @@ const LocationController = {
         return res.status(404).json({
           message: 'Location not found',
         });
-      res.status(204).send();
+      res.status(204).json("Delete success");
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

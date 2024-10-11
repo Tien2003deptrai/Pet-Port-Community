@@ -138,13 +138,14 @@ const UserController = {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
       const token = generateToken(user.id, user.role);
-      generateRefreshTokenAndSetCookie(res, user.id);
+      const refreshToken = generateRefreshTokenAndSetCookie(res, user.id);
 
       user.lastLogin = new Date();
       await user.save();
       res.json({
         message: 'Logged in successfully',
         token,
+        refreshToken
       });
     } catch (error) {
       console.error('Error logging in: ', error);

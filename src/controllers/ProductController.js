@@ -166,7 +166,7 @@ const ProductController = {
   },
 
   async search(req, res) {
-    const { name, category_id } = req.query;
+    const { name } = req.query;
     try {
       const whereClause = {};
       if (name) {
@@ -174,10 +174,6 @@ const ProductController = {
           [Op.like]: `%${name}%`,
         };
       }
-      if (category_id) {
-        whereClause.category_id = category_id;
-      }
-
       const products = await Product.findAll({
         where: whereClause,
         include: [

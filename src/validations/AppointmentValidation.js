@@ -35,30 +35,14 @@ const AppointmentValidation = {
 
   update: [
     param('id').isInt().withMessage('Appointment ID must be a valid integer'),
-    body('pet_owner_id')
-      .optional()
-      .isInt()
-      .withMessage('Pet Owner ID must be a valid integer'),
-    body('pet_id')
-      .optional()
-      .isInt()
-      .withMessage('Pet ID must be a valid integer'),
-    body('doctor_id')
-      .optional()
-      .isInt()
-      .withMessage('Doctor ID must be a valid integer'),
-    body('service_id')
-      .optional()
-      .isInt()
-      .withMessage('Service ID must be a valid integer'),
     body('appointment_date')
       .optional()
       .isISO8601()
       .withMessage('Appointment date must be valid'),
     body('status')
       .optional()
-      .isString()
-      .withMessage('Status must be a valid string'),
+      .isIn(['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'])
+      .withMessage('Status must be one of Scheduled, Completed, Rescheduled, Cancelled'),
     body('notes')
       .optional()
       .isString()

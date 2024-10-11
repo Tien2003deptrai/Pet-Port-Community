@@ -56,7 +56,7 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'UserLikes',
             attributes: ['id', 'username', 'full_name'],
           },
         ],
@@ -78,7 +78,7 @@ const LikeController = {
         include: [
           {
             model: User,
-            as: 'User',
+            as: 'UserLikes',
             attributes: ['id', 'username', 'full_name'],
           },
         ],

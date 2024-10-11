@@ -39,10 +39,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
+            as: 'PetOwner'
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
+            as: 'Category'
           },
         ],
       });
@@ -63,10 +65,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
+            as: 'PetOwner'
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
+            as: 'Category'
           },
         ],
       });
@@ -112,10 +116,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
+            as: 'PetOwner'
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
+            as: 'Category'
           },
         ],
       });
@@ -153,10 +159,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
+            as: 'PetOwner'
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
+            as: 'Category'
           },
         ],
       });
@@ -178,10 +186,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
+            as: 'PetOwner'
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
+            as: 'Category'
           },
         ],
       });
@@ -203,10 +213,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
+            as: 'PetOwner'
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
+            as: 'Category'
           },
         ],
       });
