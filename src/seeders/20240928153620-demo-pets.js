@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-pets.js
 'use strict';
 
 module.exports = {

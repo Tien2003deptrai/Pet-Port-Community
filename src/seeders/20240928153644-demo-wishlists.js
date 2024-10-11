@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-wishlists.js
 'use strict';
 
 module.exports = {

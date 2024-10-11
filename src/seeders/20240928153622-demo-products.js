@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-products.js
 'use strict';
 
 module.exports = {

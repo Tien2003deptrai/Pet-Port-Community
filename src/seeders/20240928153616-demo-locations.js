@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-locations.js
 'use strict';
 
 module.exports = {

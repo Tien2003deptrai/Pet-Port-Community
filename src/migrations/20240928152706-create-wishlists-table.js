@@ -1,4 +1,3 @@
-// migrations/XXXXXX-create-wishlists-table.js
 'use strict';
 
 module.exports = {

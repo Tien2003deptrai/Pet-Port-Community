@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-payments.js
 'use strict';
 
 module.exports = {

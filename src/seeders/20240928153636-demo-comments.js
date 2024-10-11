@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-comments.js
 'use strict';
 
 module.exports = {

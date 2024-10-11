@@ -1,4 +1,4 @@
-const { Review, User, Product, Service, sequelize, Op } = require('@models');
+const { Review, User, Product, Service, sequelize } = require('@models');
 
 const ReviewController = {
   async create(req, res) {

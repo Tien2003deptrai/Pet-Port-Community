@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-coupons.js
 'use strict';
 
 module.exports = {

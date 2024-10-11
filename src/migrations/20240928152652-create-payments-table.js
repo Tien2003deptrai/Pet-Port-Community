@@ -1,4 +1,3 @@
-// migrations/XXXXXX-create-payments-table.js
 'use strict';
 
 module.exports = {

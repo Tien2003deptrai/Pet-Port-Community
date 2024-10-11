@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-users.js
 'use strict';
 const bcrypt = require('bcrypt');
 

@@ -6,7 +6,7 @@ cron.schedule('45 20 * * *', async () => {
     const mailOptions = {
       to: 'duongvantiendtu@gmail.com',
       subject: 'Nhắc nhở lịch hẹn',
-      text: `Chào Tien, đây là nhắc nhở về lịch hẹn của bạn với Bác sĩ vào lúc ....`,
+      text: 'Chào Tien, đây là nhắc nhở về lịch hẹn của bạn với Bác sĩ vào lúc ....',
     };
     await transporter.sendMail(mailOptions);
   } catch (error) {

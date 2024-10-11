@@ -1,4 +1,3 @@
-// seeders/XXXXXX-demo-categories.js
 'use strict';
 
 module.exports = {
