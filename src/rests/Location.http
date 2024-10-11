@@ -1,0 +1,12 @@
+@urlDev=http://localhost:4000/api/v1/locations
+
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/

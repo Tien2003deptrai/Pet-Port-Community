@@ -1,0 +1,1993 @@
+openapi: 3.0.0
+info:
+  title: 'Pet Community Portal API'
+  version: '1.0.0'
+  description: |
+    Welcome to the **Pet Community Portal API**! This API serves as the backbone for our vibrant online community dedicated to pet lovers. Whether you're a pet owner, a veterinarian, a seller of pet products, or someone who simply loves animals, our API provides a comprehensive suite of endpoints to manage appointments, categories, comments, coupons, likes, locations, orders, payments, pets, posts, products, reviews, services, and user authentication.
+
+    ### Key Features:
+    - **Appointments:** Schedule and manage appointments with veterinarians or pet service providers.
+    - **Categories:** Organize various pet-related services and products into intuitive categories.
+    - **Comments & Likes:** Engage with the community by commenting on posts and liking content.
+    - **Coupons:** Offer and manage discounts to enhance user engagement and sales.
+    - **Locations:** Manage different locations for services and events within the community.
+    - **Orders & Payments:** Seamlessly handle orders for products and services, along with secure payment processing.
+    - **Pets:** Maintain detailed profiles for pets, including ownership and categorization.
+    - **Posts:** Share updates, stories, and information with the community through posts.
+    - **Products & Reviews:** Manage pet-related products and gather valuable reviews from users.
+    - **Services:** Offer a variety of services tailored to pet needs.
+    - **Authentication:** Secure user registration, login, and account management.
+
+    Our API is designed with scalability and ease of integration in mind, ensuring that developers can effortlessly build and enhance features for our pet-loving community.
+
+servers:
+  - url: http://localhost:4000/api/v1
+
+tags:
+  - name: Appointments
+    description: 'Operations related to appointments'
+  - name: Categories
+    description: 'Operations related to categories'
+  - name: Comments
+    description: 'Operations related to comments'
+  - name: Coupons
+    description: 'Operations related to coupons'
+  - name: Likes
+    description: 'Operations related to likes'
+  - name: Locations
+    description: 'Operations related to locations'
+  - name: Orders
+    description: 'Operations related to orders'
+  - name: Payments
+    description: 'Operations related to payments'
+  - name: Pets
+    description: 'Operations related to pets'
+  - name: Posts
+    description: 'Operations related to posts'
+  - name: Services
+    description: 'Operations related to services'
+  - name: Auth
+    description: 'User authentication operations'
+  - name: Products
+    description: 'Operations related to products' # **New Tag**
+  - name: Reviews
+    description: 'Operations related to reviews' # **New Tag**
+
+paths:
+  /appointments:
+    post:
+      summary: 'Create a new appointment'
+      tags:
+        - Appointments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: 'Appointment created'
+    get:
+      summary: 'Retrieve all appointments'
+      tags:
+        - Appointments
+      responses:
+        '200':
+          description: 'List of all appointments'
+  /appointments/{id}:
+    get:
+      summary: 'Retrieve appointment by ID'
+      tags:
+        - Appointments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Appointment retrieved'
+    put:
+      summary: 'Update appointment by ID'
+      tags:
+        - Appointments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: 'Appointment updated'
+    delete:
+      summary: 'Delete appointment by ID'
+      tags:
+        - Appointments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Appointment deleted'
+  /appointments/owner/{pet_owner_id}:
+    get:
+      summary: 'Retrieve appointments by pet owner ID'
+      tags:
+        - Appointments
+      parameters:
+        - name: pet_owner_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Appointments retrieved'
+  /appointments/doctor/{doctor_id}:
+    get:
+      summary: 'Retrieve appointments by doctor ID'
+      tags:
+        - Appointments
+      parameters:
+        - name: doctor_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Appointments retrieved'
+  /appointments/status/{status}:
+    get:
+      summary: 'Retrieve appointments by status'
+      tags:
+        - Appointments
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Appointments retrieved'
+  /appointments/details:
+    get:
+      summary: 'Retrieve appointment details with pets and doctors'
+      tags:
+        - Appointments
+      responses:
+        '200':
+          description: 'Appointment details retrieved'
+  /appointments/check-conflict:
+    post:
+      summary: 'Check for appointment conflict'
+      tags:
+        - Appointments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppointmentConflictCheck'
+      responses:
+        '200':
+          description: 'Conflict check performed'
+
+  /categories:
+    post:
+      summary: 'Create a new category'
+      tags:
+        - Categories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: 'Category created'
+    get:
+      summary: 'Retrieve all categories'
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: 'List of all categories'
+  /categories/{id}:
+    get:
+      summary: 'Retrieve category by ID'
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Category retrieved'
+    put:
+      summary: 'Update category by ID'
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: 'Category updated'
+    delete:
+      summary: 'Delete category by ID'
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Category deleted'
+  /categories/type/{type}:
+    get:
+      summary: 'Retrieve categories by type'
+      tags:
+        - Categories
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Categories retrieved'
+
+  /comments:
+    post:
+      summary: 'Create a new comment'
+      tags:
+        - Comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '200':
+          description: 'Comment created'
+    get:
+      summary: 'Retrieve all comments'
+      tags:
+        - Comments
+      responses:
+        '200':
+          description: 'List of all comments'
+  /comments/{id}:
+    get:
+      summary: 'Retrieve comment by ID'
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Comment retrieved'
+    put:
+      summary: 'Update comment by ID'
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '200':
+          description: 'Comment updated'
+    delete:
+      summary: 'Delete comment by ID'
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Comment deleted'
+  /comments/post/{post_id}:
+    get:
+      summary: 'Retrieve comments by post ID'
+      tags:
+        - Comments
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Comments retrieved'
+  /comments/user/{user_id}:
+    get:
+      summary: 'Retrieve comments by user ID'
+      tags:
+        - Comments
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Comments retrieved'
+  /comments/with-user-info:
+    get:
+      summary: 'Retrieve comments with user info'
+      tags:
+        - Comments
+      responses:
+        '200':
+          description: 'Comments with user info retrieved'
+  /comments/exists/{id}:
+    get:
+      summary: 'Check if a comment exists'
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Comment existence checked'
+
+  /coupons:
+    post:
+      summary: 'Create a new coupon'
+      tags:
+        - Coupons
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Coupon'
+      responses:
+        '200':
+          description: 'Coupon created'
+    get:
+      summary: 'Retrieve all coupons'
+      tags:
+        - Coupons
+      responses:
+        '200':
+          description: 'List of all coupons'
+  /coupons/{id}:
+    get:
+      summary: 'Retrieve coupon by ID'
+      tags:
+        - Coupons
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Coupon retrieved'
+    put:
+      summary: 'Update coupon by ID'
+      tags:
+        - Coupons
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Coupon'
+      responses:
+        '200':
+          description: 'Coupon updated'
+    delete:
+      summary: 'Delete coupon by ID'
+      tags:
+        - Coupons
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Coupon deleted'
+  /coupons/active:
+    get:
+      summary: 'Retrieve all active coupons'
+      tags:
+        - Coupons
+      responses:
+        '200':
+          description: 'Active coupons retrieved'
+  /coupons/check/{code}:
+    get:
+      summary: 'Check coupon by code'
+      tags:
+        - Coupons
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Coupon check performed'
+  /coupons/discount-type/{discount_type}:
+    get:
+      summary: 'Retrieve coupons by discount type'
+      tags:
+        - Coupons
+      parameters:
+        - name: discount_type
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Coupons retrieved by discount type'
+
+  /likes:
+    post:
+      summary: 'Create a new like'
+      tags:
+        - Likes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Like'
+      responses:
+        '200':
+          description: 'Like created'
+    get:
+      summary: 'Retrieve all likes'
+      tags:
+        - Likes
+      responses:
+        '200':
+          description: 'List of all likes'
+  /likes/post/{post_id}:
+    get:
+      summary: 'Retrieve likes by post ID'
+      tags:
+        - Likes
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Likes retrieved'
+  /likes/comment/{comment_id}:
+    get:
+      summary: 'Retrieve likes by comment ID'
+      tags:
+        - Likes
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Likes retrieved'
+  /likes/check:
+    post:
+      summary: 'Check if liked'
+      tags:
+        - Likes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LikeCheck'
+      responses:
+        '200':
+          description: 'Like check performed'
+  /likes/total/{post_id}/{comment_id}:
+    get:
+      summary: 'Retrieve total likes for a post and comment'
+      tags:
+        - Likes
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Total likes retrieved'
+  /likes/user/{user_id}:
+    delete:
+      summary: 'Delete all likes by user ID'
+      tags:
+        - Likes
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'All likes deleted for the user'
+
+  /locations:
+    post:
+      summary: 'Create a new location'
+      tags:
+        - Locations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: 'Location created'
+    get:
+      summary: 'Retrieve all locations'
+      tags:
+        - Locations
+      responses:
+        '200':
+          description: 'List of all locations'
+  /locations/{id}:
+    get:
+      summary: 'Retrieve location by ID'
+      tags:
+        - Locations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Location retrieved'
+    put:
+      summary: 'Update location by ID'
+      tags:
+        - Locations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: 'Location updated'
+    delete:
+      summary: 'Delete location by ID'
+      tags:
+        - Locations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Location deleted'
+  /locations/type/{type}:
+    get:
+      summary: 'Retrieve locations by type'
+      tags:
+        - Locations
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Locations retrieved by type'
+
+  /orders:
+    post:
+      summary: 'Create a new order'
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: 'Order created'
+    get:
+      summary: 'Retrieve all orders'
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: 'List of all orders'
+  /orders/{id}:
+    get:
+      summary: 'Retrieve order by ID'
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Order retrieved'
+    put:
+      summary: 'Update order by ID'
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: 'Order updated'
+    delete:
+      summary: 'Delete order by ID'
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Order deleted'
+  /orders/total-orders:
+    get:
+      summary: 'Retrieve total orders count'
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: 'Total orders count retrieved'
+  /orders/customer/{customerId}:
+    get:
+      summary: 'Retrieve orders by customer ID'
+      tags:
+        - Orders
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Orders retrieved'
+  /orders/details/{id}:
+    get:
+      summary: 'Retrieve order details by ID'
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Order details retrieved'
+  /orders/status/{status}:
+    get:
+      summary: 'Retrieve orders by status'
+      tags:
+        - Orders
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Orders retrieved by status'
+  /orders/total-revenue:
+    get:
+      summary: 'Retrieve total revenue'
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: 'Total revenue calculated'
+
+  /payments:
+    post:
+      summary: 'Create a new payment'
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
+      responses:
+        '200':
+          description: 'Payment created'
+    get:
+      summary: 'Retrieve all payments'
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: 'List of all payments'
+  /payments/{id}:
+    get:
+      summary: 'Retrieve payment by ID'
+      tags:
+        - Payments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Payment retrieved'
+    delete:
+      summary: 'Delete payment by ID'
+      tags:
+        - Payments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Payment deleted'
+  /payments/payment-status:
+    post:
+      summary: 'Update payment status'
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentStatusUpdate'
+      responses:
+        '200':
+          description: 'Payment status updated'
+  /payments/total:
+    get:
+      summary: 'Retrieve total payments amount'
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: 'Total payments retrieved'
+  /payments/order/{orderId}:
+    get:
+      summary: 'Retrieve payments by order ID'
+      tags:
+        - Payments
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Payments retrieved'
+  /payments/status/{status}:
+    get:
+      summary: 'Retrieve payments by status'
+      tags:
+        - Payments
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Payments retrieved'
+  /payments/date-range/{startDate}/{endDate}:
+    get:
+      summary: 'Retrieve payments in a date range'
+      tags:
+        - Payments
+      parameters:
+        - name: startDate
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 'Payments in date range retrieved'
+  /payments/webhook:
+    post:
+      summary: 'Handle payment webhook'
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEvent'
+      responses:
+        '200':
+          description: 'Webhook event handled'
+
+  /pets:
+    post:
+      summary: 'Create a new pet'
+      tags:
+        - Pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: 'Pet created'
+    get:
+      summary: 'Retrieve all pets'
+      tags:
+        - Pets
+      responses:
+        '200':
+          description: 'List of all pets'
+  /pets/{id}:
+    get:
+      summary: 'Retrieve pet by ID'
+      tags:
+        - Pets
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Pet retrieved'
+    put:
+      summary: 'Update pet by ID'
+      tags:
+        - Pets
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: 'Pet updated'
+    delete:
+      summary: 'Delete pet by ID'
+      tags:
+        - Pets
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Pet deleted'
+  /pets/owner/{owner_id}:
+    get:
+      summary: 'Retrieve pets by owner ID'
+      tags:
+        - Pets
+      parameters:
+        - name: owner_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Pets retrieved'
+  /pets/category/{category_id}:
+    get:
+      summary: 'Retrieve pets by category ID'
+      tags:
+        - Pets
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Pets retrieved'
+  /pets/gender/{gender}:
+    get:
+      summary: 'Retrieve pets by gender'
+      tags:
+        - Pets
+      parameters:
+        - name: gender
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Pets retrieved'
+  /pets/count:
+    get:
+      summary: 'Count all pets'
+      tags:
+        - Pets
+      responses:
+        '200':
+          description: 'Total pets count retrieved'
+
+  /posts:
+    post:
+      summary: 'Create a new post'
+      tags:
+        - Posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: 'Post created'
+    get:
+      summary: 'Retrieve all posts'
+      tags:
+        - Posts
+      responses:
+        '200':
+          description: 'List of all posts'
+  /posts/{id}:
+    get:
+      summary: 'Retrieve post by ID'
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Post retrieved'
+    put:
+      summary: 'Update post by ID'
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: 'Post updated'
+    delete:
+      summary: 'Delete post by ID'
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Post deleted'
+  /posts/user/{user_id}:
+    get:
+      summary: 'Retrieve posts by user ID'
+      tags:
+        - Posts
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Posts retrieved'
+  /posts/with-user-info:
+    get:
+      summary: 'Retrieve posts with user info'
+      tags:
+        - Posts
+      responses:
+        '200':
+          description: 'Posts with user info retrieved'
+  /posts/search:
+    get:
+      summary: 'Search posts by title'
+      tags:
+        - Posts
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Posts retrieved by title search'
+  /posts/latest:
+    get:
+      summary: 'Retrieve latest posts'
+      tags:
+        - Posts
+      responses:
+        '200':
+          description: 'Latest posts retrieved'
+  /posts/count:
+    get:
+      summary: 'Count all posts'
+      tags:
+        - Posts
+      responses:
+        '200':
+          description: 'Total posts count retrieved'
+
+  /services:
+    post:
+      summary: 'Create a new service'
+      tags:
+        - Services
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '200':
+          description: 'Service created'
+    get:
+      summary: 'Retrieve all services'
+      tags:
+        - Services
+      responses:
+        '200':
+          description: 'List of all services'
+  /services/{id}:
+    get:
+      summary: 'Retrieve service by ID'
+      tags:
+        - Services
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Service retrieved'
+    put:
+      summary: 'Update service by ID'
+      tags:
+        - Services
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '200':
+          description: 'Service updated'
+    delete:
+      summary: 'Delete service by ID'
+      tags:
+        - Services
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Service deleted'
+  /services/doctor/{doctor_id}:
+    get:
+      summary: 'Retrieve services by doctor ID'
+      tags:
+        - Services
+      parameters:
+        - name: doctor_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Services retrieved'
+  /services/category/{category_id}:
+    get:
+      summary: 'Retrieve services by category ID'
+      tags:
+        - Services
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Services retrieved'
+  /services/active:
+    get:
+      summary: 'Retrieve active services'
+      tags:
+        - Services
+      responses:
+        '200':
+          description: 'Active services retrieved'
+  /services/count:
+    get:
+      summary: 'Count all services'
+      tags:
+        - Services
+      responses:
+        '200':
+          description: 'Total services count retrieved'
+
+  /auth/register:
+    post:
+      summary: 'Register a new user'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 'User registered'
+  /auth/login:
+    post:
+      summary: 'Login a user'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: 'User logged in'
+  /auth/logout:
+    post:
+      summary: 'Logout a user'
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: 'User logged out'
+  /auth/verify-email:
+    post:
+      summary: 'Verify user email'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailVerification'
+      responses:
+        '200':
+          description: 'Email verified'
+  /auth/forgot-password:
+    post:
+      summary: 'Forgot password'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+      responses:
+        '200':
+          description: 'Password reset email sent'
+  /auth/reset-password/{token}:
+    post:
+      summary: 'Reset password'
+      tags:
+        - Auth
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+      responses:
+        '200':
+          description: 'Password reset successful'
+  /auth/refresh-token:
+    post:
+      summary: 'Refresh access token'
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+      responses:
+        '200':
+          description: 'Token refreshed'
+
+  # **New Paths for Products**
+  /products:
+    post:
+      summary: 'Create a new product'
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: 'Product created'
+    get:
+      summary: 'Retrieve all products'
+      tags:
+        - Products
+      responses:
+        '200':
+          description: 'List of all products'
+  /products/search:
+    get:
+      summary: 'Search products'
+      tags:
+        - Products
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 'Search query'
+      responses:
+        '200':
+          description: 'Search results'
+  /products/active:
+    get:
+      summary: 'Retrieve active products'
+      tags:
+        - Products
+      responses:
+        '200':
+          description: 'Active products retrieved'
+  /products/sorted:
+    get:
+      summary: 'Retrieve sorted products'
+      tags:
+        - Products
+      parameters:
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 'Field to sort by'
+        - name: order
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: 'Sort order'
+      responses:
+        '200':
+          description: 'Sorted products retrieved'
+  /products/with-seller:
+    get:
+      summary: 'Retrieve products with seller information'
+      tags:
+        - Products
+      responses:
+        '200':
+          description: 'Products with seller info retrieved'
+  /products/with-category:
+    get:
+      summary: 'Retrieve products with category information'
+      tags:
+        - Products
+      responses:
+        '200':
+          description: 'Products with category info retrieved'
+  /products/with-reviews:
+    get:
+      summary: 'Retrieve products with reviews'
+      tags:
+        - Products
+      responses:
+        '200':
+          description: 'Products with reviews retrieved'
+  /products/filter:
+    get:
+      summary: 'Filter products'
+      tags:
+        - Products
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: priceMin
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: priceMax
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: rating
+          in: query
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'Filtered products retrieved'
+
+  # **New Paths for Reviews**
+  /reviews:
+    post:
+      summary: 'Create a new review'
+      tags:
+        - Reviews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        '200':
+          description: 'Review created'
+    get:
+      summary: 'Retrieve all reviews'
+      tags:
+        - Reviews
+      responses:
+        '200':
+          description: 'List of all reviews'
+  /reviews/{id}:
+    get:
+      summary: 'Retrieve review by ID'
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Review retrieved'
+    put:
+      summary: 'Update review by ID'
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        '200':
+          description: 'Review updated'
+    delete:
+      summary: 'Delete review by ID'
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Review deleted'
+  /reviews/average-rating:
+    get:
+      summary: 'Get average rating of all reviews'
+      tags:
+        - Reviews
+      responses:
+        '200':
+          description: 'Average rating retrieved'
+  /reviews/product/{product_id}:
+    get:
+      summary: 'Retrieve reviews by product ID'
+      tags:
+        - Reviews
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Reviews retrieved for the product'
+  /reviews/user/{reviewer_id}:
+    get:
+      summary: 'Retrieve reviews by user ID'
+      tags:
+        - Reviews
+      parameters:
+        - name: reviewer_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Reviews retrieved by the user'
+  /reviews/service/{service_id}:
+    get:
+      summary: 'Retrieve reviews by service ID'
+      tags:
+        - Reviews
+      parameters:
+        - name: service_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Reviews retrieved for the service'
+  /reviews/best-worst:
+    get:
+      summary: 'Get best and worst reviews'
+      tags:
+        - Reviews
+      responses:
+        '200':
+          description: 'Best and worst reviews retrieved'
+  /reviews/verify/{id}:
+    put:
+      summary: 'Verify a review by ID'
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                verified:
+                  type: boolean
+              required:
+                - verified
+      responses:
+        '200':
+          description: 'Review verified'
+  /reviews/count:
+    get:
+      summary: 'Count all reviews'
+      tags:
+        - Reviews
+      responses:
+        '200':
+          description: 'Total reviews count retrieved'
+
+components:
+  schemas:
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: string
+        pet_owner_id:
+          type: string
+        doctor_id:
+          type: string
+        status:
+          type: string
+        details:
+          type: string
+      required:
+        - pet_owner_id
+        - doctor_id
+        - status
+    AppointmentConflictCheck:
+      type: object
+      properties:
+        pet_owner_id:
+          type: string
+        doctor_id:
+          type: string
+        date:
+          type: string
+          format: date-time
+      required:
+        - pet_owner_id
+        - doctor_id
+        - date
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        name:
+          type: string
+      required:
+        - type
+        - name
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        post_id:
+          type: string
+        user_id:
+          type: string
+        content:
+          type: string
+      required:
+        - post_id
+        - user_id
+        - content
+    Coupon:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        discount_type:
+          type: string
+        discount_value:
+          type: number
+      required:
+        - code
+        - discount_type
+        - discount_value
+    Like:
+      type: object
+      properties:
+        id:
+          type: string
+        post_id:
+          type: string
+        comment_id:
+          type: string
+        user_id:
+          type: string
+      required:
+        - post_id
+        - user_id
+    LikeCheck:
+      type: object
+      properties:
+        post_id:
+          type: string
+        user_id:
+          type: string
+      required:
+        - post_id
+        - user_id
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        name:
+          type: string
+        parent_id:
+          type: string
+      required:
+        - type
+        - name
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        status:
+          type: string
+        totalAmount:
+          type: number
+      required:
+        - customerId
+        - status
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        orderId:
+          type: string
+        amount:
+          type: number
+        status:
+          type: string
+      required:
+        - orderId
+        - amount
+        - status
+    PaymentStatusUpdate:
+      type: object
+      properties:
+        paymentId:
+          type: string
+        status:
+          type: string
+      required:
+        - paymentId
+        - status
+    WebhookEvent:
+      type: object
+      properties:
+        event:
+          type: string
+        payload:
+          type: object
+      required:
+        - event
+        - payload
+    Pet:
+      type: object
+      properties:
+        id:
+          type: string
+        owner_id:
+          type: string
+        category_id:
+          type: string
+        gender:
+          type: string
+        name:
+          type: string
+      required:
+        - owner_id
+        - category_id
+        - gender
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+      required:
+        - user_id
+        - title
+        - content
+    Service:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category_id:
+          type: string
+        doctor_id:
+          type: string
+        status:
+          type: string
+      required:
+        - name
+        - category_id
+        - doctor_id
+        - status
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - email
+        - password
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    EmailVerification:
+      type: object
+      properties:
+        email:
+          type: string
+        token:
+          type: string
+      required:
+        - email
+        - token
+    ForgotPassword:
+      type: object
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    ResetPassword:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password
+    RefreshToken:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required:
+        - refreshToken
+
+    # **New Schemas for Products and Reviews**
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        category_id:
+          type: string
+        seller_id:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - name
+        - price
+        - category_id
+        - seller_id
+        - status
+
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+        product_id:
+          type: string
+        service_id:
+          type: string
+        user_id:
+          type: string
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+        verified:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - product_id
+        - user_id
+        - rating
+        - comment

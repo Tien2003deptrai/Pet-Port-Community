@@ -1,0 +1,13 @@
+@urlDev=http://localhost:4000/api/v1/coupons
+
+
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/
+###
+GET {{urlDev}}/
