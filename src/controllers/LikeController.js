@@ -1,4 +1,4 @@
-const { Like, User, Post, Comment, Op } = require('../models');
+const { Like, User, Post, Comment, Op } = require('@models');
 
 const LikeController = {
   async create(req, res) {

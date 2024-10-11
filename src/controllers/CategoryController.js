@@ -1,4 +1,4 @@
-const { Category, Product, Service, Pet } = require('../models');
+const { Category, Product, Service, Pet } = require('@models');
 
 const CategoryController = {
   async create(req, res) {

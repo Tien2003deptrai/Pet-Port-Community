@@ -2,7 +2,7 @@ const { body, param, query } = require('express-validator');
 
 const PostValidation = {
   create: [
-    body('user_id')
+    body('petOwner_Id')
       .notEmpty()
       .withMessage('User ID is required')
       .isInt()
@@ -44,7 +44,7 @@ const PostValidation = {
   delete: [param('id').isInt().withMessage('Post ID must be a valid integer')],
 
   getPostsByUser: [
-    param('user_id').isInt().withMessage('User ID must be a valid integer'),
+    param('petOwner_Id').isInt().withMessage('User ID must be a valid integer'),
   ],
 
   searchPostsByTitle: [

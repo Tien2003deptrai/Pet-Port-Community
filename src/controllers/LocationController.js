@@ -1,4 +1,4 @@
-const { Location, User } = require('../models');
+const { Location, User } = require('@models');
 
 const LocationController = {
   async create(req, res) {

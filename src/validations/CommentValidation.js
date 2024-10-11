@@ -7,7 +7,7 @@ const CommentValidation = {
       .withMessage('Post ID is required')
       .isInt()
       .withMessage('Post ID must be a valid integer'),
-    body('user_id')
+    body('petOwner_Id')
       .notEmpty()
       .withMessage('User ID is required')
       .isInt()
@@ -44,7 +44,7 @@ const CommentValidation = {
   ],
 
   getCommentsByUser: [
-    param('user_id')
+    param('petOwner_Id')
       .notEmpty()
       .withMessage('User ID is required')
       .isInt()

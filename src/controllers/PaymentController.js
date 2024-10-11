@@ -1,4 +1,4 @@
-const { Payment, Order } = require('../models');
+const { Payment, Order } = require('@models');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 const PaymentController = {

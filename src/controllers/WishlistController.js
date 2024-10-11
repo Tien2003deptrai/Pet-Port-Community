@@ -1,4 +1,4 @@
-const { Wishlist, Product, Service } = require('../models');
+const { Wishlist, Product, Service } = require('@models');
 
 const WishlistController = {
   async create(req, res) {

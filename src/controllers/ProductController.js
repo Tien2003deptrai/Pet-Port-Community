@@ -1,4 +1,4 @@
-const { Product, User, Category, Review, Op } = require('../models');
+const { Product, User, Category, Review, Op } = require('@models');
 
 const ProductController = {
   async create(req, res) {

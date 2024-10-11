@@ -2,7 +2,7 @@ const { body, param } = require('express-validator');
 
 const LikeValidation = {
   create: [
-    body('user_id')
+    body('petOwner_Id')
       .notEmpty()
       .withMessage('User ID is required')
       .isInt()
@@ -20,7 +20,7 @@ const LikeValidation = {
   delete: [param('id').isInt().withMessage('Like ID must be a valid integer')],
 
   deleteAllLikesByUser: [
-    param('user_id').isInt().withMessage('User ID must be a valid integer'),
+    param('petOwner_Id').isInt().withMessage('User ID must be a valid integer'),
   ],
 
   getLikesByPost: [
@@ -40,7 +40,7 @@ const LikeValidation = {
   ],
 
   checkIfLiked: [
-    body('user_id')
+    body('petOwner_Id')
       .notEmpty()
       .withMessage('User ID is required')
       .isInt()

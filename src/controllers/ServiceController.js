@@ -1,4 +1,4 @@
-const { Service, User, Category } = require('../models');
+const { Service, User, Category } = require('@models');
 
 const ServiceController = {
   // Tạo service mới

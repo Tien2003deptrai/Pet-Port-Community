@@ -1,49 +1,293 @@
-create database aaa11;
-use aaa11;
+create database a_pet11111;
+use a_pet11111;
+SELECT * FROM a_pet11111;
 
+
+CREATE TABLE Users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  phone VARCHAR(15),
+  role ENUM('PetOwner', 'SalesCenter', 'Doctor', 'Admin') NOT NULL,
+  full_name VARCHAR(100),
+  date_of_birth DATE,
+  address VARCHAR(255),
+  location_id INT,
+  avatar_url VARCHAR(255),
+  is_active BOOLEAN DEFAULT true,
+  is_verified BOOLEAN DEFAULT false,
+  last_login DATETIME,
+  reset_password_token VARCHAR(255),
+  reset_password_expires_at DATETIME,
+  verification_token VARCHAR(255),
+  verification_token_expires_at DATETIME,
+  business_name VARCHAR(100),
+  license_number VARCHAR(50),
+  tax_id VARCHAR(20),
+  website VARCHAR(255),
+  business_description TEXT,
+  opening_hours TEXT,
+  latitude DECIMAL(10, 8),
+  longitude DECIMAL(11, 8),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (location_id) REFERENCES Locations(id) ON DELETE SET NULL,
+  UNIQUE (username, email)
+);
+
+CREATE TABLE Locations (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  type ENUM('City', 'District', 'Commune') NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE (name, type)
+);
+
+CREATE TABLE Categories (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  type ENUM('Product', 'Service', 'Pet') NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE (name, type)
+);
+
+CREATE TABLE Pets (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  owner_id INT NOT NULL,
+  category_id INT,
+  name VARCHAR(100) NOT NULL,
+  breed VARCHAR(50),
+  age INT,
+  gender ENUM('Male', 'Female', 'Unknown') NOT NULL,
+  description TEXT,
+  medical_history TEXT,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (owner_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE SET NULL,
+  UNIQUE (name, owner_id)
+);
+
+CREATE TABLE Products (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  sales_center_id INT NOT NULL,
+  category_id INT,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price DECIMAL(10, 2) NOT NULL,
+  stock_quantity INT DEFAULT 0,
+  sku VARCHAR(50) UNIQUE,
+  is_active BOOLEAN DEFAULT true,
+  images TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (sales_center_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE SET NULL,
+  UNIQUE (sku)
+);
+
+CREATE TABLE Services (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  doctor_id INT NOT NULL,
+  category_id INT,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price DECIMAL(10, 2) NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (doctor_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE SET NULL,
+  UNIQUE (name, doctor_id)
+);
+
+CREATE TABLE Appointments (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  pet_owner_id INT NOT NULL,
+  pet_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  service_id INT NOT NULL,
+  appointment_date DATETIME NOT NULL,
+  status ENUM('Scheduled', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (pet_owner_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (pet_id) REFERENCES Pets(id) ON DELETE CASCADE,
+  FOREIGN KEY (doctor_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (service_id) REFERENCES Services(id) ON DELETE CASCADE,
+  UNIQUE (pet_id, doctor_id, appointment_date)
+);
+
+CREATE TABLE Orders (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  customer_id INT NOT NULL,
+  total_amount DECIMAL(10, 2) NOT NULL,
+  status ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled') DEFAULT 'Pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES Users(id) ON DELETE CASCADE,
+  UNIQUE (customer_id, created_at)
+);
+
+-- Bảng dành cho sản phẩm trong đơn hàng
+CREATE TABLE OrderItems (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  order_id INT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT DEFAULT 1,
+  unit_price DECIMAL(10, 2) NOT NULL,
+  subtotal DECIMAL(10, 2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES Orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE SET NULL,
+  UNIQUE (order_id, product_id)
+);
+
+-- Bảng dành cho dịch vụ trong đơn hàng
+CREATE TABLE OrderServices (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  order_id INT NOT NULL,
+  service_id INT NOT NULL,
+  quantity INT DEFAULT 1,
+  unit_price DECIMAL(10, 2) NOT NULL,
+  subtotal DECIMAL(10, 2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES Orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (service_id) REFERENCES Services(id) ON DELETE SET NULL,
+  UNIQUE (order_id, service_id)
+);
+
+CREATE TABLE Payments (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  order_id INT NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  payment_method ENUM('Credit Card', 'PayPal', 'Bank Transfer', 'Cash on Delivery') NOT NULL,
+  status ENUM('Pending', 'Completed', 'Failed', 'Refunded') DEFAULT 'Pending',
+  transaction_id VARCHAR(100),
+  payment_date DATETIME,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES Orders(id) ON DELETE CASCADE,
+  UNIQUE (transaction_id)
+);
+
+CREATE TABLE Posts (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
+  image_url VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+  UNIQUE (title, user_id)
+);
+
+CREATE TABLE Comments (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  post_id INT NOT NULL,
+  user_id INT NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (post_id) REFERENCES Posts(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+  UNIQUE (post_id, user_id, created_at)
+);
+
+CREATE TABLE Likes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  post_id INT,
+  comment_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (post_id) REFERENCES Posts(id) ON DELETE CASCADE,
+  FOREIGN KEY (comment_id) REFERENCES Comments(id) ON DELETE CASCADE,
+  UNIQUE (user_id, post_id),
+  UNIQUE (user_id, comment_id)
+);
+
+CREATE TABLE Reviews (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  reviewer_id INT NOT NULL,
+  product_id INT,
+  service_id INT,
+  rating TINYINT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  title VARCHAR(255),
+  comment TEXT,
+  is_verified_purchase BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (reviewer_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE SET NULL,
+  FOREIGN KEY (service_id) REFERENCES Services(id) ON DELETE SET NULL,
+  UNIQUE (reviewer_id, product_id),
+  UNIQUE (reviewer_id, service_id)
+);
+
+CREATE TABLE Coupons (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  code VARCHAR(50) UNIQUE NOT NULL,
+  description TEXT,
+  discount_type ENUM('Percentage', 'Fixed Amount') NOT NULL,
+  discount_value DECIMAL(10, 2) NOT NULL,
+  start_date DATE,
+  end_date DATE,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  product_id INT, 
+  FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE SET NULL, -- Foreign key constraint
+  UNIQUE (code)
+);
+
+CREATE TABLE Wishlists (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  product_id INT,
+  service_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE SET NULL,
+  FOREIGN KEY (service_id) REFERENCES Services(id) ON DELETE SET NULL,
+  UNIQUE (user_id, product_id),
+  UNIQUE (user_id, service_id)
+);
+
+-- Dữ liệu cho bảng Locations
 INSERT INTO Locations (name, type, createdAt, updatedAt) VALUES
 ('Hà Đông', 'District', NOW(), NOW()),
-('Nam Từ Liêm', 'District', NOW(), NOW()),
-('Cầu Giấy', 'District', NOW(), NOW()),
-('Thủ Đức', 'District', NOW(), NOW()),
-('Gò Vấp', 'District', NOW(), NOW()),
-('Tân Bình', 'District', NOW(), NOW()),
-('Phú Nhuận', 'District', NOW(), NOW()),
-('Bình Thạnh', 'District', NOW(), NOW()),
-('Hoàng Mai', 'District', NOW(), NOW()),
-('Long Biên', 'District', NOW(), NOW()),
-('Đống Đa', 'District', NOW(), NOW()),
-('Ninh Kiều', 'District', NOW(), NOW()),
-('Hải Châu', 'District', NOW(), NOW()),
+('Ba Đình', 'District', NOW(), NOW()),
+('Hoàn Kiếm', 'District', NOW(), NOW()),
 ('Tây Hồ', 'District', NOW(), NOW()),
-('Quận 10', 'District', NOW(), NOW()),
-('Quận 11', 'District', NOW(), NOW()),
-('Quận 12', 'District', NOW(), NOW()),
-('Bắc Từ Liêm', 'District', NOW(), NOW()),
-('Tân Phú', 'District', NOW(), NOW()),
-('Hà Giang', 'City', NOW(), NOW());
+('Cầu Giấy', 'District', NOW(), NOW()),
+('Thanh Xuân', 'District', NOW(), NOW()),
+('Đống Đa', 'District', NOW(), NOW()),
+('Hai Bà Trưng', 'District', NOW(), NOW()),
+('Hoàng Mai', 'District', NOW(), NOW()),
+('Long Biên', 'District', NOW(), NOW());
 
+-- Dữ liệu cho bảng Categories
 INSERT INTO Categories (name, type, is_active, createdAt, updatedAt) VALUES
-('Đồ chơi cho chó', 'Product', TRUE, NOW(), NOW()),
-('Thức ăn cho mèo', 'Product', TRUE, NOW(), NOW()),
-('Thức ăn cho chó', 'Product', TRUE, NOW(), NOW()),
-('Đồ chơi cho mèo', 'Product', TRUE, NOW(), NOW()),
-('Sản phẩm sức khỏe thú cưng', 'Product', TRUE, NOW(), NOW()),
-('Dịch vụ huấn luyện', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ đi dạo', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ thú y', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ làm đẹp cho thú cưng', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ chẩn đoán bệnh', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ chăm sóc thú cưng', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ giao hàng thức ăn', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ tư vấn dinh dưỡng', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ tắm cho thú cưng', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ sửa chữa trang thiết bị thú cưng', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ đặt phòng cho thú cưng', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ chăm sóc sức khỏe', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ tắm cho mèo', 'Service', TRUE, NOW(), NOW()),
-('Dịch vụ thú cưng trông giữ', 'Service', TRUE, NOW(), NOW());
+('Dog', 'Pet', true, NOW(), NOW()),
+('Cat', 'Pet', true, NOW(), NOW()),
+('Vaccination', 'Service', true, NOW(), NOW()),
+('Grooming', 'Service', true, NOW(), NOW()),
+('Food', 'Product', true, NOW(), NOW()),
+('Toys', 'Product', true, NOW(), NOW()),
+('Surgery', 'Service', true, NOW(), NOW()),
+('Supplements', 'Product', true, NOW(), NOW()),
+('Bird', 'Pet', true, NOW(), NOW()),
+('Reptile', 'Pet', true, NOW(), NOW());
 
+-- Dữ liệu cho bảng Users
 INSERT INTO Users (
     username, password, email, phone, role, full_name, 
     date_of_birth, address, location_id, avatar_url, 
@@ -79,587 +323,253 @@ INSERT INTO Users (
  NULL, NULL, 
  'Sales Center Alpha', 'LIC12345', 'TAX67890', 
  'http://salescenter1.example.com', 'Chuyên cung cấp sản phẩm cho thú cưng', '8:00 AM - 6:00 PM', 
- 10.823099, 106.629664, NOW(), NOW());
-
-INSERT INTO Pets (
-    owner_id, category_id, name, breed, 
-    age, gender, description, medical_history, 
-    is_active, createdAt, updatedAt
-) VALUES
-(1, 3, 'Buddy', 'Golden Retriever', 3, 'Male', 'Một chú chó thân thiện.', 'Không có vấn đề sức khỏe.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Whiskers', 'Siamese', 2, 'Female', 'Mèo có bộ lông mượt mà.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Charlie', 'Beagle', 4, 'Male', 'Chó rất năng động.', 'Tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Luna', 'Persian', 3, 'Female', 'Mèo hiền lành.', 'Không có vấn đề sức khỏe.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Max', 'Poodle', 5, 'Male', 'Chó thông minh.', 'Có một số vấn đề dị ứng.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Bella', 'Maine Coon', 2, 'Female', 'Mèo to lớn.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Rocky', 'Boxer', 6, 'Male', 'Chó bảo vệ tốt.', 'Không có vấn đề sức khỏe.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Daisy', 'Ragdoll', 4, 'Female', 'Mèo rất tình cảm.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Buddy2', 'Golden Retriever', 3, 'Male', 'Một chú chó dễ thương.', 'Không có vấn đề sức khỏe.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Kitty', 'Siamese', 2, 'Female', 'Mèo đáng yêu.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Coco', 'Labrador', 4, 'Female', 'Chó rất thân thiện.', 'Không có vấn đề sức khỏe.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Mimi', 'Sphynx', 3, 'Female', 'Mèo rất dễ thương.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Ginger', 'Dachshund', 5, 'Female', 'Chó thông minh và nhanh nhẹn.', 'Có một số vấn đề dị ứng.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Nina', 'Scottish Fold', 2, 'Female', 'Mèo rất tình cảm và đáng yêu.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Ollie', 'French Bulldog', 4, 'Male', 'Chó vui vẻ và thân thiện.', 'Không có vấn đề sức khỏe.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Lily', 'British Shorthair', 3, 'Female', 'Mèo có bộ lông đẹp.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW()),
-
-(1, 3, 'Teddy', 'Chihuahua', 5, 'Male', 'Chó nhỏ nhưng dũng cảm.', 'Không có vấn đề sức khỏe.', 
- TRUE, NOW(), NOW()),
-
-(1, 4, 'Chloe', 'Bengal', 2, 'Female', 'Mèo rất nhanh nhẹn.', 'Đã tiêm phòng đầy đủ.', 
- TRUE, NOW(), NOW());
-
-INSERT INTO Products (
-    sales_center_id, category_id, name, description, 
-    price, stock_quantity, sku, is_active, 
-    images, createdAt, updatedAt
-) VALUES
-(2, 3, 'Vòng cổ cho chó', 'Vòng cổ thời trang cho chó.', 50000.00, 200, 'SKU54321', TRUE, 
- 'http://example.com/images/dog_collar.jpg', NOW(), NOW()),
-
-(3, 2, 'Cát vệ sinh cho mèo', 'Cát vệ sinh khử mùi cho mèo.', 120000.00, 300, 'SKU98765', TRUE, 
- 'http://example.com/images/cat_litter.jpg', NOW(), NOW()),
-
-(3, 6, 'Balo vận chuyển thú cưng', 'Balo tiện lợi cho việc vận chuyển thú cưng.', 350000.00, 20, 'SKU13579', TRUE, 
- 'http://example.com/images/pet_carrier.jpg', NOW(), NOW()),
-
-(3, 4, 'Bát ăn cho chó', 'Bát ăn không trượt cho chó.', 45000.00, 150, 'SKU24680', TRUE, 
- 'http://example.com/images/dog_bowl.jpg', NOW(), NOW()),
-
-(3, 1, 'Thức ăn cho mèo', 'Thức ăn dinh dưỡng cao cho mèo.', 130000.00, 120, 'SKU11223', TRUE, 
- 'http://example.com/images/cat_food.jpg', NOW(), NOW()),
-
-(3, 6, 'Lược chải lông thú cưng', 'Lược chải lông chuyên dụng cho thú cưng.', 60000.00, 80, 'SKU33445', TRUE, 
- 'http://example.com/images/pet_brush.jpg', NOW(), NOW()),
-
-(3, 3, 'Áo khoác cho chó', 'Áo khoác ấm áp cho chó.', 100000.00, 60, 'SKU55667', TRUE, 
- 'http://example.com/images/dog_jacket.jpg', NOW(), NOW()),
-
-(3, 5, 'Sữa tắm cho chó', 'Sữa tắm khử mùi cho chó.', 90000.00, 90, 'SKU77889', TRUE, 
- 'http://example.com/images/dog_shampoo.jpg', NOW(), NOW()),
-
-(3, 4, 'Đồ chơi cho mèo', 'Đồ chơi giúp mèo vận động.', 70000.00, 250, 'SKU99887', TRUE, 
- 'http://example.com/images/cat_toy.jpg', NOW(), NOW()),
-
-(3, 2, 'Cát vệ sinh hữu cơ', 'Cát vệ sinh làm từ nguyên liệu tự nhiên.', 150000.00, 80, 'SKU66554', TRUE, 
- 'http://example.com/images/organic_cat_litter.jpg', NOW(), NOW()),
-
-(2, 3, 'Đồ chơi thông minh cho chó', 'Đồ chơi giúp chó giải trí.', 70000.00, 150, 'SKU10101', TRUE, 
- 'http://example.com/images/dog_toy.jpg', NOW(), NOW()),
-
-(3, 4, 'Nệm cho chó', 'Nệm thoải mái cho chó.', 250000.00, 30, 'SKU20202', TRUE, 
- 'http://example.com/images/dog_bed.jpg', NOW(), NOW()),
-
-(3, 1, 'Thức ăn dinh dưỡng cho chó', 'Thức ăn dinh dưỡng cho chó.', 150000.00, 100, 'SKU30303', TRUE, 
- 'http://example.com/images/dog_food.jpg', NOW(), NOW()),
-
-(2, 2, 'Bánh thưởng cho chó', 'Bánh thưởng ngon cho chó.', 50000.00, 200, 'SKU40404', TRUE, 
- 'http://example.com/images/dog_treats.jpg', NOW(), NOW()),
-
-(3, 5, 'Sữa tắm kháng khuẩn cho mèo', 'Sữa tắm kháng khuẩn cho mèo.', 90000.00, 80, 'SKU50505', TRUE, 
- 'http://example.com/images/cat_shampoo.jpg', NOW(), NOW()),
-
-(2, 6, 'Vòng cổ phản quang cho chó', 'Vòng cổ an toàn cho chó.', 60000.00, 150, 'SKU60606', TRUE, 
- 'http://example.com/images/dog_reflective_collar.jpg', NOW(), NOW()),
-
-(3, 3, 'Cũi cho chó', 'Cũi an toàn cho chó.', 400000.00, 40, 'SKU70707', TRUE, 
- 'http://example.com/images/dog_kennel.jpg', NOW(), NOW()),
-
-(2, 2, 'Khăn tắm cho thú cưng', 'Khăn tắm mềm mại cho thú cưng.', 50000.00, 250, 'SKU80808', TRUE, 
- 'http://example.com/images/pet_towel.jpg', NOW(), NOW()),
-
-(3, 4, 'Mũ bảo hiểm cho thú cưng', 'Mũ bảo hiểm an toàn cho thú cưng.', 150000.00, 60, 'SKU90909', TRUE, 
- 'http://example.com/images/pet_helmet.jpg', NOW(), NOW());
-
-INSERT INTO Services (
-    doctor_id, category_id, name, description, 
-    price, is_active, createdAt, updatedAt
-) VALUES
-(2, 2, 'Chải lông cơ bản', 'Dịch vụ chải lông cho chó và mèo.', 500000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Khám bệnh định kỳ', 'Dịch vụ khám bệnh định kỳ cho thú cưng.', 300000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Tắm cho chó', 'Dịch vụ tắm cho chó.', 200000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Khám bệnh khẩn cấp', 'Dịch vụ khám bệnh khẩn cấp cho thú cưng.', 400000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Chăm sóc răng miệng', 'Dịch vụ chăm sóc răng miệng cho thú cưng.', 150000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Tư vấn dinh dưỡng', 'Dịch vụ tư vấn dinh dưỡng cho thú cưng.', 300000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Tiêm phòng', 'Dịch vụ tiêm phòng cho thú cưng.', 250000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Chăm sóc sức khỏe tổng quát', 'Dịch vụ chăm sóc sức khỏe tổng quát cho thú cưng.', 350000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Cắt tỉa lông', 'Dịch vụ cắt tỉa lông cho chó và mèo.', 600000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Phẫu thuật nhỏ', 'Dịch vụ phẫu thuật nhỏ cho thú cưng.', 1200000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Dịch vụ lưu trú', 'Dịch vụ lưu trú cho thú cưng.', 500000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Đặt lịch khám bệnh', 'Đặt lịch khám bệnh cho thú cưng.', 0.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Chăm sóc sau phẫu thuật', 'Dịch vụ chăm sóc thú cưng sau phẫu thuật.', 800000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Giáo dục thú cưng', 'Dịch vụ giáo dục và huấn luyện thú cưng.', 700000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Khám bệnh cho mèo', 'Dịch vụ khám bệnh cho mèo.', 300000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Dịch vụ điều trị', 'Dịch vụ điều trị các bệnh cho thú cưng.', 500000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Dịch vụ giảm béo', 'Dịch vụ giúp thú cưng giảm cân.', 400000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 6, 'Dịch vụ vận chuyển thú cưng', 'Dịch vụ vận chuyển thú cưng an toàn.', 600000.00, TRUE, 
- NOW(), NOW()),
-
-(2, 2, 'Dịch vụ tư vấn sức khỏe', 'Dịch vụ tư vấn sức khỏe cho thú cưng.', 350000.00, TRUE, 
- NOW(), NOW());
-
-INSERT INTO Appointments (
-    pet_owner_id, pet_id, doctor_id, service_id, 
-    appointment_date, status, notes, 
-    createdAt, updatedAt
-) VALUES
-(1, 1, 2, 1, '2024-05-20 10:00:00', 'Scheduled', 'Cần chải lông cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-05-21 14:00:00', 'Scheduled', 'Khám bệnh định kỳ cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-01 09:00:00', 'Scheduled', 'Lịch hẹn lần hai cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-02 11:00:00', 'Scheduled', 'Lịch hẹn lần hai cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-03 13:00:00', 'Scheduled', 'Lịch hẹn lần ba cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-04 15:00:00', 'Scheduled', 'Lịch hẹn lần ba cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-05 09:30:00', 'Scheduled', 'Chăm sóc sức khỏe cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-06 14:30:00', 'Scheduled', 'Khám bệnh cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-07 10:30:00', 'Scheduled', 'Tắm cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-08 15:30:00', 'Scheduled', 'Tắm cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-09 12:00:00', 'Scheduled', 'Chải lông cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-10 17:00:00', 'Scheduled', 'Chải lông cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-11 10:00:00', 'Scheduled', 'Chăm sóc đặc biệt cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-12 11:00:00', 'Scheduled', 'Khám bệnh đặc biệt cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-13 12:30:00', 'Scheduled', 'Lịch hẹn lần bốn cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-14 13:30:00', 'Scheduled', 'Lịch hẹn lần bốn cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-15 14:30:00', 'Scheduled', 'Lịch hẹn lần năm cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-16 15:30:00', 'Scheduled', 'Lịch hẹn lần năm cho Whiskers.', 
- NOW(), NOW()),
-
-(1, 1, 2, 1, '2024-06-17 16:00:00', 'Scheduled', 'Lịch hẹn lần sáu cho Buddy.', 
- NOW(), NOW()),
-
-(1, 2, 2, 2, '2024-06-18 16:30:00', 'Scheduled', 'Lịch hẹn lần sáu cho Whiskers.', 
- NOW(), NOW());
-
-INSERT INTO Orders (
-    customer_id, total_amount, status, 
-    createdAt, updatedAt
-) VALUES
-(1, 230000.00, 'Pending', NOW(), NOW()),
-(1, 500000.00, 'Processing', NOW(), NOW()),
-(1, 150000.00, 'Pending', NOW(), NOW()),
-(1, 300000.00, 'Shipped', NOW(), NOW()),
-(1, 100000.00, 'Delivered', NOW(), NOW()),
-(1, 450000.00, 'Cancelled', NOW(), NOW()),
-(1, 120000.00, 'Pending', NOW(), NOW()),
-(1, 250000.00, 'Processing', NOW(), NOW()),
-(1, 340000.00, 'Shipped', NOW(), NOW()),
-(1, 670000.00, 'Delivered', NOW(), NOW()),
-(1, 50000.00, 'Pending', NOW(), NOW()),
-(1, 700000.00, 'Processing', NOW(), NOW()),
-(1, 850000.00, 'Cancelled', NOW(), NOW()),
-(1, 900000.00, 'Pending', NOW(), NOW()),
-(1, 400000.00, 'Shipped', NOW(), NOW()),
-(1, 800000.00, 'Delivered', NOW(), NOW()),
-(1, 600000.00, 'Pending', NOW(), NOW()),
-(1, 750000.00, 'Processing', NOW(), NOW()),
-(1, 1200000.00, 'Shipped', NOW(), NOW()),
-(1, 1100000.00, 'Delivered', NOW(), NOW());
-
-INSERT INTO OrderItems (
-    order_id, product_id, service_id, 
-    quantity, unit_price, subtotal, 
-    createdAt, updatedAt
-) VALUES
-(1, 1, NULL, 1, 50000.00, 50000.00, NOW(), NOW()),
-(1, 2, NULL, 1, 120000.00, 120000.00, NOW(), NOW()),
-(2, 1, NULL, 1, 150000.00, 150000.00, NOW(), NOW()),
-(2, 3, NULL, 1, 70000.00, 70000.00, NOW(), NOW()),
-(3, 4, NULL, 1, 50000.00, 50000.00, NOW(), NOW()),
-(3, 5, NULL, 1, 120000.00, 120000.00, NOW(), NOW()),
-(4, 1, NULL, 1, 200000.00, 200000.00, NOW(), NOW()),
-(4, 2, NULL, 1, 100000.00, 100000.00, NOW(), NOW()),
-(5, 3, NULL, 1, 250000.00, 250000.00, NOW(), NOW()),
-(5, 4, NULL, 1, 350000.00, 350000.00, NOW(), NOW()),
-(6, 5, NULL, 1, 150000.00, 150000.00, NOW(), NOW()),
-(6, 6, NULL, 1, 300000.00, 300000.00, NOW(), NOW()),
-(7, 7, NULL, 1, 400000.00, 400000.00, NOW(), NOW()),
-(7, 8, NULL, 1, 450000.00, 450000.00, NOW(), NOW()),
-(8, 9, NULL, 1, 500000.00, 500000.00, NOW(), NOW()),
-(8, 10, NULL, 1, 600000.00, 600000.00, NOW(), NOW()),
-(9, 1, NULL, 1, 230000.00, 230000.00, NOW(), NOW()),
-(9, 2, NULL, 1, 300000.00, 300000.00, NOW(), NOW()),
-(10, 3, NULL, 1, 80000.00, 80000.00, NOW(), NOW()),
-(10, 4, NULL, 1, 90000.00, 90000.00, NOW(), NOW());
-
-INSERT INTO Payments (
-    order_id, amount, payment_method, status, 
-    transaction_id, payment_date, 
-    createdAt, updatedAt
-) VALUES
-(1, 230000.00, 'Credit Card', 'Completed', 'TXN123456789', '2024-05-20 10:05:00', 
- NOW(), NOW()),
-(2, 500000.00, 'PayPal', 'Completed', 'TXN987654321', '2024-05-21 14:10:00', 
- NOW(), NOW()),
-(3, 150000.00, 'Credit Card', 'Completed', 'TXN111111111', '2024-06-01 09:05:00', 
- NOW(), NOW()),
-(4, 300000.00, 'Bank Transfer', 'Completed', 'TXN222222222', '2024-06-02 10:05:00', 
- NOW(), NOW()),
-(5, 100000.00, 'Cash on Delivery', 'Completed', 'TXN333333333', '2024-06-03 11:05:00', 
- NOW(), NOW()),
-(6, 450000.00, 'Credit Card', 'Failed', 'TXN444444444', '2024-06-04 12:05:00', 
- NOW(), NOW()),
-(7, 120000.00, 'PayPal', 'Completed', 'TXN555555555', '2024-06-05 13:05:00', 
- NOW(), NOW()),
-(8, 250000.00, 'Bank Transfer', 'Completed', 'TXN666666666', '2024-06-06 14:05:00', 
- NOW(), NOW()),
-(9, 340000.00, 'Cash on Delivery', 'Completed', 'TXN777777777', '2024-06-07 15:05:00', 
- NOW(), NOW()),
-(10, 670000.00, 'Credit Card', 'Completed', 'TXN888888888', '2024-06-08 16:05:00', 
- NOW(), NOW()),
-(1, 230000.00, 'Credit Card', 'Completed', 'TXN999999999', '2024-06-09 17:05:00', 
- NOW(), NOW()),
-(2, 500000.00, 'PayPal', 'Completed', 'TXN000000001', '2024-06-10 18:05:00', 
- NOW(), NOW()),
-(3, 150000.00, 'Credit Card', 'Completed', 'TXN222222222', '2024-06-11 19:05:00', 
- NOW(), NOW()),
-(4, 300000.00, 'Bank Transfer', 'Completed', 'TXN333333333', '2024-06-12 20:05:00', 
- NOW(), NOW()),
-(5, 100000.00, 'Cash on Delivery', 'Completed', 'TXN444444444', '2024-06-13 21:05:00', 
- NOW(), NOW()),
-(6, 450000.00, 'Credit Card', 'Failed', 'TXN555555555', '2024-06-14 22:05:00', 
- NOW(), NOW()),
-(7, 120000.00, 'PayPal', 'Completed', 'TXN666666666', '2024-06-15 23:05:00', 
- NOW(), NOW()),
-(8, 250000.00, 'Bank Transfer', 'Completed', 'TXN777777777', '2024-06-16 08:05:00', 
- NOW(), NOW()),
-(9, 340000.00, 'Cash on Delivery', 'Completed', 'TXN888888888', '2024-06-17 09:05:00', 
- NOW(), NOW()),
-(10, 670000.00, 'Credit Card', 'Completed', 'TXN999999999', '2024-06-18 10:05:00', 
- NOW(), NOW());
-
-INSERT INTO Posts (
-    user_id, title, content, image_url, 
-    createdAt, updatedAt
-) VALUES
-(1, 'Chia sẻ về thú cưng của tôi', 'Đây là chú chó Buddy của tôi.', 
- 'http://example.com/images/buddy.jpg', NOW(), NOW()),
-
-(1, 'Những lưu ý khi chăm sóc mèo', 'Mèo cần được chăm sóc như thế nào?', 
- NULL, NOW(), NOW()),
-
-(1, 'Làm thế nào để chăm sóc chó?', 'Một số mẹo chăm sóc chó.', 
- 'http://example.com/images/care_dog.jpg', NOW(), NOW()),
-
-(1, 'Khám sức khỏe thú cưng', 'Lợi ích của việc khám sức khỏe định kỳ.', 
- 'http://example.com/images/vet_checkup.jpg', NOW(), NOW()),
-
-(1, 'Thú cưng và tâm lý', 'Cách thú cưng ảnh hưởng đến tâm lý con người.', 
- NULL, NOW(), NOW()),
-
-(1, 'Kinh nghiệm nuôi mèo', 'Những điều cần biết khi nuôi mèo.', 
- 'http://example.com/images/cat_raising.jpg', NOW(), NOW()),
-
-(1, 'Thú cưng trong gia đình', 'Thú cưng có thể thay đổi cuộc sống gia đình bạn.', 
- 'http://example.com/images/pet_family.jpg', NOW(), NOW()),
-
-(1, 'Thú cưng và trẻ em', 'Lợi ích của việc nuôi thú cưng cho trẻ nhỏ.', 
- NULL, NOW(), NOW()),
-
-(1, 'Làm sao để thú cưng không buồn chán?', 'Một số cách giúp thú cưng vui vẻ.', 
- 'http://example.com/images/pet_happiness.jpg', NOW(), NOW()),
-
-(1, 'Cách chọn thức ăn cho thú cưng', 'Lời khuyên về dinh dưỡng cho thú cưng.', 
- NULL, NOW(), NOW()),
-
-(1, 'Tại sao thú cưng là bạn tốt nhất?', 'Những lý do thú cưng là người bạn trung thành.', 
- 'http://example.com/images/pet_best_friend.jpg', NOW(), NOW()),
-
-(1, 'Chia sẻ về trải nghiệm thú cưng của tôi', 'Những kỷ niệm đáng nhớ với thú cưng.', 
- NULL, NOW(), NOW()),
-
-(1, 'Thú cưng và sức khỏe', 'Lợi ích sức khỏe khi có thú cưng.', 
- 'http://example.com/images/pet_health_benefits.jpg', NOW(), NOW()),
-
-(1, 'Giáo dục thú cưng', 'Các phương pháp giáo dục thú cưng hiệu quả.', 
- NULL, NOW(), NOW()),
-
-(1, 'Dịch vụ chăm sóc thú cưng', 'Giới thiệu các dịch vụ chăm sóc thú cưng.', 
- 'http://example.com/images/pet_services.jpg', NOW(), NOW()),
-
-(1, 'Đồ chơi cho thú cưng', 'Những món đồ chơi yêu thích của thú cưng.', 
- 'http://example.com/images/pet_toys.jpg', NOW(), NOW()),
-
-(1, 'Mẹo an toàn cho thú cưng', 'Làm thế nào để đảm bảo an toàn cho thú cưng.', 
- NULL, NOW(), NOW()),
-
-(1, 'Hội chứng thú cưng', 'Những bệnh thường gặp ở thú cưng.', 
- 'http://example.com/images/pet_syndromes.jpg', NOW(), NOW()),
-
-(1, 'Cuộc sống với thú cưng', 'Chia sẻ về cuộc sống với thú cưng của tôi.', 
- NULL, NOW(), NOW());
-
-INSERT INTO Comments (
-    post_id, user_id, content, 
-    createdAt, updatedAt
-) VALUES
-(1, 2, 'Buddy thật đáng yêu!', NOW(), NOW()),
-(1, 3, 'Cảm ơn bạn đã chia sẻ.', NOW(), NOW()),
-(2, 1, 'Thông tin rất hữu ích!', NOW(), NOW()),
-(2, 3, 'Tôi sẽ thử ngay!', NOW(), NOW()),
-(3, 2, 'Chó của tôi cũng rất thích!', NOW(), NOW()),
-(3, 1, 'Cảm ơn bạn đã chia sẻ!', NOW(), NOW()),
-(4, 3, 'Khám sức khỏe thú cưng là rất quan trọng!', NOW(), NOW()),
-(4, 2, 'Tôi hoàn toàn đồng ý với bạn.', NOW(), NOW()),
-(5, 1, 'Thú cưng thực sự có sức ảnh hưởng lớn.', NOW(), NOW()),
-(5, 2, 'Đúng vậy, tôi thấy điều này đúng với mình.', NOW(), NOW()),
-(6, 3, 'Mèo cần chăm sóc đặc biệt.', NOW(), NOW()),
-(6, 1, 'Cảm ơn vì những mẹo hay!', NOW(), NOW()),
-(7, 2, 'Thú cưng làm cho cuộc sống thêm thú vị.', NOW(), NOW()),
-(7, 3, 'Tôi không thể sống thiếu thú cưng.', NOW(), NOW()),
-(8, 1, 'Thú cưng rất tốt cho trẻ em.', NOW(), NOW()),
-(8, 2, 'Cảm ơn bạn đã chia sẻ!', NOW(), NOW()),
-(9, 3, 'Mình sẽ thử cách này!', NOW(), NOW()),
-(9, 1, 'Những món đồ chơi tuyệt vời!', NOW(), NOW()),
-(10, 2, 'Mình cần tìm hiểu thêm!', NOW(), NOW()),
-(10, 3, 'Đúng là điều cần thiết!', NOW(), NOW());
-
-INSERT INTO Likes (user_id, post_id, createdAt, updatedAt) VALUES
-(2, 1, NOW(), NOW()),
-(3, 2, NOW(), NOW()),
-(1, 3, NOW(), NOW()),
-(2, 4, NOW(), NOW()),
-(3, 5, NOW(), NOW()),
-(1, 6, NOW(), NOW()),
-(2, 7, NOW(), NOW()),
-(3, 8, NOW(), NOW()),
-(1, 9, NOW(), NOW()),
-(2, 10, NOW(), NOW()),
-(3, 1, NOW(), NOW()),
-(1, 2, NOW(), NOW()),
-(2, 3, NOW(), NOW()),
-(3, 4, NOW(), NOW()),
-(1, 5, NOW(), NOW()),
-(2, 6, NOW(), NOW()),
-(3, 7, NOW(), NOW()),
-(1, 8, NOW(), NOW()),
-(2, 9, NOW(), NOW()),
-(3, 10, NOW(), NOW()),
-(1, 1, NOW(), NOW());
-
-INSERT INTO Reviews (
-    reviewer_id, product_id, service_id, 
-    rating, title, comment, 
-    is_verified_purchase, createdAt, updatedAt
-) VALUES
-(1, 1, NULL, 5, 'Thức ăn tuyệt vời', 'Buddy thích sản phẩm này rất nhiều!', 
- TRUE, NOW(), NOW()),
-(1, NULL, 1, 4, 'Dịch vụ tốt', 'Dịch vụ chải lông rất chuyên nghiệp.', 
- TRUE, NOW(), NOW()),
-(1, 2, NULL, 5, 'Cát vệ sinh tốt', 'Mèo của tôi rất thích.', 
- TRUE, NOW(), NOW()),
-(1, NULL, 2, 3, 'Dịch vụ vừa đủ', 'Dịch vụ chưa tốt lắm.', 
- TRUE, NOW(), NOW()),
-(1, 3, NULL, 4, 'Vòng cổ rất đẹp', 'Chó của tôi rất thích.', 
- TRUE, NOW(), NOW()),
-(1, NULL, 1, 5, 'Dịch vụ tuyệt vời', 'Dịch vụ thú y rất tận tình.', 
- TRUE, NOW(), NOW()),
-(1, 4, NULL, 3, 'Cát vệ sinh bình thường', 'Cát vệ sinh không có gì đặc biệt.', 
- TRUE, NOW(), NOW()),
-(1, NULL, 2, 4, 'Dịch vụ tốt', 'Mèo của tôi rất hài lòng.', 
- TRUE, NOW(), NOW()),
-(1, 5, NULL, 5, 'Dịch vụ hoàn hảo', 'Dịch vụ chăm sóc rất tốt.', 
- TRUE, NOW(), NOW()),
-(1, NULL, 1, 4, 'Dịch vụ cần cải thiện', 'Dịch vụ tốt nhưng cần cải thiện thêm.', 
- TRUE, NOW(), NOW());
-
-INSERT INTO Coupons (
-    code, description, discount_type, discount_value, 
-    start_date, end_date, product_id, is_active, 
-    createdAt, updatedAt
-) VALUES
-('SAVE10', 'Giảm 10% cho đơn hàng đầu tiên', 'Percentage', 10.00, 
- '2024-01-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('DOGGROOM50', 'Giảm 50k cho dịch vụ chải lông', 'Fixed Amount', 50000.00, 
- '2024-05-01', '2024-06-30', NULL, TRUE, 
- NOW(), NOW()),
-
-('PETLOVE15', 'Giảm 15% cho đơn hàng trên 500k', 'Percentage', 15.00, 
- '2024-03-01', '2024-09-30', NULL, TRUE, 
- NOW(), NOW()),
-
-('BUDDY100', 'Giảm 100k cho đơn hàng đầu tiên', 'Fixed Amount', 100000.00, 
- '2024-02-01', '2024-10-30', NULL, TRUE, 
- NOW(), NOW()),
-
-('FREESHIP', 'Miễn phí vận chuyển cho đơn hàng trên 300k', 'Fixed Amount', 0.00, 
- '2024-01-15', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('DISCOUNT20', 'Giảm 20% cho tất cả sản phẩm', 'Percentage', 20.00, 
- '2024-06-01', '2024-06-30', NULL, TRUE, 
- NOW(), NOW()),
-
-('SAVEMORE', 'Giảm 30% cho đơn hàng trên 1 triệu', 'Percentage', 30.00, 
- '2024-07-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('BARK50', 'Giảm 50k cho các sản phẩm cho chó', 'Fixed Amount', 50000.00, 
- '2024-04-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('CATLOVE', 'Giảm 20k cho các sản phẩm cho mèo', 'Fixed Amount', 20000.00, 
- '2024-05-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('CLEANPET', 'Giảm 25% cho sản phẩm vệ sinh thú cưng', 'Percentage', 25.00, 
- '2024-08-01', '2024-09-30', NULL, TRUE, 
- NOW(), NOW()),
-
-('HAPPYPET', 'Giảm 30k cho đơn hàng đầu tiên', 'Fixed Amount', 30000.00, 
- '2024-06-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('PETDISCOUNT', 'Giảm 10% cho các dịch vụ', 'Percentage', 10.00, 
- '2024-07-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('FAMILYPET', 'Giảm 50% cho dịch vụ cho gia đình có thú cưng', 'Percentage', 50.00, 
- '2024-09-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('WAGMORE', 'Giảm 15% cho tất cả sản phẩm cho chó', 'Percentage', 15.00, 
- '2024-10-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('PURRING', 'Giảm 10% cho tất cả sản phẩm cho mèo', 'Percentage', 10.00, 
- '2024-11-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('SAVEPET', 'Giảm 50k cho sản phẩm chăm sóc thú cưng', 'Fixed Amount', 50000.00, 
- '2024-08-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('PETSLOVE', 'Giảm 5% cho đơn hàng trên 200k', 'Percentage', 5.00, 
- '2024-12-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW()),
-
-('THUYTHUC', 'Giảm 100k cho đơn hàng trên 500k', 'Fixed Amount', 100000.00, 
- '2024-12-01', '2024-12-31', NULL, TRUE, 
- NOW(), NOW());
-
-INSERT INTO Wishlists (
-    user_id, product_id, service_id, 
-    createdAt, updatedAt
-) VALUES
-(1, 1, NULL, NOW(), NOW()),
-(1, 2, 1, NOW(), NOW()),
-(1, NULL, 2, NOW(), NOW()),
-(1, 3, NULL, NOW(), NOW()),
-(1, 4, NULL, NOW(), NOW()),
-(1, 5, NULL, NOW(), NOW()),
-(1, 6, NULL, NOW(), NOW()),
-(1, 7, NULL, NOW(), NOW()),
-(1, 8, NULL, NOW(), NOW()),
-(1, 9, NULL, NOW(), NOW()),
-(1, 10, NULL, NOW(), NOW()),
+ 10.823099, 106.629664, NOW(), NOW()),
+
+('hoangthihue', 'password123', 'hoangthihue@example.com', '0909988776', 'PetOwner', 'Hoàng Thị Huệ', 
+ '1995-03-10', '789 Đường JKL, Cầu Giấy', 4, NULL, 
+ TRUE, TRUE, '2024-04-05 11:00:00', 
+ NULL, NULL, 
+ NULL, NULL, 
+ NULL, NULL, NULL, 
+ NULL, NULL, NULL, 
+ 21.029778, 105.793332, NOW(), NOW()),
+
+('nguyenbvan', 'password321', 'nguyenbvan@example.com', '0977654321', 'Doctor', 'Nguyễn B Văn', 
+ '1982-11-20', '123 Đường ABC, Đống Đa', 7, NULL, 
+ TRUE, TRUE, '2024-04-07 08:15:00', 
+ NULL, NULL, 
+ NULL, NULL, 
+ NULL, NULL, NULL, 
+ NULL, NULL, NULL, 
+ 21.013657, 105.841984, NOW(), NOW()),
+
+('trankimchi', 'password654', 'trankimchi@example.com', '0902334455', 'PetOwner', 'Trần Kim Chi', 
+ '1990-12-25', '456 Đường XYZ, Hoàn Kiếm', 3, NULL, 
+ TRUE, TRUE, '2024-04-10 16:45:00', 
+ NULL, NULL, 
+ NULL, NULL, 
+ NULL, NULL, NULL, 
+ NULL, NULL, NULL, 
+ 21.028511, 105.848018, NOW(), NOW()),
+
+('phamthidung', 'password789', 'phamthidung@example.com', '0911223344', 'SalesCenter', 'Phạm Thị Dung', 
+ '1988-06-30', '789 Đường UVW, Tây Hồ', 5, NULL, 
+ TRUE, TRUE, '2024-04-11 14:30:00', 
+ NULL, NULL, 
+ NULL, NULL, 
+ 'Pet Supplies', 'LIC55667', 'TAX23456', 
+ 'http://petsupplies.vn', 'Chuyên cung cấp phụ kiện cho thú cưng', '9:00 AM - 5:00 PM', 
+ 21.051777, 105.819454, NOW(), NOW()),
+
+('leminhtu', 'password456', 'leminhtu@example.com', '0901444555', 'Doctor', 'Lê Minh Tú', 
+ '1979-05-05', '123 Đường OPQ, Hoàng Mai', 9, NULL, 
+ TRUE, TRUE, '2024-04-12 07:50:00', 
+ NULL, NULL, 
+ NULL, NULL, 
+ NULL, NULL, NULL, 
+ NULL, NULL, NULL, 
+ 21.004276, 105.870515, NOW(), NOW()),
+
+('nguyenthuy', 'password888', 'nguyenthuy@example.com', '0909876543', 'PetOwner', 'Nguyễn Thúy', 
+ '1994-07-15', '234 Đường STU, Hai Bà Trưng', 8, NULL, 
+ TRUE, TRUE, '2024-04-13 13:15:00', 
+ NULL, NULL, 
+ NULL, NULL, 
+ NULL, NULL, NULL, 
+ NULL, NULL, NULL, 
+ 21.005904, 105.859499, NOW(), NOW()),
+
+('dangkimphu', 'password999', 'dangkimphu@example.com', '0911555666', 'SalesCenter', 'Đặng Kim Phú', 
+ NULL, '456 Đường VWX, Long Biên', 10, NULL, 
+ TRUE, TRUE, '2024-04-14 09:30:00', 
+ NULL, NULL, 
+ NULL, NULL, 
+ 'Pet Zone', 'LIC99887', 'TAX54321', 
+ 'http://petzone.vn', 'Cửa hàng đồ chơi cho thú cưng', '8:00 AM - 6:00 PM', 
+ 21.052328, 105.912222, NOW(), NOW());
+
+
+-- Dữ liệu cho bảng Pets
+INSERT INTO Pets (owner_id, category_id, name, breed, age, gender, description, medical_history, is_active, createdAt, updatedAt) VALUES
+(1, 1, 'Buddy', 'Golden Retriever', 3, 'Male', 'Friendly and playful', 'Vaccinated', true, NOW(), NOW()),
+(2, 2, 'Whiskers', 'Persian', 2, 'Female', 'Calm and independent', 'None', true, NOW(), NOW()),
+(6, 3, 'Tweety', 'Canary', 1, 'Female', 'Loves to sing', 'None', true, NOW(), NOW()),
+(1, 1, 'Rocky', 'Bulldog', 4, 'Male', 'Strong and quiet', 'Hip dysplasia', true, NOW(), NOW()),
+(2, 2, 'Shadow', 'Siamese', 5, 'Male', 'Curious and adventurous', 'Neutered', true, NOW(), NOW()),
+(1, 1, 'Bella', 'Beagle', 2, 'Female', 'Energetic and playful', 'None', true, NOW(), NOW()),
+(6, 4, 'Speedy', 'Turtle', 10, 'Unknown', 'Slow and steady', 'None', true, NOW(), NOW()),
+(1, 1, 'Max', 'Labrador', 3, 'Male', 'Obedient and friendly', 'Vaccinated', true, NOW(), NOW()),
+(2, 2, 'Luna', 'Sphynx', 1, 'Female', 'Affectionate and curious', 'None', true, NOW(), NOW()),
+(6, 3, 'Sunny', 'Parrot', 2, 'Male', 'Talkative and friendly', 'None', true, NOW(), NOW());
+
+-- Dữ liệu cho bảng Products
+INSERT INTO Products (sales_center_id, category_id, name, description, price, stock_quantity, sku, images, createdAt, updatedAt) VALUES
+(4, 5, 'Premium Dog Food', 'High-quality food for dogs', 29.99, 100, 'DOGFOOD001', 'dogfood1.jpg', NOW(), NOW()),
+(4, 6, 'Cat Toy', 'Interactive toy for cats', 9.99, 200, 'CATTOY001', 'cattoy1.jpg', NOW(), NOW()),
+(7, 8, 'Fish Oil Supplements', 'Supplements for healthy skin and coat', 19.99, 150, 'FISHOIL001', 'fishoil1.jpg', NOW(), NOW()),
+(4, 5, 'Dog Chew Toy', 'Durable chew toy for dogs', 12.99, 50, 'DOGTOY001', 'dogtoy1.jpg', NOW(), NOW()),
+(7, 5, 'Organic Dog Food', 'Organic ingredients for dogs', 35.99, 120, 'ORGFOOD001', 'organicdogfood.jpg', NOW(), NOW()),
+(4, 6, 'Cat Scratching Post', 'Essential scratching post for cats', 25.99, 70, 'SCRATCH001', 'scratchpost.jpg', NOW(), NOW()),
+(7, 8, 'Vitamin Supplements', 'Multivitamin for pets', 22.99, 180, 'VITAMIN001', 'vitaminsupplements.jpg', NOW(), NOW()),
+(4, 6, 'Cat Bed', 'Comfortable bed for cats', 39.99, 90, 'CATBED001', 'catbed.jpg', NOW(), NOW()),
+(7, 5, 'Dog Shampoo', 'Gentle shampoo for dogs', 14.99, 110, 'DOGSHAM001', 'dogshampoo.jpg', NOW(), NOW()),
+(7, 5, 'Dog Leash', 'Durable leash for walking dogs', 18.99, 95, 'LEASH001', 'dogleash.jpg', NOW(), NOW());
+
+-- Dữ liệu cho bảng Services
+INSERT INTO Services (doctor_id, category_id, name, description, price, is_active, createdAt, updatedAt) VALUES
+(3, 3, 'Vaccination Package', 'Full vaccination package for pets', 99.99, true, NOW(), NOW()),
+(8, 4, 'Grooming Service', 'Complete grooming for pets', 49.99, true, NOW(), NOW()),
+(3, 7, 'Pet Surgery', 'Expert surgery for pets', 299.99, true, NOW(), NOW()),
+(9, 3, 'Annual Checkup', 'Comprehensive checkup for pets', 79.99, true, NOW(), NOW()),
+(9, 4, 'Dental Cleaning', 'Teeth cleaning service for pets', 59.99, true, NOW(), NOW()),
+(3, 7, 'Emergency Surgery', '24/7 emergency surgery for pets', 399.99, true, NOW(), NOW()),
+(8, 3, 'Neutering Service', 'Neutering for male pets', 99.99, true, NOW(), NOW()),
+(9, 4, 'Pet Daycare', 'Daycare service for pets', 29.99, true, NOW(), NOW()),
+(8, 4, 'Pet Sitting', 'Pet sitting service at your home', 19.99, true, NOW(), NOW()),
+(9, 3, 'Ultrasound Service', 'Ultrasound diagnostics for pets', 89.99, true, NOW(), NOW());
+
+-- Dữ liệu cho bảng Appointments
+INSERT INTO Appointments (pet_owner_id, pet_id, doctor_id, service_id, appointment_date, status, notes, createdAt, updatedAt) VALUES
+(2, 2, 8, 2, '2024-10-15 14:00:00', 'Scheduled', 'Grooming appointment', NOW(), NOW()),
+(6, 3, 9, 4, '2024-10-18 09:00:00', 'Scheduled', 'Annual checkup for canary', NOW(), NOW()),
+(1, 4, 3, 7, '2024-10-20 16:00:00', 'Completed', 'Hip dysplasia surgery', NOW(), NOW()),
+(2, 5, 9, 3, '2024-10-21 11:00:00', 'Scheduled', 'Vaccination for Siamese cat', NOW(), NOW()),
+(6, 6, 8, 7, '2024-10-22 13:00:00', 'Scheduled', 'Neutering turtle', NOW(), NOW()),
+(1, 7, 3, 1, '2024-10-25 12:00:00', 'Scheduled', 'Vaccination booster for Beagle', NOW(), NOW()),
+(2, 8, 9, 4, '2024-10-27 14:00:00', 'Scheduled', 'Grooming for Sphynx', NOW(), NOW()),
+(6, 9, 8, 3, '2024-10-30 10:00:00', 'Cancelled', 'Ultrasound check for parrot', NOW(), NOW()),
+(1, 10, 3, 1, '2024-11-01 09:00:00', 'Scheduled', 'Routine vaccination for Labrador', NOW(), NOW());
+
+-- Dữ liệu cho bảng Orders
+INSERT INTO Orders (petOwner_id, total_amount, status, createdAt, updatedAt) VALUES
+(1, 59.98, 'Processing', NOW(), NOW()),
+(2, 29.99, 'Pending', NOW(), NOW()),
+(6, 49.99, 'Processing', NOW(), NOW()),
+(1, 35.99, 'Shipped', NOW(), NOW()),
+(2, 9.99, 'Delivered', NOW(), NOW()),
+(6, 22.99, 'Cancelled', NOW(), NOW()),
+(1, 25.99, 'Pending', NOW(), NOW()),
+(2, 14.99, 'Processing', NOW(), NOW()),
+(6, 39.99, 'Delivered', NOW(), NOW()),
+(1, 18.99, 'Shipped', NOW(), NOW());
+
+-- Dữ liệu cho bảng OrderItems
+INSERT INTO OrderItems (order_id, product_id, quantity, unit_price, subtotal, createdAt, updatedAt) VALUES
+(1, 1, 2, 29.99, 59.98, NOW(), NOW()),
+(2, 2, 1, 29.99, 29.99, NOW(), NOW()),
+(3, 4, 1, 49.99, 49.99, NOW(), NOW()),
+(4, 5, 1, 35.99, 35.99, NOW(), NOW()),
+(5, 6, 1, 9.99, 9.99, NOW(), NOW()),
+(6, 7, 1, 22.99, 22.99, NOW(), NOW()),
+(7, 8, 1, 25.99, 25.99, NOW(), NOW()),
+(8, 9, 1, 14.99, 14.99, NOW(), NOW()),
+(9, 10, 1, 39.99, 39.99, NOW(), NOW()),
+(10, 3, 1, 18.99, 18.99, NOW(), NOW());
+
+-- Dữ liệu cho bảng OrderServices
+INSERT INTO OrderServices (order_id, service_id, quantity, unit_price, subtotal, createdAt, updatedAt) VALUES
+(1, 1, 1, 99.99, 99.99, NOW(), NOW()),
+(2, 2, 1, 49.99, 49.99, NOW(), NOW()),
+(3, 3, 1, 299.99, 299.99, NOW(), NOW()),
+(4, 4, 1, 79.99, 79.99, NOW(), NOW()),
+(5, 5, 1, 59.99, 59.99, NOW(), NOW()),
+(6, 6, 1, 399.99, 399.99, NOW(), NOW()),
+(7, 7, 1, 99.99, 99.99, NOW(), NOW()),
+(8, 8, 1, 29.99, 29.99, NOW(), NOW()),
+(9, 9, 1, 19.99, 19.99, NOW(), NOW()),
+(10, 10, 1, 89.99, 89.99, NOW(), NOW());
+
+-- Dữ liệu cho bảng Payments
+INSERT INTO Payments (order_id, amount, payment_method, status, transaction_id, payment_date, createdAt, updatedAt) VALUES
+(1, 59.98, 'Credit Card', 'Completed', 'TX123456789', '2024-10-10 10:00:00', NOW(), NOW()),
+(2, 29.99, 'PayPal', 'Pending', 'TX987654321', '2024-10-10 11:00:00', NOW(), NOW()),
+(3, 49.99, 'Bank Transfer', 'Completed', 'TX567891234', '2024-10-10 12:00:00', NOW(), NOW()),
+(4, 35.99, 'Cash on Delivery', 'Completed', NULL, '2024-10-10 13:00:00', NOW(), NOW()),
+(5, 9.99, 'Credit Card', 'Completed', 'TX345678912', '2024-10-10 14:00:00', NOW(), NOW()),
+(6, 22.99, 'PayPal', 'Refunded', 'TX234567891', '2024-10-10 15:00:00', NOW(), NOW()),
+(7, 25.99, 'Credit Card', 'Pending', 'TX678912345', '2024-10-10 16:00:00', NOW(), NOW()),
+(8, 14.99, 'Bank Transfer', 'Pending', 'TX123459876', '2024-10-10 17:00:00', NOW(), NOW()),
+(9, 39.99, 'Credit Card', 'Completed', 'TX098765432', '2024-10-10 18:00:00', NOW(), NOW()),
+(10, 18.99, 'Cash on Delivery', 'Completed', NULL, '2024-10-10 19:00:00', NOW(), NOW());
+
+-- Dữ liệu cho bảng Posts
+INSERT INTO Posts (petOwner_Id, title, content, image_url, createdAt, updatedAt) VALUES
+(1, 'My First Pet Experience', 'Having a pet has changed my life...', 'post1.jpg', NOW(), NOW()),
+(2, 'Grooming Tips for Cats', 'Cats require special care for their fur...', 'post2.jpg', NOW(), NOW()),
+(6, 'Caring for Exotic Pets', 'Exotic pets require unique attention...', 'post3.jpg', NOW(), NOW()),
+(1, 'How to Train Your Dog', 'Training your dog requires patience...', 'post4.jpg', NOW(), NOW()),
+(2, 'The Best Pet Food for Cats', 'After researching various brands...', 'post5.jpg', NOW(), NOW()),
+(6, 'Top 10 Pet Toys', 'These toys will keep your pets entertained...', 'post6.jpg', NOW(), NOW()),
+(1, 'Vaccination Importance', 'Vaccinations are essential for your pets...', 'post7.jpg', NOW(), NOW()),
+(2, 'Pet-Friendly Holidays', 'Traveling with pets can be fun...', 'post8.jpg', NOW(), NOW()),
+(6, 'Pet Diet and Nutrition', 'A proper diet is key to a healthy pet...', 'post9.jpg', NOW(), NOW()),
+(1, 'Adopting a Rescue Pet', 'Rescue pets can bring joy...', 'post10.jpg', NOW(), NOW());
+
+-- Dữ liệu cho bảng Comments
+INSERT INTO Comments (post_id, petOwner_Id, content, createdAt, updatedAt) VALUES
+(1, 2, 'Thanks for sharing your experience!', NOW(), NOW()),
+(2, 1, 'Very helpful grooming tips, thank you!', NOW(), NOW()),
+(3, 6, 'This is exactly what I needed, thanks!', NOW(), NOW()),
+(4, 2, 'Training my dog has been a challenge, this helps.', NOW(), NOW()),
+(5, 1, 'Great food recommendations for my cat.', NOW(), NOW()),
+(6, 6, 'My pets love these toys!', NOW(), NOW()),
+(7, 1, 'Vaccinations are so important, I agree.', NOW(), NOW()),
+(8, 2, 'Looking forward to traveling with my pets.', NOW(), NOW()),
+(9, 6, 'Diet really does make a difference for pets.', NOW(), NOW()),
+(10, 1, 'Rescue pets are truly amazing!', NOW(), NOW());
+
+-- Dữ liệu cho bảng Likes
+INSERT INTO Likes (petOwner_Id, post_id, comment_id, createdAt, updatedAt) VALUES
+(1, 1, 1, NOW(), NOW()),
+(2, 2, 2, NOW(), NOW()),
+(6, 3, 3, NOW(), NOW()),
+(1, 4, 4, NOW(), NOW()),
+(2, 5, 5, NOW(), NOW()),
+(6, 6, 6, NOW(), NOW()),
+(1, 7, 7, NOW(), NOW()),
+(2, 8, 8, NOW(), NOW()),
+(6, 9, 9, NOW(), NOW()),
+(1, 10, 10, NOW(), NOW());
+
+update likes set comment_id = 4 where id=4;
+-- Dữ liệu cho bảng Reviews
+INSERT INTO Reviews (reviewer_id, product_id, service_id, rating, title, comment, is_verified_purchase, createdAt, updatedAt) VALUES
+(1, 1, NULL, 5, 'Amazing Dog Food', 'My dog loves this food!', true, NOW(), NOW()),
+(2, 2, NULL, 4, 'Great Cat Toy', 'My cat enjoys playing with this toy.', true, NOW(), NOW()),
+(6, 3, NULL, 5, 'Healthy Supplements', 'These supplements have improved my pet’s health.', true, NOW(), NOW()),
+(1, 4, NULL, 3, 'Durable Toy', 'The toy is durable but could be better.', true, NOW(), NOW()),
+(2, 5, NULL, 5, 'Organic Food', 'I love that it’s organic and my dog does too.', true, NOW(), NOW()),
+(6, 6, NULL, 4, 'Good Scratching Post', 'My cat uses it daily, but it could be taller.', true, NOW(), NOW()),
+(1, 7, NULL, 5, 'Vitamin Supplements', 'Excellent vitamins, my pet is much healthier.', true, NOW(), NOW()),
+(2, 8, NULL, 5, 'Comfortable Bed', 'My cat loves sleeping on this bed.', true, NOW(), NOW()),
+(6, 9, NULL, 4, 'Great Shampoo', 'Leaves my dog’s fur soft and shiny.', true, NOW(), NOW()),
+(1, 10, NULL, 5, 'Strong Leash', 'Very durable leash for walks.', true, NOW(), NOW());
+
+-- Dữ liệu cho bảng Coupons
+INSERT INTO Coupons (code, description, discount_type, discount_value, start_date, end_date, is_active, product_id, createdAt, updatedAt) VALUES
+('DISCOUNT10', 'Giảm 10% cho tất cả các sản phẩm', 'Percentage', 10.00, '2024-10-01', '2024-12-31', true, 1, NOW(), NOW()),
+('DISCOUNT20', 'Giảm 20% cho đơn hàng trên 500k', 'Percentage', 20.00, '2024-10-01', '2024-11-30', true, 2, NOW(), NOW()),
+('FIXED50', 'Giảm 50k cho đơn hàng từ 300k', 'Fixed Amount', 50.00, '2024-10-15', '2024-12-31', true, 3, NOW(), NOW()),
+('FREESHIP', 'Miễn phí vận chuyển cho tất cả các đơn hàng', 'Fixed Amount', 0.00, '2024-10-10', '2024-11-10', true, NULL, NOW(), NOW()),
+('WELCOME15', 'Giảm 15% cho khách hàng mới', 'Percentage', 15.00, '2024-09-01', '2024-12-31', true, 4, NOW(), NOW()),
+('BLACKFRIDAY', 'Giảm giá 30% cho Black Friday', 'Percentage', 30.00, '2024-11-25', '2024-11-30', true, 5, NOW(), NOW()),
+('SUMMER50', 'Giảm 50% cho sản phẩm mùa hè', 'Percentage', 50.00, '2024-06-01', '2024-08-31', false, 6, NOW(), NOW()),
+('NEWYEAR2024', 'Giảm giá 20% nhân dịp năm mới', 'Percentage', 20.00, '2024-12-25', '2024-01-05', true, 7, NOW(), NOW()),
+('SPRINGSALE', 'Giảm 100k cho đơn hàng từ 500k', 'Fixed Amount', 100.00, '2024-03-01', '2024-04-30', true, 8, NOW(), NOW()),
+('LOYALTY5', 'Giảm 5% cho khách hàng thân thiết', 'Percentage', 5.00, '2024-01-01', '2024-12-31', true, 9, NOW(), NOW());
+
+-- Dữ liệu cho bảng Wishlists
+INSERT INTO Wishlists (user_id, product_id, service_id, createdAt, updatedAt) VALUES
 (1, 1, NULL, NOW(), NOW()),
 (1, 2, NULL, NOW(), NOW()),
-(1, 3, NULL, NOW(), NOW()),
-(1, 4, NULL, NOW(), NOW()),
-(1, 5, NULL, NOW(), NOW()),
-(1, 6, NULL, NOW(), NOW()),
+(2, 3, NULL, NOW(), NOW()),
+(2, 4, NULL, NOW(), NOW()),
+(6, 5, NULL, NOW(), NOW()),
+(6, 6, NULL, NOW(), NOW()),
+(1, NULL, 1, NOW(), NOW()),
+(2, NULL, 2, NOW(), NOW()),
 (1, 7, NULL, NOW(), NOW()),
-(1, 8, NULL, NOW(), NOW()),
-(1, 9, NULL, NOW(), NOW()),
-(1, 10, NULL, NOW(), NOW());
+(6, 8, NULL, NOW(), NOW());
+
+
 

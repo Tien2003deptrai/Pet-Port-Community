@@ -5,8 +5,8 @@ const {
   Service,
   Category,
   Location,
-} = require('../models');
-const { Op } = require('sequelize');
+  Op,
+} = require('@models');
 
 const AppointmentController = {
   // Tạo cuộc hẹn

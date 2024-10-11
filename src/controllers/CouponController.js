@@ -1,4 +1,4 @@
-const { Coupon, Product, Op } = require('../models');
+const { Coupon, Product, Op } = require('@models');
 
 const CouponController = {
   async create(req, res) {

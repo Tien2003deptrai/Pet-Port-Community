@@ -5,27 +5,24 @@ const {
   Service,
   Op,
   OrderService,
-} = require('../models');
+} = require('@models');
 
 const OrderController = {
   async createOrderProduct(req, res) {
     const { petOwner_id, items } = req.body;
 
     try {
-      // Tính tổng tiền của đơn hàng
       const totalAmount = items.reduce(
         (total, item) => total + item.price * item.quantity,
         0,
       );
 
-      // Tạo đơn hàng
       const order = await Order.create({
         petOwner_id: petOwner_id,
         total_amount: totalAmount,
         status: 'Pending',
       });
 
-      // Tạo danh sách sản phẩm trong đơn hàng
       const orderItems = items.map((item) => ({
         order_id: order.id,
         product_id: item.productId,
@@ -34,7 +31,6 @@ const OrderController = {
         subtotal: item.price * item.quantity,
       }));
 
-      // Lưu danh sách OrderItems vào DB
       await OrderItem.bulkCreate(orderItems);
 
       res.status(201).send({
@@ -51,20 +47,17 @@ const OrderController = {
     const { petOwner_id, items } = req.body;
 
     try {
-      // Tính tổng tiền của đơn hàng
       const totalAmount = items.reduce(
         (total, item) => total + item.price * item.quantity,
         0,
       );
 
-      // Tạo đơn hàng
       const order = await Order.create({
         petOwner_id: petOwner_id,
         total_amount: totalAmount,
         status: 'Pending',
       });
 
-      // Tạo danh sách dịch vụ trong đơn hàng
       const orderServices = items.map((item) => ({
         order_id: order.id,
         service_id: item.serviceId,
@@ -73,7 +66,6 @@ const OrderController = {
         subtotal: item.price * item.quantity,
       }));
 
-      // Lưu danh sách OrderServices vào DB
       await OrderService.bulkCreate(orderServices);
 
       res.status(201).send({
@@ -92,22 +84,18 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
-            as: 'OrderItems', // Tên alias đúng theo cấu hình trong index.js
             include: [
               {
                 model: Product,
-                as: 'Product', // Tên alias đúng theo cấu hình trong index.js
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
-            as: 'OrderServices', // Tên alias đúng theo cấu hình trong index.js
             include: [
               {
                 model: Service,
-                as: 'Service', // Tên alias đúng theo cấu hình trong index.js
                 attributes: ['name', 'price'],
               },
             ],
@@ -130,22 +118,18 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
-            as: 'OrderItems', // Đúng với index.js
             include: [
               {
                 model: Product,
-                as: 'Product', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
-            as: 'OrderServices', // Đúng với index.js
             include: [
               {
                 model: Service,
-                as: 'Service', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],
@@ -216,22 +200,18 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
-            as: 'OrderItems', // Đúng với index.js
             include: [
               {
                 model: Product,
-                as: 'Product', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
-            as: 'OrderServices', // Đúng với index.js
             include: [
               {
                 model: Service,
-                as: 'Service', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],
@@ -254,22 +234,18 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
-            as: 'OrderItems', // Đúng với index.js
             include: [
               {
                 model: Product,
-                as: 'Product', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
-            as: 'OrderServices', // Đúng với index.js
             include: [
               {
                 model: Service,
-                as: 'Service', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],
@@ -295,22 +271,18 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
-            as: 'OrderItems', // Đúng với index.js
             include: [
               {
                 model: Product,
-                as: 'Product', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
-            as: 'OrderServices', // Đúng với index.js
             include: [
               {
                 model: Service,
-                as: 'Service', // Đúng với index.js
                 attributes: ['name', 'price'],
               },
             ],

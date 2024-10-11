@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User } = require('@models');
 
 const AdminController = {
   async deleteUser(req, res) {

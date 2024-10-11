@@ -1,11 +1,4 @@
-const {
-  Order,
-  Product,
-  Service,
-  Review,
-  User,
-  sequelize,
-} = require('../models');
+const { Order, Product, Service, Review, User, sequelize } = require('@models');
 
 const ReportController = {
   // Báo cáo doanh thu

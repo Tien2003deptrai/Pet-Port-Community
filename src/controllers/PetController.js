@@ -1,7 +1,6 @@
-const { Pet, User, Category } = require('../models');
+const { Pet, User, Category } = require('@models');
 
 const PetController = {
-  // Tạo pet mới
   async create(req, res) {
     const {
       owner_id,
@@ -33,19 +32,16 @@ const PetController = {
     }
   },
 
-  // Lấy tất cả pet, kèm thông tin chủ sở hữu và danh mục
   async getAll(req, res) {
     try {
       const pets = await Pet.findAll({
         include: [
           {
             model: User,
-            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -59,7 +55,6 @@ const PetController = {
     }
   },
 
-  // Lấy pet theo id, kèm thông tin chủ sở hữu và danh mục
   async getById(req, res) {
     const { id } = req.params;
     try {
@@ -67,12 +62,10 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -87,7 +80,6 @@ const PetController = {
     }
   },
 
-  // Cập nhật pet
   async update(req, res) {
     const { id } = req.params;
     const {
@@ -119,12 +111,10 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -138,7 +128,6 @@ const PetController = {
     }
   },
 
-  // Xóa pet
   async delete(req, res) {
     const { id } = req.params;
     try {
@@ -155,7 +144,6 @@ const PetController = {
     }
   },
 
-  // Lấy pet theo id chủ sở hữu
   async getPetsByOwner(req, res) {
     const { owner_id } = req.params;
     try {
@@ -164,12 +152,10 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -183,7 +169,6 @@ const PetController = {
     }
   },
 
-  // Lấy pet theo id danh mục
   async getPetsByCategory(req, res) {
     const { category_id } = req.params;
     try {
@@ -192,12 +177,10 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -211,7 +194,6 @@ const PetController = {
     }
   },
 
-  // Lấy pet theo giới tính
   async getPetsByGender(req, res) {
     const { gender } = req.params;
     try {
@@ -220,12 +202,10 @@ const PetController = {
         include: [
           {
             model: User,
-            as: 'PetOwner', // Sửa thành alias đúng theo cấu hình trong index.js
             attributes: ['id', 'full_name', 'email', 'phone'],
           },
           {
             model: Category,
-            as: 'Category', // Đúng với index.js
             attributes: ['id', 'name', 'type'],
           },
         ],
@@ -239,7 +219,6 @@ const PetController = {
     }
   },
 
-  // Đếm tổng số pet
   async countPets(req, res) {
     try {
       const totalPets = await Pet.count();

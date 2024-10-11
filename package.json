@@ -9,7 +9,7 @@
     "format": "prettier --write ."
   },
   "_moduleAliases": {
-    "@root": ".",
+    "@src": "src",
     "@config": "src/config",
     "@controllers": "src/controllers",
     "@middlewares": "src/middlewares",

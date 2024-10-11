@@ -10,6 +10,11 @@ const { limiter, corsOptions, errorHandler, passport } = require('./utils');
 const setupSwaggerDocs = require('./swagger/swagger');
 require('module-alias/register');
 
+require('dotenv').config();
+const path = require('path');
+
+const srcPath = path.resolve(process.env.SRC_PATH);
+
 // Middleware
 const {
   authenticateJWT,
