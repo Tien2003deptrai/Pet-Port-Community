@@ -1,10 +1,4 @@
-const {
-  Order,
-  OrderItem,
-  Product,
-  Service,
-  OrderService,
-} = require('@models');
+const { Order, OrderItem, Product, Service, OrderService } = require('@models');
 
 const OrderController = {
   async createOrderProduct(req, res) {

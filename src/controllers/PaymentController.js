@@ -170,31 +170,31 @@ const PaymentController = {
     const event = req.body;
     try {
       switch (event.type) {
-      case 'payment_intent.succeeded':
-        const paymentIntent = event.data.object;
-        await Payment.update(
-          { status: 'Completed' },
-          {
-            where: {
-              transaction_id: paymentIntent.id,
+        case 'payment_intent.succeeded':
+          const paymentIntent = event.data.object;
+          await Payment.update(
+            { status: 'Completed' },
+            {
+              where: {
+                transaction_id: paymentIntent.id,
+              },
             },
-          },
-        );
-        break;
-      case 'payment_intent.payment_failed':
-        const failedPaymentIntent = event.data.object;
-        await Payment.update(
-          { status: 'Failed' },
-          {
-            where: {
-              transaction_id: failedPaymentIntent.id,
+          );
+          break;
+        case 'payment_intent.payment_failed':
+          const failedPaymentIntent = event.data.object;
+          await Payment.update(
+            { status: 'Failed' },
+            {
+              where: {
+                transaction_id: failedPaymentIntent.id,
+              },
             },
-          },
-        );
-        break;
+          );
+          break;
         // Có thể thêm các trường hợp khác nếu cần
-      default:
-        console.log(`Unhandled event type ${event.type}`);
+        default:
+          console.log(`Unhandled event type ${event.type}`);
       }
       res.status(200).send({ received: true });
     } catch (error) {

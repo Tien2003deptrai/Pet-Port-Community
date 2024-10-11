@@ -1,9 +1,8 @@
-// migrations/XXXXXX-create-order-items-table.js
 'use strict';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('OrderItems', {
+    await queryInterface.createTable('OrderServices', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -18,10 +17,10 @@ module.exports = {
         },
         onDelete: 'CASCADE',
       },
-      product_id: {
+      service_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Products',
+          model: 'Services',
           key: 'id',
         },
         onDelete: 'SET NULL',
@@ -50,6 +49,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('OrderItems');
+    await queryInterface.dropTable('OrderServices');
   },
 };
