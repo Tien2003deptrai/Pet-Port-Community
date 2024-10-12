@@ -2,10 +2,10 @@ const { Wishlist, Product, Service } = require('@models');
 
 const WishlistController = {
   async create(req, res) {
-    const { user_id, product_id, service_id } = req.body;
+    const { petOwner_id, product_id, service_id } = req.body;
     try {
       const wishlistItem = await Wishlist.create({
-        user_id,
+        petOwner_id,
         product_id,
         service_id,
       });
@@ -31,10 +31,10 @@ const WishlistController = {
   },
 
   async getWishlistByUser(req, res) {
-    const { user_id } = req.params;
+    const { petOwner_id } = req.params;
     try {
       const wishlists = await Wishlist.findAll({
-        where: { user_id },
+        where: { petOwner_id },
         include: [
           {
             model: Product,
@@ -77,10 +77,10 @@ const WishlistController = {
   },
 
   async checkItemExists(req, res) {
-    const { user_id, product_id, service_id } = req.body;
+    const { petOwner_id, product_id, service_id } = req.body;
     try {
       const item = await Wishlist.findOne({
-        where: { user_id, product_id, service_id },
+        where: { petOwner_id, product_id, service_id },
       });
       if (item) {
         res.json({ exists: true });
@@ -96,9 +96,9 @@ const WishlistController = {
   },
 
   async deleteAll(req, res) {
-    const { user_id } = req.params;
+    const { petOwner_id } = req.params;
     try {
-      await Wishlist.destroy({ where: { user_id } });
+      await Wishlist.destroy({ where: { petOwner_id } });
       res.status(204).send();
     } catch (error) {
       res.status(500).json({
@@ -109,10 +109,10 @@ const WishlistController = {
   },
 
   async countWishlistItems(req, res) {
-    const { user_id } = req.params;
+    const { petOwner_id } = req.params;
     try {
       const totalItems = await Wishlist.count({
-        where: { user_id },
+        where: { petOwner_id },
       });
       res.json({ totalItems });
     } catch (error) {
