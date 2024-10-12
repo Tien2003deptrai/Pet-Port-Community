@@ -1,24 +1,20 @@
 const express = require('express');
-const { ServiceController } = require('@controllers');
-const { ServiceValidation } = require('@validations');
+const { WishlistController } = require('@controllers');
+const { WishlistValidation } = require('@validations');
 const router = express.Router();
 
-router.post('/', ServiceValidation.create, ServiceController.create);
+router.post('/', WishlistValidation.create, WishlistController.create);
 
-router.get('/', ServiceController.getAll);
+router.get('/', WishlistController.getAll);
 
-router.get('/doctor/:doctor_id', ServiceController.getServicesByDoctor);
+router.get('/user/:user_id', WishlistController.getWishlistByUser);
 
-router.get('/category/:category_id', ServiceController.getServicesByCategory);
+router.delete('/:id', WishlistValidation.delete, WishlistController.delete);
 
-router.get('/active', ServiceController.getActiveServices);
+router.post('/check', WishlistValidation.checkItemExists, WishlistController.checkItemExists);
 
-router.get('/count', ServiceController.countServices);
+router.delete('/user/:user_id', WishlistValidation.deleteAll, WishlistController.deleteAll);
 
-router.get('/:id', ServiceController.getById);
-
-router.put('/:id', ServiceController.update);
-
-router.delete('/:id', ServiceController.delete);
+router.get('/count/:user_id', WishlistValidation.countWishlistItems, WishlistController.countWishlistItems);
 
 module.exports = router;

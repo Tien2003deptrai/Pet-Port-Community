@@ -7,13 +7,13 @@ router.post('/', CouponValidation.create, CouponController.create);
 
 router.get('/', CouponController.getAll);
 
+router.get('/active', CouponController.getActiveCoupons);
+
 router.get('/:id', CouponController.getById);
 
 router.put('/:id', CouponController.update);
 
 router.delete('/:id', CouponController.delete);
-
-router.get('/active', CouponController.getActiveCoupons);
 
 router.get('/check/:code', CouponController.checkCoupon);
 
