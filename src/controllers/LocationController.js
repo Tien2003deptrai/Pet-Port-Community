@@ -111,7 +111,7 @@ const LocationController = {
         return res.status(404).json({
           message: 'Location not found',
         });
-      res.status(204).json("Delete success");
+      res.status(204).json('Delete success');
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

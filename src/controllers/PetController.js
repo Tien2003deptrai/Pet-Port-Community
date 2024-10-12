@@ -39,12 +39,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
-            as: 'PetOwner'
+            as: 'PetOwner',
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
-            as: 'Category'
+            as: 'Category',
           },
         ],
       });
@@ -65,12 +65,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
-            as: 'PetOwner'
+            as: 'PetOwner',
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
-            as: 'Category'
+            as: 'Category',
           },
         ],
       });
@@ -116,12 +116,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
-            as: 'PetOwner'
+            as: 'PetOwner',
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
-            as: 'Category'
+            as: 'Category',
           },
         ],
       });
@@ -159,12 +159,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
-            as: 'PetOwner'
+            as: 'PetOwner',
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
-            as: 'Category'
+            as: 'Category',
           },
         ],
       });
@@ -186,12 +186,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
-            as: 'PetOwner'
+            as: 'PetOwner',
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
-            as: 'Category'
+            as: 'Category',
           },
         ],
       });
@@ -213,12 +213,12 @@ const PetController = {
           {
             model: User,
             attributes: ['id', 'full_name', 'email', 'phone'],
-            as: 'PetOwner'
+            as: 'PetOwner',
           },
           {
             model: Category,
             attributes: ['id', 'name', 'type'],
-            as: 'Category'
+            as: 'Category',
           },
         ],
       });

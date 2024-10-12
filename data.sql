@@ -28,8 +28,6 @@ CREATE TABLE Users (
   website VARCHAR(255),
   business_description TEXT,
   opening_hours TEXT,
-  latitude DECIMAL(10, 8),
-  longitude DECIMAL(11, 8),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (location_id) REFERENCES Locations(id) ON DELETE SET NULL,
@@ -126,13 +124,13 @@ CREATE TABLE Appointments (
 
 CREATE TABLE Orders (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  customer_id INT NOT NULL,
+  petOwner_id INT NOT NULL,
   total_amount DECIMAL(10, 2) NOT NULL,
   status ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled') DEFAULT 'Pending',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (customer_id) REFERENCES Users(id) ON DELETE CASCADE,
-  UNIQUE (customer_id, created_at)
+  FOREIGN KEY (petOwner_id) REFERENCES Users(id) ON DELETE CASCADE,
+  UNIQUE (petOwner_id, created_at)
 );
 
 -- Bảng dành cho sản phẩm trong đơn hàng
@@ -179,39 +177,39 @@ CREATE TABLE Payments (
 
 CREATE TABLE Posts (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT NOT NULL,
+  petOwner_id INT NOT NULL,
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
   image_url VARCHAR(255),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
-  UNIQUE (title, user_id)
+  FOREIGN KEY (petOwner_id) REFERENCES Users(id) ON DELETE CASCADE,
+  UNIQUE (title, petOwner_id)
 );
 
 CREATE TABLE Comments (
   id INT PRIMARY KEY AUTO_INCREMENT,
   post_id INT NOT NULL,
-  user_id INT NOT NULL,
+  petOwner_id INT NOT NULL,
   content TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (post_id) REFERENCES Posts(id) ON DELETE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
-  UNIQUE (post_id, user_id, created_at)
+  FOREIGN KEY (petOwner_id) REFERENCES Users(id) ON DELETE CASCADE,
+  UNIQUE (post_id, petOwner_id, created_at)
 );
 
 CREATE TABLE Likes (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT NOT NULL,
+  petOwner_id INT NOT NULL,
   post_id INT,
   comment_id INT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (petOwner_id) REFERENCES Users(id) ON DELETE CASCADE,
   FOREIGN KEY (post_id) REFERENCES Posts(id) ON DELETE CASCADE,
   FOREIGN KEY (comment_id) REFERENCES Comments(id) ON DELETE CASCADE,
-  UNIQUE (user_id, post_id),
-  UNIQUE (user_id, comment_id)
+  UNIQUE (petOwner_id, post_id),
+  UNIQUE (petOwner_id, comment_id)
 );
 
 CREATE TABLE Reviews (
@@ -250,15 +248,15 @@ CREATE TABLE Coupons (
 
 CREATE TABLE Wishlists (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT NOT NULL,
+  petOwner_id INT NOT NULL,
   product_id INT,
   service_id INT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
+  FOREIGN KEY (petOwner_id) REFERENCES Users(id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE SET NULL,
   FOREIGN KEY (service_id) REFERENCES Services(id) ON DELETE SET NULL,
-  UNIQUE (user_id, product_id),
-  UNIQUE (user_id, service_id)
+  UNIQUE (petOwner_id, product_id),
+  UNIQUE (petOwner_id, service_id)
 );
 
 -- Dữ liệu cho bảng Locations
@@ -559,7 +557,7 @@ INSERT INTO Coupons (code, description, discount_type, discount_value, start_dat
 ('LOYALTY5', 'Giảm 5% cho khách hàng thân thiết', 'Percentage', 5.00, '2024-01-01', '2024-12-31', true, 9, NOW(), NOW());
 
 -- Dữ liệu cho bảng Wishlists
-INSERT INTO Wishlists (user_id, product_id, service_id, createdAt, updatedAt) VALUES
+INSERT INTO Wishlists (petOwner_id, product_id, service_id, createdAt, updatedAt) VALUES
 (1, 1, NULL, NOW(), NOW()),
 (1, 2, NULL, NOW(), NOW()),
 (2, 3, NULL, NOW(), NOW()),

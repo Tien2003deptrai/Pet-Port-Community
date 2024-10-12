@@ -21,5 +21,4 @@ router.get('/category/:category_id', PetController.getPetsByCategory);
 
 router.get('/gender/:gender', PetController.getPetsByGender);
 
-
 module.exports = router;

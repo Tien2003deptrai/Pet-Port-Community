@@ -145,7 +145,7 @@ const UserController = {
       res.json({
         message: 'Logged in successfully',
         token,
-        refreshToken
+        refreshToken,
       });
     } catch (error) {
       console.error('Error logging in: ', error);

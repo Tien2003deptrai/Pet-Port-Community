@@ -42,7 +42,9 @@ const AppointmentValidation = {
     body('status')
       .optional()
       .isIn(['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'])
-      .withMessage('Status must be one of Scheduled, Completed, Rescheduled, Cancelled'),
+      .withMessage(
+        'Status must be one of Scheduled, Completed, Rescheduled, Cancelled',
+      ),
     body('notes')
       .optional()
       .isString()
