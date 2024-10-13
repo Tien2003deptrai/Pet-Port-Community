@@ -23,6 +23,7 @@ const Post = sequelize.define(
   {
     timestamps: true,
     tableName: 'Posts',
+    underscored: true,
   },
 );
 

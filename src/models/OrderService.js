@@ -28,6 +28,7 @@ const OrderService = sequelize.define(
   {
     timestamps: true,
     tableName: 'OrderServices',
+    underscored: true,
   },
 );
 

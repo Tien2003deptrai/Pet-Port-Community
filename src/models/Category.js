@@ -7,6 +7,9 @@ const Category = sequelize.define(
     name: {
       type: DataTypes.STRING(100),
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     type: {
       type: DataTypes.ENUM('Product', 'Service', 'Pet'),
@@ -20,6 +23,7 @@ const Category = sequelize.define(
   {
     timestamps: true,
     tableName: 'Categories',
+    underscored: true,
   },
 );
 

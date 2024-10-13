@@ -18,6 +18,7 @@ const Like = sequelize.define(
   {
     timestamps: true,
     tableName: 'Likes',
+    underscored: true,
   },
 );
 
