@@ -35,7 +35,6 @@ const Payment = sequelize.define(
   {
     timestamps: true,
     tableName: 'Payments',
-    underscored: true,
   },
 );
 

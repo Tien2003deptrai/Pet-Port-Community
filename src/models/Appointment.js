@@ -35,7 +35,6 @@ const Appointment = sequelize.define(
   {
     timestamps: true,
     tableName: 'Appointments',
-    underscored: true,
   },
 );
 

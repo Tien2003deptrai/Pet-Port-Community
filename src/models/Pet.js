@@ -42,7 +42,6 @@ const Pet = sequelize.define(
   {
     timestamps: true,
     tableName: 'Pets',
-    underscored: true,
   },
 );
 

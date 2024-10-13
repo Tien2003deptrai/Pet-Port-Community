@@ -18,7 +18,6 @@ const Wishlist = sequelize.define(
   {
     timestamps: true,
     tableName: 'Wishlists',
-    underscored: true,
   },
 );
 

@@ -38,7 +38,6 @@ const Coupon = sequelize.define(
   {
     timestamps: true,
     tableName: 'Coupons',
-    underscored: true,
   },
 );
 

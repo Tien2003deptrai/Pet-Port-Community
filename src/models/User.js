@@ -103,8 +103,6 @@ const User = sequelize.define(
   {
     timestamps: true,
     tableName: 'Users',
-    underscored: true,
-    paranoid: true,
 
     indexes: [
       {
