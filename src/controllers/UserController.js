@@ -165,7 +165,7 @@ const UserController = {
   },
 
   async refreshToken(req, res) {
-    const refreshToken = req.cookies ? req.cookies.refreshToken : null;
+    const refreshToken = req.cookies.refreshToken;
     if (!refreshToken)
       return res.status(401).json({ error: 'No refresh token' });
 
@@ -174,7 +174,7 @@ const UserController = {
       const newToken = jwt.sign(
         { id: decoded.id, role: decoded.role },
         process.env.JWT_SECRET,
-        { expiresIn: '1h' },
+        { expiresIn: '30s' },
       );
       res.json({ token: newToken });
     } catch (error) {
