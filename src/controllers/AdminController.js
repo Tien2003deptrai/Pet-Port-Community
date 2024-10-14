@@ -37,6 +37,32 @@ const AdminController = {
       });
     }
   },
+
+  
+  async updateAvatar(req, res) {
+    const { imageUrl } = req.body;
+    const user_up = req.user.id;
+
+    try {
+      const user = await User.findByPk(user_up);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      user.imageUrl = imageUrl;
+      await user.save();
+
+      res.status(200).json({
+        message: 'Avatar updated successfully',
+        user,
+      });
+    } catch (error) {
+      console.error('Error updating avatar: ', error);
+      res.status(500).json({
+        message: 'Error updating avatar',
+      });
+    }
+  },
 };
 
 module.exports = AdminController;
