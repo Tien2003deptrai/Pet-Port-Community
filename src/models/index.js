@@ -19,6 +19,8 @@ const Review = require('./Review');
 const Coupon = require('./Coupon');
 const Wishlist = require('./Wishlist');
 
+// index
+
 // User - Location
 User.belongsTo(Location, {
   foreignKey: 'location_id',

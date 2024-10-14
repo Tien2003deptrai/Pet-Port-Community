@@ -4,7 +4,7 @@ const sequelize = require('../config/database');
 const Wishlist = sequelize.define(
   'Wishlist',
   {
-    user_id: {
+    petOwner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

@@ -14,6 +14,9 @@ const Pet = sequelize.define(
     name: {
       type: DataTypes.STRING(100),
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     breed: {
       type: DataTypes.STRING(50),

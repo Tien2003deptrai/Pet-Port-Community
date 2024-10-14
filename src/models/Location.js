@@ -11,6 +11,9 @@ const Location = sequelize.define(
     type: {
       type: DataTypes.ENUM('City', 'District', 'Commune'),
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
   },
   {

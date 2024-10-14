@@ -7,7 +7,7 @@ router.post('/', WishlistValidation.create, WishlistController.create);
 
 router.get('/', WishlistController.getAll);
 
-router.get('/user/:user_id', WishlistController.getWishlistByUser);
+router.get('/pet_owner/:petOwner_id', WishlistController.getWishlistByUser);
 
 router.delete('/:id', WishlistValidation.delete, WishlistController.delete);
 
@@ -18,13 +18,13 @@ router.post(
 );
 
 router.delete(
-  '/user/:user_id',
+  '/pet_owner/:petOwner_id',
   WishlistValidation.deleteAll,
   WishlistController.deleteAll,
 );
 
 router.get(
-  '/count/:user_id',
+  '/count/:petOwner_id',
   WishlistValidation.countWishlistItems,
   WishlistController.countWishlistItems,
 );

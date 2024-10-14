@@ -14,6 +14,9 @@ const Service = sequelize.define(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     description: {
       type: DataTypes.TEXT,
@@ -21,6 +24,9 @@ const Service = sequelize.define(
     price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+      validate: {
+        isDecimal: true,
+      },
     },
     is_active: {
       type: DataTypes.BOOLEAN,

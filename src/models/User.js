@@ -8,15 +8,26 @@ const User = sequelize.define(
       type: DataTypes.STRING(50),
       unique: true,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [8, 255],
+      },
     },
     email: {
       type: DataTypes.STRING(100),
       unique: true,
       allowNull: false,
+      validate: {
+        isEmail: true,
+        len: [5, 100],
+      },
     },
     phone: {
       type: DataTypes.STRING(15),
@@ -92,6 +103,17 @@ const User = sequelize.define(
   {
     timestamps: true,
     tableName: 'Users',
+
+    indexes: [
+      {
+        unique: true,
+        fields: ['email']
+      },
+      {
+        unique: true,
+        fields: ['username'],
+      }
+    ]
   },
 );
 

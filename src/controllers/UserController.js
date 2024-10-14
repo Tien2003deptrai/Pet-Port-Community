@@ -21,7 +21,7 @@ const UserController = {
 
       const existingUser = await User.findOne({
         where: {
-          [Op.or]: [{ username }, { email }],
+          [Op.or]: [{ email }],
         },
       });
 
@@ -102,8 +102,8 @@ const UserController = {
       }
 
       user.isVerified = true;
-      user.verificationToken = null;
-      user.verificationTokenExpiresAt = null;
+      user.verification_token = null;
+      user.verification_token_expires_at = null;
       await user.save();
 
       await sendWelcomeEmail(user.email, user.username);
@@ -146,6 +146,7 @@ const UserController = {
         message: 'Logged in successfully',
         token,
         refreshToken,
+        user: user
       });
     } catch (error) {
       console.error('Error logging in: ', error);

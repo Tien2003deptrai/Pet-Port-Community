@@ -14,6 +14,9 @@ const Product = sequelize.define(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     description: {
       type: DataTypes.TEXT,
@@ -21,6 +24,9 @@ const Product = sequelize.define(
     price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+      validate: {
+        isDecimal: true,
+      },
     },
     stock_quantity: {
       type: DataTypes.INTEGER,
@@ -28,6 +34,7 @@ const Product = sequelize.define(
     },
     sku: {
       type: DataTypes.STRING(50),
+      allowNull: true,
       unique: true,
     },
     is_active: {
