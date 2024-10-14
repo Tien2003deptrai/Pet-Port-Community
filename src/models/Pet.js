@@ -7,9 +7,17 @@ const Pet = sequelize.define(
     owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Users', 
+        key: 'id', 
+      },
     },
     category_id: {
       type: DataTypes.INTEGER,
+      references: {
+        model: 'Categories', 
+        key: 'id', 
+      },
     },
     name: {
       type: DataTypes.STRING(100),

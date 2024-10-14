@@ -247,7 +247,7 @@ Product.hasMany(Coupon, {
 
 // User - Wishlist
 Wishlist.belongsTo(User, {
-  foreignKey: 'user_id',
+  foreignKey: 'petOwner_id',
   as: 'User',
 });
 

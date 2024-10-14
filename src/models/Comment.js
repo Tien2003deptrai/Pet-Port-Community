@@ -11,6 +11,10 @@ const Comment = sequelize.define(
     petOwner_Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Users', 
+        key: 'id', 
+      },
     },
     content: {
       type: DataTypes.TEXT,

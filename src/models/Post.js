@@ -7,6 +7,10 @@ const Post = sequelize.define(
     petOwner_Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
     },
     title: {
       type: DataTypes.STRING(255),

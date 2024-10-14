@@ -7,12 +7,24 @@ const Review = sequelize.define(
     reviewer_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
     },
     product_id: {
       type: DataTypes.INTEGER,
+      references: {
+        model: 'Products',
+        key: 'id',
+      },
     },
     service_id: {
       type: DataTypes.INTEGER,
+      references: {
+        model: 'Services',
+        key: 'id',
+      },
     },
     rating: {
       type: DataTypes.TINYINT,

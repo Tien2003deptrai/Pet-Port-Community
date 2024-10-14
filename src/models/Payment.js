@@ -7,6 +7,10 @@ const Payment = sequelize.define(
     order_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Orders',
+        key: 'id',
+      },
     },
     amount: {
       type: DataTypes.DECIMAL(10, 2),
