@@ -21,7 +21,7 @@ const CouponController = {
         end_date,
         product_id,
       });
-      res.status(201).json(coupon);
+      res.status(200).json({ success: true, data: coupon });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -41,7 +41,7 @@ const CouponController = {
           },
         ],
       });
-      res.json(coupons);
+      res.status(200).json({ success: true, data: coupons });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -63,7 +63,7 @@ const CouponController = {
         ],
       });
       if (!coupon) return res.status(404).json({ message: 'Coupon not found' });
-      res.json(coupon);
+      res.status(200).json({ success: true, data: coupon });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -105,7 +105,7 @@ const CouponController = {
           },
         ],
       });
-      res.json(updatedCoupon);
+      res.status(200).json({ success: true, data: updatedCoupon });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -122,7 +122,7 @@ const CouponController = {
       });
       if (!deleted)
         return res.status(404).json({ message: 'Coupon not found' });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -148,7 +148,7 @@ const CouponController = {
           },
         ],
       });
-      res.json(coupons);
+      res.status(200).json({ success: true, data: coupons });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -204,7 +204,7 @@ const CouponController = {
           },
         ],
       });
-      res.json(coupons);
+      res.status(200).json({ success: true, data: coupons });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

@@ -13,7 +13,7 @@ const ReportController = {
         group: ['date'],
         order: [['date', 'DESC']],
       });
-      res.json(salesData);
+      res.status(201).json({ success: true, data: salesData });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -32,7 +32,7 @@ const ReportController = {
         ],
         group: ['id'],
       });
-      res.json(serviceData);
+      res.status(201).json({ success: true, data: serviceData });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -50,7 +50,8 @@ const ReportController = {
           [sequelize.fn('AVG', sequelize.col('rating')), 'averageRating'],
         ],
       });
-      res.json({
+      res.status(201).json({
+        success: true,
         totalReviews,
         averageRating: averageRating.averageRating || 0,
       });
@@ -69,7 +70,8 @@ const ReportController = {
       const activeUsers = await User.count({
         where: { is_active: true },
       });
-      res.json({
+      res.status(201).json({
+        success: true,
         totalUsers,
         activeUsers,
       });
@@ -91,7 +93,8 @@ const ReportController = {
       const outOfStockProducts = await Product.count({
         where: { stock_quantity: 0 },
       });
-      res.json({
+      res.status(201).json({
+        success: true,
         totalProducts,
         activeProducts,
         outOfStockProducts,

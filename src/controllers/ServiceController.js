@@ -12,7 +12,7 @@ const ServiceController = {
         description,
         price,
       });
-      res.status(201).json(service);
+      res.status(201).json({ success: true, data: service });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -38,7 +38,7 @@ const ServiceController = {
           },
         ],
       });
-      res.json(services);
+      res.status(201).json({ success: true, data: services });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -67,7 +67,7 @@ const ServiceController = {
       });
       if (!service)
         return res.status(404).json({ message: 'Service not found' });
-      res.json(service);
+      res.status(201).json({ success: true, data: service });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -101,7 +101,7 @@ const ServiceController = {
           },
         ],
       });
-      res.json(updatedService);
+      res.status(201).json({ success: true, data: updatedService });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -119,7 +119,7 @@ const ServiceController = {
       });
       if (!deleted)
         return res.status(404).json({ message: 'Service not found' });
-      res.status(204).send();
+      res.status(201).json({ success: true, message: "Delete successfully" });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -147,7 +147,7 @@ const ServiceController = {
           },
         ],
       });
-      res.json(services);
+      res.status(201).json({ success: true, data: services });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -175,7 +175,7 @@ const ServiceController = {
           },
         ],
       });
-      res.json(services);
+      res.status(201).json({ success: true, data: services });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -202,7 +202,7 @@ const ServiceController = {
           },
         ],
       });
-      res.json(services);
+      res.status(201).json({ success: true, data: services });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -215,7 +215,7 @@ const ServiceController = {
   async countServices(req, res) {
     try {
       const totalServices = await Service.count();
-      res.json({ totalServices });
+      res.status(201).json({ success: true, totalServices });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

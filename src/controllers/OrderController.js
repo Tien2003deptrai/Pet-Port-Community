@@ -26,7 +26,8 @@ const OrderController = {
 
       await OrderItem.bulkCreate(orderItems);
 
-      res.status(201).send({
+      res.status(201).json({
+        success: true,
         orderId: order.id,
         totalAmount,
       });
@@ -61,7 +62,8 @@ const OrderController = {
 
       await OrderService.bulkCreate(orderServices);
 
-      res.status(201).send({
+      res.status(201).json({
+        success: true,
         orderId: order.id,
         totalAmount,
       });
@@ -95,7 +97,7 @@ const OrderController = {
           },
         ],
       });
-      res.json(orders);
+      res.status(201).json({ success: true, data: orders });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -130,7 +132,7 @@ const OrderController = {
         ],
       });
       if (!order) return res.status(404).json({ message: 'Order not found' });
-      res.json(order);
+      res.status(201).json({ success: true, data: order });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -146,7 +148,7 @@ const OrderController = {
       const [updated] = await Order.update({ status }, { where: { id } });
       if (!updated) return res.status(404).json({ message: 'Order not found' });
       const updatedOrder = await Order.findByPk(id);
-      res.json(updatedOrder);
+      res.status(201).json({ success: true, data: updatedOrder });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -162,7 +164,7 @@ const OrderController = {
         where: { id },
       });
       if (!deleted) return res.status(404).json({ message: 'Order not found' });
-      res.status(204).send();
+      res.status(201).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -175,6 +177,7 @@ const OrderController = {
     try {
       const totalOrders = await Order.count();
       res.status(200).json({
+        success: true,
         totalOrders: totalOrders,
       });
     } catch (error) {
@@ -211,7 +214,7 @@ const OrderController = {
           },
         ],
       });
-      res.json(orders);
+      res.status(200).json({ success: true, data: orders });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -247,7 +250,7 @@ const OrderController = {
       });
 
       if (!order) return res.status(404).json({ message: 'Order not found' });
-      res.json(order);
+      res.status(200).json({ success: true, data: order });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -282,7 +285,7 @@ const OrderController = {
           },
         ],
       });
-      res.json(orders);
+      res.status(200).json({ success: true, data: orders });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -294,7 +297,7 @@ const OrderController = {
   async calculateTotalRevenue(req, res) {
     try {
       const totalRevenue = await Order.sum('total_amount');
-      res.json({ totalRevenue });
+      res.status(200).json({ success: true, data: totalRevenue });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

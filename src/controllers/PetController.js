@@ -23,7 +23,7 @@ const PetController = {
         description,
         medical_history,
       });
-      res.status(201).json(pet);
+      res.status(201).json({ success: true, data: pet });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -48,7 +48,7 @@ const PetController = {
           },
         ],
       });
-      res.json(pets);
+      res.status(201).json({ success: true, data: pets });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -75,7 +75,7 @@ const PetController = {
         ],
       });
       if (!pet) return res.status(404).json({ message: 'Pet not found' });
-      res.json(pet);
+      res.status(201).json({ success: true, data: pet });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -125,7 +125,7 @@ const PetController = {
           },
         ],
       });
-      res.json(updatedPet);
+      res.status(201).json({ success: true, data: updatedPet });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -141,7 +141,7 @@ const PetController = {
         where: { id },
       });
       if (!deleted) return res.status(404).json({ message: 'Pet not found' });
-      res.status(204).send();
+      res.status(201).json({ success: true, message: 'Detele successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -168,7 +168,7 @@ const PetController = {
           },
         ],
       });
-      res.json(pets);
+      res.status(201).json({ success: true, data: pets });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -195,7 +195,7 @@ const PetController = {
           },
         ],
       });
-      res.json(pets);
+      res.status(201).json({ success: true, data: pets });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -222,7 +222,7 @@ const PetController = {
           },
         ],
       });
-      res.json(pets);
+      res.status(201).json({ success: true, data: pets });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -234,7 +234,7 @@ const PetController = {
   async countPets(req, res) {
     try {
       const totalPets = await Pet.count();
-      res.json({ totalPets });
+      res.status(201).json({ success: true, data: totalPets });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

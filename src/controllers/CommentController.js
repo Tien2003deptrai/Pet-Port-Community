@@ -9,7 +9,7 @@ const CommentController = {
         petOwner_Id,
         content,
       });
-      res.status(201).json(comment);
+      res.status(200).json({ success: true, data: comment });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -29,7 +29,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -52,7 +52,7 @@ const CommentController = {
       });
       if (!comment)
         return res.status(404).json({ message: 'Comment not found' });
-      res.json(comment);
+      res.status(200).json({ success: true, data: comment });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -77,7 +77,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(updatedComment);
+      res.status(200).json({ success: true, data: updatedComment });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -94,7 +94,7 @@ const CommentController = {
       });
       if (!deleted)
         return res.status(404).json({ message: 'Comment not found' });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: "Delete successfully" });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -116,7 +116,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -138,7 +138,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -158,7 +158,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -173,7 +173,7 @@ const CommentController = {
       const comment = await Comment.findByPk(id);
       if (!comment)
         return res.status(404).json({ message: 'Comment not found' });
-      res.json({ message: 'Comment exists' });
+      res.status(200).json({ message: 'Comment exists' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

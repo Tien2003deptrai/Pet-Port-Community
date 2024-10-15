@@ -45,7 +45,7 @@ const AppointmentController = {
         appointment_date,
         notes,
       });
-      res.status(201).json(appointment);
+      res.status(201).json({ success: true, data: appointment });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -102,7 +102,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       console.error(error);
       res.status(500).json({
@@ -164,7 +164,7 @@ const AppointmentController = {
         return res.status(404).json({
           message: 'Không tìm thấy cuộc hẹn',
         });
-      res.json(appointment);
+      res.status(200).json({ success: true, data: appointment });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -230,7 +230,7 @@ const AppointmentController = {
           },
         ],
       });
-      res.json(updatedAppointment);
+      res.status(200).json({ success: true, data: updatedAppointment });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -250,7 +250,7 @@ const AppointmentController = {
         return res.status(404).json({
           message: 'Không tìm thấy cuộc hẹn',
         });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: "Delete successfully" });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -309,7 +309,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -368,7 +368,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -427,7 +427,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -491,7 +491,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',

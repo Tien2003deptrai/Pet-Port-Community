@@ -40,8 +40,7 @@ const PaymentController = {
         transaction_id: session.id,
         payment_date: new Date(),
       });
-
-      res.send({ id: session.id, url: session.url });
+      res.status(200).json({ success: true, id: session.id, url: session.url });
     } catch (error) {
       console.error('Error creating payment session:', error);
       res.status(500).send({ error: error.message });
@@ -71,7 +70,8 @@ const PaymentController = {
         },
       );
 
-      res.send({
+      res.status(200).json({
+        success: true,
         message: 'Payment and order status updated',
       });
     } catch (error) {
@@ -83,7 +83,7 @@ const PaymentController = {
   async getAll(req, res) {
     try {
       const payments = await Payment.findAll();
-      res.json(payments);
+      res.status(200).json({ success: true, data: payments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -115,7 +115,7 @@ const PaymentController = {
       });
       if (!deleted)
         return res.status(404).json({ message: 'Payment not found' });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: "Detele successfully" });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -127,7 +127,7 @@ const PaymentController = {
   async getTotalPayments(req, res) {
     try {
       const totalPayments = await Payment.sum('amount');
-      res.json({ totalPayments });
+      res.status(200).json({ success: true, data: totalPayments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -142,7 +142,7 @@ const PaymentController = {
       const payments = await Payment.findAll({
         where: { order_id: orderId },
       });
-      res.json(payments);
+      res.status(200).json({ success: true, data: payments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -157,7 +157,7 @@ const PaymentController = {
       const payments = await Payment.findAll({
         where: { status },
       });
-      res.json(payments);
+      res.status(200).json({ success: true, data: payments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -192,7 +192,6 @@ const PaymentController = {
             },
           );
           break;
-        // Có thể thêm các trường hợp khác nếu cần
         default:
           console.log(`Unhandled event type ${event.type}`);
       }
@@ -213,7 +212,7 @@ const PaymentController = {
           },
         },
       });
-      res.json(payments);
+      res.status(200).json({ success: true, data: payments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

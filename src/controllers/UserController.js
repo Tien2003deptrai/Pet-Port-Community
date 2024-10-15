@@ -52,7 +52,7 @@ const UserController = {
       generateRefreshTokenAndSetCookie(res, newUser.id);
 
       await sendVerificationEmail(newUser.email, verificationToken);
-      res.status(201).json(newUser);
+      res.status(201).json({ success: true, newUser });
     } catch (error) {
       console.error('Error in register:', error);
       res.status(500).json({
@@ -142,7 +142,7 @@ const UserController = {
 
       user.lastLogin = new Date();
       await user.save();
-      res.json({
+      res.status(200).json({
         message: 'Logged in successfully',
         token,
         refreshToken,
