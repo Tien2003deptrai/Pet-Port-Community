@@ -7,10 +7,18 @@ const OrderService = sequelize.define(
     order_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Orders', 
+        key: 'id', 
+      },
     },
     service_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Services', 
+        key: 'id', 
+      },
     },
     quantity: {
       type: DataTypes.INTEGER,

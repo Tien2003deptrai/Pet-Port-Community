@@ -7,6 +7,10 @@ const Order = sequelize.define(
     petOwner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Users', 
+        key: 'id', 
+      },
     },
     total_amount: {
       type: DataTypes.DECIMAL(10, 2),

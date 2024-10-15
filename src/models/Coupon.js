@@ -33,6 +33,10 @@ const Coupon = sequelize.define(
     product_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      references: {
+        model: 'Products', 
+        key: 'id', 
+      },
     },
   },
   {

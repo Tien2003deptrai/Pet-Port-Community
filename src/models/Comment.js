@@ -7,10 +7,18 @@ const Comment = sequelize.define(
     post_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Posts',
+        key: 'id',
+      },
     },
     petOwner_Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
     },
     content: {
       type: DataTypes.TEXT,

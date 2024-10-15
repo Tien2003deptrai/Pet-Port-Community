@@ -7,6 +7,10 @@ const Appointment = sequelize.define(
     pet_owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Users', 
+        key: 'id', 
+      },
     },
     pet_id: {
       type: DataTypes.INTEGER,
