@@ -2,16 +2,8 @@ const { Product, User, Category, Review, Op } = require('@models');
 
 const ProductController = {
   async create(req, res) {
-    const {
-      sales_center_id,
-      category_id,
-      name,
-      description,
-      price,
-      stock_quantity,
-      sku,
-      images,
-    } = req.body;
+    const { sales_center_id, category_id, name, description, price, stock_quantity, sku, images } =
+      req.body;
     try {
       const product = await Product.create({
         sales_center_id,

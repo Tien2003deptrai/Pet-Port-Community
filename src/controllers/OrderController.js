@@ -5,10 +5,7 @@ const OrderController = {
     const { petOwner_id, items } = req.body;
 
     try {
-      const totalAmount = items.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0,
-      );
+      const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
       const order = await Order.create({
         petOwner_id: petOwner_id,
@@ -16,7 +13,7 @@ const OrderController = {
         status: 'Pending',
       });
 
-      const orderItems = items.map((item) => ({
+      const orderItems = items.map(item => ({
         order_id: order.id,
         product_id: item.productId,
         quantity: item.quantity,
@@ -41,10 +38,7 @@ const OrderController = {
     const { petOwner_id, items } = req.body;
 
     try {
-      const totalAmount = items.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0,
-      );
+      const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
       const order = await Order.create({
         petOwner_id: petOwner_id,
@@ -52,7 +46,7 @@ const OrderController = {
         status: 'Pending',
       });
 
-      const orderServices = items.map((item) => ({
+      const orderServices = items.map(item => ({
         order_id: order.id,
         service_id: item.serviceId,
         quantity: item.quantity,

@@ -65,8 +65,7 @@ const ServiceController = {
           },
         ],
       });
-      if (!service)
-        return res.status(404).json({ message: 'Service not found' });
+      if (!service) return res.status(404).json({ message: 'Service not found' });
       res.status(201).json({ success: true, data: service });
     } catch (error) {
       res.status(500).json({
@@ -81,12 +80,8 @@ const ServiceController = {
     const { id } = req.params;
     const { name, description, price } = req.body;
     try {
-      const [updated] = await Service.update(
-        { name, description, price },
-        { where: { id } },
-      );
-      if (!updated)
-        return res.status(404).json({ message: 'Service not found' });
+      const [updated] = await Service.update({ name, description, price }, { where: { id } });
+      if (!updated) return res.status(404).json({ message: 'Service not found' });
       const updatedService = await Service.findByPk(id, {
         include: [
           {
@@ -117,9 +112,8 @@ const ServiceController = {
       const deleted = await Service.destroy({
         where: { id },
       });
-      if (!deleted)
-        return res.status(404).json({ message: 'Service not found' });
-      res.status(201).json({ success: true, message: "Delete successfully" });
+      if (!deleted) return res.status(404).json({ message: 'Service not found' });
+      res.status(201).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

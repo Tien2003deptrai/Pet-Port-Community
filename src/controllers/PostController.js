@@ -65,10 +65,7 @@ const PostController = {
     const { id } = req.params;
     const { title, content, image_url } = req.body;
     try {
-      const [updated] = await Post.update(
-        { title, content, image_url },
-        { where: { id } },
-      );
+      const [updated] = await Post.update({ title, content, image_url }, { where: { id } });
       if (!updated) return res.status(404).json({ message: 'Post not found' });
       const updatedPost = await Post.findByPk(id, {
         include: [
@@ -95,7 +92,7 @@ const PostController = {
         where: { id },
       });
       if (!deleted) return res.status(404).json({ message: 'Post not found' });
-      res.status(201).json({ success: true, message: "Detele successfully" });
+      res.status(201).json({ success: true, message: 'Detele successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

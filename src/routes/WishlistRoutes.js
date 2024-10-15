@@ -11,22 +11,18 @@ router.get('/pet_owner/:petOwner_id', WishlistController.getWishlistByUser);
 
 router.delete('/:id', WishlistValidation.delete, WishlistController.delete);
 
-router.post(
-  '/check',
-  WishlistValidation.checkItemExists,
-  WishlistController.checkItemExists,
-);
+router.post('/check', WishlistValidation.checkItemExists, WishlistController.checkItemExists);
 
 router.delete(
   '/pet_owner/:petOwner_id',
   WishlistValidation.deleteAll,
-  WishlistController.deleteAll,
+  WishlistController.deleteAll
 );
 
 router.get(
   '/count/:petOwner_id',
   WishlistValidation.countWishlistItems,
-  WishlistController.countWishlistItems,
+  WishlistController.countWishlistItems
 );
 
 module.exports = router;

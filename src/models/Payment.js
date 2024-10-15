@@ -17,12 +17,7 @@ const Payment = sequelize.define(
       allowNull: false,
     },
     payment_method: {
-      type: DataTypes.ENUM(
-        'Credit Card',
-        'PayPal',
-        'Bank Transfer',
-        'Cash on Delivery',
-      ),
+      type: DataTypes.ENUM('Credit Card', 'PayPal', 'Bank Transfer', 'Cash on Delivery'),
       allowNull: false,
     },
     status: {
@@ -39,7 +34,7 @@ const Payment = sequelize.define(
   {
     timestamps: true,
     tableName: 'Payments',
-  },
+  }
 );
 
 module.exports = Payment;

@@ -11,7 +11,7 @@ module.exports = {
           createdAt: new Date(),
         },
       ],
-      {},
+      {}
     );
   },
 

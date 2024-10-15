@@ -34,15 +34,15 @@ const Coupon = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'Products', 
-        key: 'id', 
+        model: 'Products',
+        key: 'id',
       },
     },
   },
   {
     timestamps: true,
     tableName: 'Coupons',
-  },
+  }
 );
 
 module.exports = Coupon;

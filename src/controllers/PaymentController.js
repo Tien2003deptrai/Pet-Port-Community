@@ -15,7 +15,7 @@ const PaymentController = {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
-        line_items: items.map((item) => ({
+        line_items: items.map(item => ({
           price_data: {
             currency: 'usd',
             product_data: {
@@ -31,10 +31,7 @@ const PaymentController = {
 
       await Payment.create({
         order_id: orderId,
-        amount: items.reduce(
-          (total, item) => total + item.priceInCents * item.quantity,
-          0,
-        ),
+        amount: items.reduce((total, item) => total + item.priceInCents * item.quantity, 0),
         payment_method: 'Credit Card',
         status: 'Pending',
         transaction_id: session.id,
@@ -56,7 +53,7 @@ const PaymentController = {
           where: {
             transaction_id: paymentIntentId,
           },
-        },
+        }
       );
 
       if (!paymentUpdated[0]) {
@@ -67,7 +64,7 @@ const PaymentController = {
         { status: 'Completed' },
         {
           where: { id: orderId },
-        },
+        }
       );
 
       res.status(200).json({
@@ -96,8 +93,7 @@ const PaymentController = {
     const { id } = req.params;
     try {
       const payment = await Payment.findByPk(id);
-      if (!payment)
-        return res.status(404).json({ message: 'Payment not found' });
+      if (!payment) return res.status(404).json({ message: 'Payment not found' });
       res.json(payment);
     } catch (error) {
       res.status(500).json({
@@ -113,9 +109,8 @@ const PaymentController = {
       const deleted = await Payment.destroy({
         where: { id },
       });
-      if (!deleted)
-        return res.status(404).json({ message: 'Payment not found' });
-      res.status(200).json({ success: true, message: "Detele successfully" });
+      if (!deleted) return res.status(404).json({ message: 'Payment not found' });
+      res.status(200).json({ success: true, message: 'Detele successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -178,7 +173,7 @@ const PaymentController = {
               where: {
                 transaction_id: paymentIntent.id,
               },
-            },
+            }
           );
           break;
         case 'payment_intent.payment_failed':
@@ -189,7 +184,7 @@ const PaymentController = {
               where: {
                 transaction_id: failedPaymentIntent.id,
               },
-            },
+            }
           );
           break;
         default:

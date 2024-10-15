@@ -2,10 +2,7 @@ const { User, Op } = require('@models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const {
-  generateRefreshTokenAndSetCookie,
-  generateToken,
-} = require('../utils/generateToken');
+const { generateRefreshTokenAndSetCookie, generateToken } = require('../utils/generateToken');
 const {
   sendPasswordResetEmail,
   sendVerificationEmail,
@@ -32,18 +29,14 @@ const UserController = {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const verificationToken = Math.floor(
-        100000 + Math.random() * 900000,
-      ).toString();
+      const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
 
       const newUser = await User.create({
         username,
         password: hashedPassword,
         email,
         verification_token: verificationToken,
-        verification_token_expires_at: new Date(
-          Date.now() + 24 * 60 * 60 * 1000,
-        ),
+        verification_token_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
 
       // await UserController.sendSMS(phone, `Your verification code is: ${verificationToken}`);
@@ -146,7 +139,7 @@ const UserController = {
         message: 'Logged in successfully',
         token,
         refreshToken,
-        user: user
+        user: user,
       });
     } catch (error) {
       console.error('Error logging in: ', error);
@@ -166,16 +159,13 @@ const UserController = {
 
   async refreshToken(req, res) {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res.status(401).json({ error: 'No refresh token' });
+    if (!refreshToken) return res.status(401).json({ error: 'No refresh token' });
 
     try {
       const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
-      const newToken = jwt.sign(
-        { id: decoded.id, role: decoded.role },
-        process.env.JWT_SECRET,
-        { expiresIn: '30s' },
-      );
+      const newToken = jwt.sign({ id: decoded.id, role: decoded.role }, process.env.JWT_SECRET, {
+        expiresIn: '30s',
+      });
       res.json({ token: newToken });
     } catch (error) {
       console.error('Error refreshing token: ', error);
@@ -205,7 +195,7 @@ const UserController = {
 
       await sendPasswordResetEmail(
         user.email,
-        `${process.env.FRONTEND_URL}/reset-password/${resetToken}`,
+        `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
       );
 
       res.json({
@@ -294,7 +284,6 @@ const UserController = {
       });
     }
   },
-
 };
 
 module.exports = UserController;

@@ -8,10 +8,7 @@ router.post('/', CommentValidation.create, CommentController.create);
 
 router.get('/', CommentController.getAll);
 
-router.get(
-  '/with-petOwner-info',
-  CommentController.getCommentsWithPetOwnerInfo,
-);
+router.get('/with-petOwner-info', CommentController.getCommentsWithPetOwnerInfo);
 
 router.get('/:id', CommentController.getById);
 

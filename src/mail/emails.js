@@ -10,10 +10,7 @@ async function sendVerificationEmail(email, verificationToken) {
     {
       to: email,
       subject: 'Verify your email',
-      html: VERIFICATION_EMAIL_TEMPLATE.replace(
-        '{verificationCode}',
-        verificationToken,
-      ),
+      html: VERIFICATION_EMAIL_TEMPLATE.replace('{verificationCode}', verificationToken),
     },
     function (error, info) {
       if (error) {
@@ -22,7 +19,7 @@ async function sendVerificationEmail(email, verificationToken) {
       } else {
         console.log('Verification email sent successfully', info);
       }
-    },
+    }
   );
 }
 
@@ -32,10 +29,7 @@ async function sendWelcomeEmail(email, name) {
     {
       to: email,
       subject: 'Welcome to Auth Company',
-      html:
-        '<h1>Welcome, ' +
-        name +
-        '!</h1><p>Thank you for verifying your email.</p>', // Replace with your HTML template if needed
+      html: '<h1>Welcome, ' + name + '!</h1><p>Thank you for verifying your email.</p>', // Replace with your HTML template if needed
     },
     function (error, info) {
       if (error) {
@@ -44,7 +38,7 @@ async function sendWelcomeEmail(email, name) {
       } else {
         console.log('Welcome email sent successfully', info);
       }
-    },
+    }
   );
 }
 
@@ -63,7 +57,7 @@ async function sendPasswordResetEmail(email, resetURL) {
       } else {
         console.log('Password reset email sent successfully', info);
       }
-    },
+    }
   );
 }
 
@@ -78,13 +72,11 @@ async function sendResetSuccessEmail(email) {
     function (error, info) {
       if (error) {
         console.error('Error sending password reset success email', error);
-        throw new Error(
-          'Error sending password reset success email: ' + error.message,
-        );
+        throw new Error('Error sending password reset success email: ' + error.message);
       } else {
         console.log('Password reset success email sent successfully', info);
       }
-    },
+    }
   );
 }
 

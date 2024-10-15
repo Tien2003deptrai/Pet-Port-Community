@@ -107,14 +107,14 @@ const User = sequelize.define(
     indexes: [
       {
         unique: true,
-        fields: ['email']
+        fields: ['email'],
       },
       {
         unique: true,
         fields: ['username'],
-      }
-    ]
-  },
+      },
+    ],
+  }
 );
 
 module.exports = User;

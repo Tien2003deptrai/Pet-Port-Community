@@ -8,15 +8,15 @@ const Like = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users', 
-        key: 'id', 
+        model: 'Users',
+        key: 'id',
       },
     },
     post_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Posts', 
-        key: 'id', 
+        model: 'Posts',
+        key: 'id',
       },
     },
     comment_id: {
@@ -26,7 +26,7 @@ const Like = sequelize.define(
   {
     timestamps: true,
     tableName: 'Likes',
-  },
+  }
 );
 
 module.exports = Like;

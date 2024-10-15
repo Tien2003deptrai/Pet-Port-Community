@@ -17,9 +17,6 @@ router.delete('/:id', CouponController.delete);
 
 router.get('/check/:code', CouponController.checkCoupon);
 
-router.get(
-  '/discount-type/:discount_type',
-  CouponController.getCouponsByDiscountType,
-);
+router.get('/discount-type/:discount_type', CouponController.getCouponsByDiscountType);
 
 module.exports = router;

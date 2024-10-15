@@ -66,10 +66,7 @@ const LocationController = {
     const { id } = req.params;
     const { name, type } = req.body;
     try {
-      const [updated] = await Location.update(
-        { name, type },
-        { where: { id } },
-      );
+      const [updated] = await Location.update({ name, type }, { where: { id } });
       if (!updated)
         return res.status(404).json({
           message: 'Location not found',

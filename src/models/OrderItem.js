@@ -8,8 +8,8 @@ const OrderItem = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Orders', 
-        key: 'id', 
+        model: 'Orders',
+        key: 'id',
       },
     },
     product_id: {
@@ -40,7 +40,7 @@ const OrderItem = sequelize.define(
   {
     timestamps: true,
     tableName: 'OrderItems',
-  },
+  }
 );
 
 module.exports = OrderItem;

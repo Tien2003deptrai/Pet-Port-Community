@@ -5,17 +5,9 @@ const router = express.Router();
 
 router.get('/', OrderController.getAll);
 
-router.post(
-  '/products',
-  OrderValidation.createOrderProduct,
-  OrderController.createOrderProduct,
-);
+router.post('/products', OrderValidation.createOrderProduct, OrderController.createOrderProduct);
 
-router.post(
-  '/services',
-  OrderValidation.createOrderService,
-  OrderController.createOrderProduct,
-);
+router.post('/services', OrderValidation.createOrderService, OrderController.createOrderProduct);
 
 router.get('/total-orders', OrderController.getTotalOrders);
 

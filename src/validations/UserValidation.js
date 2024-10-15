@@ -17,10 +17,7 @@ const UserValidation = {
       .withMessage('Email is required')
       .isEmail()
       .withMessage('Invalid email format'),
-    body('phone')
-      .optional()
-      .isMobilePhone()
-      .withMessage('Invalid phone number'),
+    body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
   ],
 
   login: [
@@ -32,9 +29,7 @@ const UserValidation = {
     body('password').notEmpty().withMessage('Password is required'),
   ],
 
-  verifyEmail: [
-    body('code').notEmpty().withMessage('Verification code is required'),
-  ],
+  verifyEmail: [body('code').notEmpty().withMessage('Verification code is required')],
 
   resetPassword: [
     param('token').notEmpty().withMessage('Reset token is required'),
@@ -54,18 +49,14 @@ const UserValidation = {
     body('email').optional().isEmail().withMessage('Invalid email format'),
   ],
 
-  deleteUser: [
-    param('id').isInt().withMessage('User ID must be a valid integer'),
-  ],
+  deleteUser: [param('id').isInt().withMessage('User ID must be a valid integer')],
 
   manageUserRoles: [
     body('userId').isInt().withMessage('User ID must be a valid integer'),
     body('role').notEmpty().withMessage('Role is required'),
   ],
 
-  updateAvatar: [
-    body('imageUrl').notEmpty().withMessage('Image URL is required'),
-  ],
+  updateAvatar: [body('imageUrl').notEmpty().withMessage('Image URL is required')],
 };
 
 module.exports = UserValidation;

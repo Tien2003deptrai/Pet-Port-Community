@@ -2,15 +2,8 @@ const { Coupon, Product, Op } = require('@models');
 
 const CouponController = {
   async create(req, res) {
-    const {
-      code,
-      description,
-      discount_type,
-      discount_value,
-      start_date,
-      end_date,
-      product_id,
-    } = req.body;
+    const { code, description, discount_type, discount_value, start_date, end_date, product_id } =
+      req.body;
     try {
       const coupon = await Coupon.create({
         code,
@@ -74,14 +67,8 @@ const CouponController = {
 
   async update(req, res) {
     const { id } = req.params;
-    const {
-      description,
-      discount_type,
-      discount_value,
-      start_date,
-      end_date,
-      product_id,
-    } = req.body;
+    const { description, discount_type, discount_value, start_date, end_date, product_id } =
+      req.body;
     try {
       const [updated] = await Coupon.update(
         {
@@ -92,10 +79,9 @@ const CouponController = {
           end_date,
           product_id,
         },
-        { where: { id } },
+        { where: { id } }
       );
-      if (!updated)
-        return res.status(404).json({ message: 'Coupon not found' });
+      if (!updated) return res.status(404).json({ message: 'Coupon not found' });
       const updatedCoupon = await Coupon.findByPk(id, {
         include: [
           {
@@ -120,8 +106,7 @@ const CouponController = {
       const deleted = await Coupon.destroy({
         where: { id },
       });
-      if (!deleted)
-        return res.status(404).json({ message: 'Coupon not found' });
+      if (!deleted) return res.status(404).json({ message: 'Coupon not found' });
       res.status(200).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({

@@ -7,19 +7,11 @@ const WishlistValidation = {
       .withMessage('User ID is required')
       .isInt()
       .withMessage('User ID must be a valid integer'),
-    body('product_id')
-      .optional()
-      .isInt()
-      .withMessage('Product ID must be a valid integer'),
-    body('service_id')
-      .optional()
-      .isInt()
-      .withMessage('Service ID must be a valid integer'),
+    body('product_id').optional().isInt().withMessage('Product ID must be a valid integer'),
+    body('service_id').optional().isInt().withMessage('Service ID must be a valid integer'),
   ],
 
-  delete: [
-    param('id').isInt().withMessage('Wishlist item ID must be a valid integer'),
-  ],
+  delete: [param('id').isInt().withMessage('Wishlist item ID must be a valid integer')],
 
   deleteAll: [
     param('user_id')
@@ -43,14 +35,8 @@ const WishlistValidation = {
       .withMessage('User ID is required')
       .isInt()
       .withMessage('User ID must be a valid integer'),
-    body('product_id')
-      .optional()
-      .isInt()
-      .withMessage('Product ID must be a valid integer'),
-    body('service_id')
-      .optional()
-      .isInt()
-      .withMessage('Service ID must be a valid integer'),
+    body('product_id').optional().isInt().withMessage('Product ID must be a valid integer'),
+    body('service_id').optional().isInt().withMessage('Service ID must be a valid integer'),
   ],
 };
 

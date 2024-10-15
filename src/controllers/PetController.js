@@ -2,16 +2,8 @@ const { Pet, User, Category } = require('@models');
 
 const PetController = {
   async create(req, res) {
-    const {
-      owner_id,
-      category_id,
-      name,
-      breed,
-      age,
-      gender,
-      description,
-      medical_history,
-    } = req.body;
+    const { owner_id, category_id, name, breed, age, gender, description, medical_history } =
+      req.body;
     try {
       const pet = await Pet.create({
         owner_id,
@@ -86,16 +78,8 @@ const PetController = {
 
   async update(req, res) {
     const { id } = req.params;
-    const {
-      owner_id,
-      category_id,
-      name,
-      breed,
-      age,
-      gender,
-      description,
-      medical_history,
-    } = req.body;
+    const { owner_id, category_id, name, breed, age, gender, description, medical_history } =
+      req.body;
     try {
       const [updated] = await Pet.update(
         {
@@ -108,7 +92,7 @@ const PetController = {
           description,
           medical_history,
         },
-        { where: { id } },
+        { where: { id } }
       );
       if (!updated) return res.status(404).json({ message: 'Pet not found' });
       const updatedPet = await Pet.findByPk(id, {

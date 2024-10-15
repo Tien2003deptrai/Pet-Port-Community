@@ -8,15 +8,15 @@ const Pet = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users', 
-        key: 'id', 
+        model: 'Users',
+        key: 'id',
       },
     },
     category_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Categories', 
-        key: 'id', 
+        model: 'Categories',
+        key: 'id',
       },
     },
     name: {
@@ -50,7 +50,7 @@ const Pet = sequelize.define(
   {
     timestamps: true,
     tableName: 'Pets',
-  },
+  }
 );
 
 module.exports = Pet;

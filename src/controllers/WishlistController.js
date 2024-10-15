@@ -67,7 +67,7 @@ const WishlistController = {
         return res.status(404).json({
           message: 'Wishlist item not found',
         });
-      res.status(201).json({ success: true, message: "Delete successfully" });
+      res.status(201).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -99,7 +99,7 @@ const WishlistController = {
     const { petOwner_id } = req.params;
     try {
       await Wishlist.destroy({ where: { petOwner_id } });
-      res.status(201).json({ success: true, message: "Delete all successfully" });
+      res.status(201).json({ success: true, message: 'Delete all successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

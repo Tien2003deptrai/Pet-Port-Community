@@ -50,8 +50,7 @@ const CommentController = {
           },
         ],
       });
-      if (!comment)
-        return res.status(404).json({ message: 'Comment not found' });
+      if (!comment) return res.status(404).json({ message: 'Comment not found' });
       res.status(200).json({ success: true, data: comment });
     } catch (error) {
       res.status(500).json({
@@ -66,8 +65,7 @@ const CommentController = {
     const { content } = req.body;
     try {
       const [updated] = await Comment.update({ content }, { where: { id } });
-      if (!updated)
-        return res.status(404).json({ message: 'Comment not found' });
+      if (!updated) return res.status(404).json({ message: 'Comment not found' });
       const updatedComment = await Comment.findByPk(id, {
         include: [
           {
@@ -92,9 +90,8 @@ const CommentController = {
       const deleted = await Comment.destroy({
         where: { id },
       });
-      if (!deleted)
-        return res.status(404).json({ message: 'Comment not found' });
-      res.status(200).json({ success: true, message: "Delete successfully" });
+      if (!deleted) return res.status(404).json({ message: 'Comment not found' });
+      res.status(200).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -171,8 +168,7 @@ const CommentController = {
     const { id } = req.params;
     try {
       const comment = await Comment.findByPk(id);
-      if (!comment)
-        return res.status(404).json({ message: 'Comment not found' });
+      if (!comment) return res.status(404).json({ message: 'Comment not found' });
       res.status(200).json({ message: 'Comment exists' });
     } catch (error) {
       res.status(500).json({

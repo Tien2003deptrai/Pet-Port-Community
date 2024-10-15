@@ -22,12 +22,7 @@ module.exports = {
         allowNull: false,
       },
       payment_method: {
-        type: Sequelize.ENUM(
-          'Credit Card',
-          'PayPal',
-          'Bank Transfer',
-          'Cash on Delivery',
-        ),
+        type: Sequelize.ENUM('Credit Card', 'PayPal', 'Bank Transfer', 'Cash on Delivery'),
         allowNull: false,
       },
       status: {

@@ -13,10 +13,6 @@ router.put('/:id', CategoryValidation.update, CategoryController.update);
 
 router.delete('/:id', CategoryValidation.delete, CategoryController.delete);
 
-router.get(
-  '/type/:type',
-  CategoryValidation.getByType,
-  CategoryController.getByType,
-);
+router.get('/type/:type', CategoryValidation.getByType, CategoryController.getByType);
 
 module.exports = router;

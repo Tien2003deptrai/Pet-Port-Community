@@ -21,19 +21,12 @@ const CommentValidation = {
 
   update: [
     param('id').isInt().withMessage('Comment ID must be a valid integer'),
-    body('content')
-      .optional()
-      .isString()
-      .withMessage('Content must be a valid string'),
+    body('content').optional().isString().withMessage('Content must be a valid string'),
   ],
 
-  getById: [
-    param('id').isInt().withMessage('Comment ID must be a valid integer'),
-  ],
+  getById: [param('id').isInt().withMessage('Comment ID must be a valid integer')],
 
-  delete: [
-    param('id').isInt().withMessage('Comment ID must be a valid integer'),
-  ],
+  delete: [param('id').isInt().withMessage('Comment ID must be a valid integer')],
 
   getCommentsByPost: [
     param('post_id')
@@ -51,9 +44,7 @@ const CommentValidation = {
       .withMessage('User ID must be a valid integer'),
   ],
 
-  checkCommentExists: [
-    param('id').isInt().withMessage('Comment ID must be a valid integer'),
-  ],
+  checkCommentExists: [param('id').isInt().withMessage('Comment ID must be a valid integer')],
 };
 
 module.exports = CommentValidation;

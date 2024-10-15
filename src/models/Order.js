@@ -8,8 +8,8 @@ const Order = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users', 
-        key: 'id', 
+        model: 'Users',
+        key: 'id',
       },
     },
     total_amount: {
@@ -17,20 +17,14 @@ const Order = sequelize.define(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM(
-        'Pending',
-        'Processing',
-        'Shipped',
-        'Delivered',
-        'Cancelled',
-      ),
+      type: DataTypes.ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'),
       defaultValue: 'Pending',
     },
   },
   {
     timestamps: true,
     tableName: 'Orders',
-  },
+  }
 );
 
 module.exports = Order;

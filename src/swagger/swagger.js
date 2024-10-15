@@ -3,15 +3,13 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const path = require('path');
 
-const swaggerDocument = YAML.load(
-  path.join(__dirname, '../swagger/docs/DocSwagger.yaml'),
-);
+const swaggerDocument = YAML.load(path.join(__dirname, '../swagger/docs/DocSwagger.yaml'));
 
 /**
  * Thiết lập Swagger Docs với cấu hình tùy chỉnh
  * @param {object} app - Đối tượng ứng dụng Express
  */
-const setupSwaggerDocs = (app) => {
+const setupSwaggerDocs = app => {
   app.use(
     '/api-docs',
     swaggerUi.serve,
@@ -24,7 +22,7 @@ const setupSwaggerDocs = (app) => {
         filter: true,
         deepLinking: true,
       },
-    }),
+    })
   );
 };
 

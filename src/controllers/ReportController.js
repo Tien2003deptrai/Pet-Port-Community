@@ -26,10 +26,7 @@ const ReportController = {
   async getServiceUsageReport(req, res) {
     try {
       const serviceData = await Service.findAll({
-        attributes: [
-          'name',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'usageCount'],
-        ],
+        attributes: ['name', [sequelize.fn('COUNT', sequelize.col('id')), 'usageCount']],
         group: ['id'],
       });
       res.status(201).json({ success: true, data: serviceData });
@@ -46,9 +43,7 @@ const ReportController = {
     try {
       const totalReviews = await Review.count();
       const averageRating = await Review.findOne({
-        attributes: [
-          [sequelize.fn('AVG', sequelize.col('rating')), 'averageRating'],
-        ],
+        attributes: [[sequelize.fn('AVG', sequelize.col('rating')), 'averageRating']],
       });
       res.status(201).json({
         success: true,
