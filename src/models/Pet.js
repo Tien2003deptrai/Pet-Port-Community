@@ -4,6 +4,12 @@ const sequelize = require('../config/database');
 const Pet = sequelize.define(
   'Pet',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

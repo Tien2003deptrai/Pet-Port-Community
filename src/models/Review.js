@@ -4,6 +4,12 @@ const sequelize = require('../config/database');
 const Review = sequelize.define(
   'Review',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     reviewer_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

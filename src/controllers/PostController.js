@@ -1,5 +1,5 @@
 const { Post, User, Op, Like } = require('@models');
-const { Comment } = require('../models');
+const { Comment, sequelize } = require('../models');
 
 const PostController = {
   async create(req, res) {
@@ -29,7 +29,26 @@ const PostController = {
             as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
+          {
+            model: Comment,
+            as: 'PostComments',
+            attributes: ['id', 'content', 'createdAt'],
+          },
+          {
+            model: Like,
+            as: 'PostLikes',
+            attributes: [],
+          },
         ],
+        attributes: {
+          include: [
+            [
+              sequelize.fn('COUNT', sequelize.col('PostLikes.id')),
+              'likeCount',
+            ],
+          ],
+        },
+        group: ['Post.id', 'PostOwner.id', 'PostComments.id'],
       });
       res.status(201).json({ success: true, data: posts });
     } catch (error) {
@@ -107,6 +126,7 @@ const PostController = {
       const options = {
         limit: limitValue,
         offset: (pageValue - 1) * limitValue,
+        distinct: true,
         where: {},
       };
 

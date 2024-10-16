@@ -4,6 +4,12 @@ const sequelize = require('../config/database');
 const Post = sequelize.define(
   'Post',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     petOwner_Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
