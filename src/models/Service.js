@@ -44,7 +44,7 @@ const Service = sequelize.define(
   {
     timestamps: true,
     tableName: 'Services',
-  },
+  }
 );
 
 module.exports = Service;

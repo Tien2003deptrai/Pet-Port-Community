@@ -16,11 +16,7 @@ const path = require('path');
 const srcPath = path.resolve(process.env.SRC_PATH);
 
 // Middleware
-const {
-  authenticateJWT,
-  authorizeRole,
-  noCacheMiddleware,
-} = require('./middlewares');
+const { authenticateJWT, authorizeRole, noCacheMiddleware } = require('./middlewares');
 
 // Models
 const { Pet, Category } = require('./models');
@@ -48,7 +44,7 @@ app.use(
       chalk.magenta(tokens['response-time'](req, res) + ' ms'),
       chalk.blue(tokens['remote-addr'](req, res)),
     ].join(' ');
-  }),
+  })
 );
 
 app.use('/api/v1', require('./routes/index'));
@@ -69,7 +65,7 @@ app.get('/pet', async (req, res) => {
       attributes: ['name', 'age', 'description'],
       include: [{ model: Category, attributes: ['name'] }],
     });
-    const data = pets.map((pet) => ({
+    const data = pets.map(pet => ({
       name: pet.name,
       age: pet.age,
       description: pet.description,

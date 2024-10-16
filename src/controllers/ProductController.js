@@ -2,16 +2,8 @@ const { Product, User, Category, Review, Op } = require('@models');
 
 const ProductController = {
   async create(req, res) {
-    const {
-      sales_center_id,
-      category_id,
-      name,
-      description,
-      price,
-      stock_quantity,
-      sku,
-      images,
-    } = req.body;
+    const { sales_center_id, category_id, name, description, price, stock_quantity, sku, images } =
+      req.body;
     try {
       const product = await Product.create({
         sales_center_id,
@@ -23,7 +15,7 @@ const ProductController = {
         sku,
         images,
       });
-      res.status(201).json(product);
+      res.status(201).json({ success: true, data: product });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -54,7 +46,7 @@ const ProductController = {
           },
         ],
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -91,7 +83,7 @@ const ProductController = {
         return res.status(404).json({ message: 'Product not found' });
       }
 
-      res.json(product);
+      res.status(201).json({ success: true, data: product });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -156,7 +148,7 @@ const ProductController = {
         });
       }
 
-      res.status(200).json({ products: products });
+      res.status(200).json({ success: true, products: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -189,7 +181,7 @@ const ProductController = {
           },
         ],
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -203,7 +195,7 @@ const ProductController = {
       const products = await Product.findAll({
         where: { is_active: true },
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -225,7 +217,7 @@ const ProductController = {
           },
         ],
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -245,7 +237,7 @@ const ProductController = {
           },
         ],
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -265,7 +257,7 @@ const ProductController = {
           },
         ],
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -286,7 +278,7 @@ const ProductController = {
           },
         ],
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -327,7 +319,7 @@ const ProductController = {
           },
         ],
       });
-      res.json(products);
+      res.status(201).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

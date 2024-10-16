@@ -1,24 +1,9 @@
-const {
-  Appointment,
-  Pet,
-  User,
-  Service,
-  Category,
-  Location,
-  Op,
-} = require('@models');
+const { Appointment, Pet, User, Service, Category, Location, Op } = require('@models');
 
 const AppointmentController = {
   // Tạo cuộc hẹn
   async create(req, res) {
-    const {
-      pet_owner_id,
-      pet_id,
-      doctor_id,
-      service_id,
-      appointment_date,
-      notes,
-    } = req.body;
+    const { pet_owner_id, pet_id, doctor_id, service_id, appointment_date, notes } = req.body;
     try {
       const existingAppointments = await Appointment.findAll({
         where: {
@@ -45,7 +30,7 @@ const AppointmentController = {
         appointment_date,
         notes,
       });
-      res.status(201).json(appointment);
+      res.status(201).json({ success: true, data: appointment });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -79,13 +64,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: [
-              'id',
-              'username',
-              'full_name',
-              'business_name',
-              'email',
-            ],
+            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
           },
           {
             model: Service,
@@ -102,7 +81,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       console.error(error);
       res.status(500).json({
@@ -138,13 +117,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: [
-              'id',
-              'username',
-              'full_name',
-              'business_name',
-              'email',
-            ],
+            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
           },
           {
             model: Service,
@@ -164,7 +137,7 @@ const AppointmentController = {
         return res.status(404).json({
           message: 'Không tìm thấy cuộc hẹn',
         });
-      res.json(appointment);
+      res.status(200).json({ success: true, data: appointment });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -180,7 +153,7 @@ const AppointmentController = {
     try {
       const [updated] = await Appointment.update(
         { appointment_date, notes, status },
-        { where: { id } },
+        { where: { id } }
       );
       if (!updated)
         return res.status(404).json({
@@ -208,13 +181,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: [
-              'id',
-              'username',
-              'full_name',
-              'business_name',
-              'email',
-            ],
+            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
           },
           {
             model: Service,
@@ -230,7 +197,7 @@ const AppointmentController = {
           },
         ],
       });
-      res.json(updatedAppointment);
+      res.status(200).json({ success: true, data: updatedAppointment });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -250,7 +217,7 @@ const AppointmentController = {
         return res.status(404).json({
           message: 'Không tìm thấy cuộc hẹn',
         });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -286,13 +253,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: [
-              'id',
-              'username',
-              'full_name',
-              'business_name',
-              'email',
-            ],
+            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
           },
           {
             model: Service,
@@ -309,7 +270,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -345,13 +306,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: [
-              'id',
-              'username',
-              'full_name',
-              'business_name',
-              'email',
-            ],
+            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
           },
           {
             model: Service,
@@ -368,7 +323,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -404,13 +359,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: [
-              'id',
-              'username',
-              'full_name',
-              'business_name',
-              'email',
-            ],
+            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
           },
           {
             model: Service,
@@ -427,7 +376,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -468,13 +417,7 @@ const AppointmentController = {
                 attributes: ['id', 'name', 'type'],
               },
             ],
-            attributes: [
-              'id',
-              'username',
-              'full_name',
-              'business_name',
-              'email',
-            ],
+            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
           },
           {
             model: Service,
@@ -491,7 +434,7 @@ const AppointmentController = {
         ],
         order: [['appointment_date', 'ASC']],
       });
-      res.json(appointments);
+      res.status(200).json({ success: true, data: appointments });
     } catch (error) {
       res.status(500).json({
         message: 'Lỗi máy chủ',
@@ -505,9 +448,7 @@ const AppointmentController = {
     const { doctor_id, appointment_date } = req.body;
     try {
       const appointmentStart = new Date(appointment_date);
-      const appointmentEnd = new Date(
-        appointmentStart.getTime() + 60 * 60 * 1000,
-      ); // 1 giờ
+      const appointmentEnd = new Date(appointmentStart.getTime() + 60 * 60 * 1000); // 1 giờ
 
       const existingAppointments = await Appointment.findAll({
         where: {

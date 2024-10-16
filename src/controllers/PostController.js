@@ -10,7 +10,7 @@ const PostController = {
         content,
         image_url,
       });
-      res.status(201).json(post);
+      res.status(201).json({ success: true, data: post });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -30,7 +30,7 @@ const PostController = {
           },
         ],
       });
-      res.json(posts);
+      res.status(201).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -52,7 +52,7 @@ const PostController = {
         ],
       });
       if (!post) return res.status(404).json({ message: 'Post not found' });
-      res.json(post);
+      res.status(201).json({ success: true, data: post });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -65,10 +65,7 @@ const PostController = {
     const { id } = req.params;
     const { title, content, image_url } = req.body;
     try {
-      const [updated] = await Post.update(
-        { title, content, image_url },
-        { where: { id } },
-      );
+      const [updated] = await Post.update({ title, content, image_url }, { where: { id } });
       if (!updated) return res.status(404).json({ message: 'Post not found' });
       const updatedPost = await Post.findByPk(id, {
         include: [
@@ -79,7 +76,7 @@ const PostController = {
           },
         ],
       });
-      res.json(updatedPost);
+      res.status(201).json({ success: true, data: updatedPost });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -95,7 +92,7 @@ const PostController = {
         where: { id },
       });
       if (!deleted) return res.status(404).json({ message: 'Post not found' });
-      res.status(204).send();
+      res.status(201).json({ success: true, message: 'Detele successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -117,7 +114,7 @@ const PostController = {
           },
         ],
       });
-      res.json(posts);
+      res.status(201).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -137,7 +134,7 @@ const PostController = {
           },
         ],
       });
-      res.json(posts);
+      res.status(201).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -163,7 +160,7 @@ const PostController = {
           },
         ],
       });
-      res.json(posts);
+      res.status(201).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -185,7 +182,7 @@ const PostController = {
           },
         ],
       });
-      res.json(posts);
+      res.status(201).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -197,7 +194,7 @@ const PostController = {
   async countPosts(req, res) {
     try {
       const totalPosts = await Post.count();
-      res.json({ totalPosts });
+      res.status(201).json({ success: true, data: totalPosts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

@@ -27,28 +27,17 @@ const AppointmentValidation = {
       .withMessage('Appointment date is required')
       .isISO8601()
       .withMessage('Appointment date must be valid'),
-    body('notes')
-      .optional()
-      .isString()
-      .withMessage('Notes must be a valid string'),
+    body('notes').optional().isString().withMessage('Notes must be a valid string'),
   ],
 
   update: [
     param('id').isInt().withMessage('Appointment ID must be a valid integer'),
-    body('appointment_date')
-      .optional()
-      .isISO8601()
-      .withMessage('Appointment date must be valid'),
+    body('appointment_date').optional().isISO8601().withMessage('Appointment date must be valid'),
     body('status')
       .optional()
       .isIn(['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'])
-      .withMessage(
-        'Status must be one of Scheduled, Completed, Rescheduled, Cancelled',
-      ),
-    body('notes')
-      .optional()
-      .isString()
-      .withMessage('Notes must be a valid string'),
+      .withMessage('Status must be one of Scheduled, Completed, Rescheduled, Cancelled'),
+    body('notes').optional().isString().withMessage('Notes must be a valid string'),
   ],
 };
 

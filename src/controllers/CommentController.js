@@ -9,7 +9,7 @@ const CommentController = {
         petOwner_Id,
         content,
       });
-      res.status(201).json(comment);
+      res.status(200).json({ success: true, data: comment });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -29,7 +29,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -50,9 +50,8 @@ const CommentController = {
           },
         ],
       });
-      if (!comment)
-        return res.status(404).json({ message: 'Comment not found' });
-      res.json(comment);
+      if (!comment) return res.status(404).json({ message: 'Comment not found' });
+      res.status(200).json({ success: true, data: comment });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -66,8 +65,7 @@ const CommentController = {
     const { content } = req.body;
     try {
       const [updated] = await Comment.update({ content }, { where: { id } });
-      if (!updated)
-        return res.status(404).json({ message: 'Comment not found' });
+      if (!updated) return res.status(404).json({ message: 'Comment not found' });
       const updatedComment = await Comment.findByPk(id, {
         include: [
           {
@@ -77,7 +75,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(updatedComment);
+      res.status(200).json({ success: true, data: updatedComment });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -92,9 +90,8 @@ const CommentController = {
       const deleted = await Comment.destroy({
         where: { id },
       });
-      if (!deleted)
-        return res.status(404).json({ message: 'Comment not found' });
-      res.status(204).send();
+      if (!deleted) return res.status(404).json({ message: 'Comment not found' });
+      res.status(200).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -116,7 +113,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -138,7 +135,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -158,7 +155,7 @@ const CommentController = {
           },
         ],
       });
-      res.json(comments);
+      res.status(200).json({ success: true, data: comments });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -171,9 +168,8 @@ const CommentController = {
     const { id } = req.params;
     try {
       const comment = await Comment.findByPk(id);
-      if (!comment)
-        return res.status(404).json({ message: 'Comment not found' });
-      res.json({ message: 'Comment exists' });
+      if (!comment) return res.status(404).json({ message: 'Comment not found' });
+      res.status(200).json({ message: 'Comment exists' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

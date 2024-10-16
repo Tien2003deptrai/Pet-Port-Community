@@ -12,7 +12,7 @@ const PaymentValidation = {
       .withMessage('Payment items are required')
       .isArray()
       .withMessage('Payment items must be an array')
-      .custom((value) => {
+      .custom(value => {
         if (!value.length) {
           throw new Error('Payment items cannot be empty');
         }
@@ -26,9 +26,7 @@ const PaymentValidation = {
     body('items.*.priceInCents')
       .isInt({ min: 0 })
       .withMessage('Price must be a non-negative integer'),
-    body('items.*.quantity')
-      .isInt({ min: 1 })
-      .withMessage('Quantity must be a positive integer'),
+    body('items.*.quantity').isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
   ],
 
   updatePaymentStatus: [
@@ -41,9 +39,7 @@ const PaymentValidation = {
       .notEmpty()
       .withMessage('Status is required')
       .isIn(['Pending', 'Completed', 'Failed'])
-      .withMessage(
-        'Status must be one of the following: Pending, Completed, Failed',
-      ),
+      .withMessage('Status must be one of the following: Pending, Completed, Failed'),
     body('orderId')
       .notEmpty()
       .withMessage('Order ID is required')
@@ -51,32 +47,22 @@ const PaymentValidation = {
       .withMessage('Order ID must be a valid integer'),
   ],
 
-  getById: [
-    param('id').isInt().withMessage('Payment ID must be a valid integer'),
-  ],
+  getById: [param('id').isInt().withMessage('Payment ID must be a valid integer')],
 
-  delete: [
-    param('id').isInt().withMessage('Payment ID must be a valid integer'),
-  ],
+  delete: [param('id').isInt().withMessage('Payment ID must be a valid integer')],
 
-  getPaymentsByOrderId: [
-    param('orderId').isInt().withMessage('Order ID must be a valid integer'),
-  ],
+  getPaymentsByOrderId: [param('orderId').isInt().withMessage('Order ID must be a valid integer')],
 
   getPaymentsByStatus: [
     param('status')
       .notEmpty()
       .withMessage('Status is required')
       .isIn(['Pending', 'Completed', 'Failed'])
-      .withMessage(
-        'Status must be one of the following: Pending, Completed, Failed',
-      ),
+      .withMessage('Status must be one of the following: Pending, Completed, Failed'),
   ],
 
   getPaymentsInDateRange: [
-    param('startDate')
-      .isISO8601()
-      .withMessage('Start date must be a valid date'),
+    param('startDate').isISO8601().withMessage('Start date must be a valid date'),
     param('endDate').isISO8601().withMessage('End date must be a valid date'),
   ],
 };

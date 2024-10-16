@@ -9,7 +9,7 @@ const LikeController = {
         post_id,
         comment_id,
       });
-      res.status(201).json(like);
+      res.status(200).json({ success: true, data: like });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -39,7 +39,7 @@ const LikeController = {
           },
         ],
       });
-      res.json(likes);
+      res.status(200).json({ success: true, data: likes });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -61,7 +61,7 @@ const LikeController = {
           },
         ],
       });
-      res.json(likes);
+      res.status(200).json({ success: true, data: likes });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -83,7 +83,7 @@ const LikeController = {
           },
         ],
       });
-      res.json(likes);
+      res.status(200).json({ success: true, data: likes });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -98,7 +98,7 @@ const LikeController = {
       const like = await Like.findOne({
         where: { petOwner_Id, post_id, comment_id },
       });
-      res.json({ liked: !!like });
+      res.status(200).json({ success: true, liked: !!like });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -115,7 +115,7 @@ const LikeController = {
           [Op.or]: [{ post_id }, { comment_id }],
         },
       });
-      res.json({ totalLikes: count });
+      res.status(200).json({ success: true, totalLikes: count });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -131,7 +131,7 @@ const LikeController = {
         where: { id },
       });
       if (!deleted) return res.status(404).json({ message: 'Like not found' });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -144,7 +144,7 @@ const LikeController = {
     const { petOwner_Id } = req.params;
     try {
       await Like.destroy({ where: { petOwner_Id } });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: 'Delete all successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

@@ -8,16 +8,16 @@ const OrderService = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Orders', 
-        key: 'id', 
+        model: 'Orders',
+        key: 'id',
       },
     },
     service_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Services', 
-        key: 'id', 
+        model: 'Services',
+        key: 'id',
       },
     },
     quantity: {
@@ -36,7 +36,7 @@ const OrderService = sequelize.define(
   {
     timestamps: true,
     tableName: 'OrderServices',
-  },
+  }
 );
 
 module.exports = OrderService;

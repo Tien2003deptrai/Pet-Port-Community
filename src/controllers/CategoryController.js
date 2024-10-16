@@ -8,7 +8,7 @@ const CategoryController = {
         name,
         type,
       });
-      res.status(201).json(category);
+      res.status(200).json({ success: true, data: category });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -26,7 +26,7 @@ const CategoryController = {
           { model: Pet, as: 'CategoryPets' },
         ],
       });
-      res.json(categories);
+      res.status(200).json({ success: true, data: categories });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -49,7 +49,7 @@ const CategoryController = {
         return res.status(404).json({
           message: 'Category not found',
         });
-      res.json(category);
+      res.status(200).json({ success: true, data: category });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -62,16 +62,13 @@ const CategoryController = {
     const { id } = req.params;
     const { name, type } = req.body;
     try {
-      const [updated] = await Category.update(
-        { name, type },
-        { where: { id } },
-      );
+      const [updated] = await Category.update({ name, type }, { where: { id } });
       if (!updated)
         return res.status(404).json({
           message: 'Category not found',
         });
       const updatedCategory = await Category.findByPk(id);
-      res.json(updatedCategory);
+      res.status(200).json({ success: true, data: updatedCategory });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -107,7 +104,7 @@ const CategoryController = {
         return res.status(404).json({
           message: 'Category not found',
         });
-      res.status(204).send();
+      res.status(200).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -127,7 +124,7 @@ const CategoryController = {
           { model: Pet, as: 'CategoryPets' },
         ],
       });
-      res.json(categories);
+      res.status(200).json({ success: true, data: categories });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

@@ -8,8 +8,8 @@ const Appointment = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users', 
-        key: 'id', 
+        model: 'Users',
+        key: 'id',
       },
     },
     pet_id: {
@@ -39,7 +39,7 @@ const Appointment = sequelize.define(
   {
     timestamps: true,
     tableName: 'Appointments',
-  },
+  }
 );
 
 module.exports = Appointment;

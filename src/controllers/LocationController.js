@@ -8,7 +8,7 @@ const LocationController = {
         name,
         type,
       });
-      res.status(201).json(location);
+      res.status(200).json({ success: true, data: location });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -28,7 +28,7 @@ const LocationController = {
           },
         ],
       });
-      res.json(locations);
+      res.status(200).json({ success: true, data: locations });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -53,7 +53,7 @@ const LocationController = {
         return res.status(404).json({
           message: 'Location not found',
         });
-      res.json(location);
+      res.status(200).json({ success: true, data: location });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -66,10 +66,7 @@ const LocationController = {
     const { id } = req.params;
     const { name, type } = req.body;
     try {
-      const [updated] = await Location.update(
-        { name, type },
-        { where: { id } },
-      );
+      const [updated] = await Location.update({ name, type }, { where: { id } });
       if (!updated)
         return res.status(404).json({
           message: 'Location not found',
@@ -83,7 +80,7 @@ const LocationController = {
           },
         ],
       });
-      res.json(updatedLocation);
+      res.status(200).json({ success: true, data: updatedLocation });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -111,7 +108,7 @@ const LocationController = {
         return res.status(404).json({
           message: 'Location not found',
         });
-      res.status(204).json('Delete success');
+      res.status(200).json({ success: true, message: 'Delete success' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -126,7 +123,7 @@ const LocationController = {
       const locations = await Location.findAll({
         where: { type },
       });
-      res.json(locations);
+      res.status(200).json({ success: true, data: locations });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

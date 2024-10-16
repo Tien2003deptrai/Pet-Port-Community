@@ -13,7 +13,7 @@ const ReportController = {
         group: ['date'],
         order: [['date', 'DESC']],
       });
-      res.json(salesData);
+      res.status(201).json({ success: true, data: salesData });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -26,13 +26,10 @@ const ReportController = {
   async getServiceUsageReport(req, res) {
     try {
       const serviceData = await Service.findAll({
-        attributes: [
-          'name',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'usageCount'],
-        ],
+        attributes: ['name', [sequelize.fn('COUNT', sequelize.col('id')), 'usageCount']],
         group: ['id'],
       });
-      res.json(serviceData);
+      res.status(201).json({ success: true, data: serviceData });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -46,11 +43,10 @@ const ReportController = {
     try {
       const totalReviews = await Review.count();
       const averageRating = await Review.findOne({
-        attributes: [
-          [sequelize.fn('AVG', sequelize.col('rating')), 'averageRating'],
-        ],
+        attributes: [[sequelize.fn('AVG', sequelize.col('rating')), 'averageRating']],
       });
-      res.json({
+      res.status(201).json({
+        success: true,
         totalReviews,
         averageRating: averageRating.averageRating || 0,
       });
@@ -69,7 +65,8 @@ const ReportController = {
       const activeUsers = await User.count({
         where: { is_active: true },
       });
-      res.json({
+      res.status(201).json({
+        success: true,
         totalUsers,
         activeUsers,
       });
@@ -91,7 +88,8 @@ const ReportController = {
       const outOfStockProducts = await Product.count({
         where: { stock_quantity: 0 },
       });
-      res.json({
+      res.status(201).json({
+        success: true,
         totalProducts,
         activeProducts,
         outOfStockProducts,

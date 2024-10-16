@@ -20,10 +20,7 @@ router.get('/order/:orderId', PaymentController.getPaymentsByOrderId);
 
 router.get('/status/:status', PaymentController.getPaymentsByStatus);
 
-router.get(
-  '/date-range/:startDate/:endDate',
-  PaymentController.getPaymentsInDateRange,
-);
+router.get('/date-range/:startDate/:endDate', PaymentController.getPaymentsInDateRange);
 
 router.post('/webhook', PaymentController.handleWebhook);
 

@@ -9,7 +9,7 @@ const WishlistController = {
         product_id,
         service_id,
       });
-      res.status(201).json(wishlistItem);
+      res.status(201).json({ success: true, data: wishlistItem });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -21,7 +21,7 @@ const WishlistController = {
   async getAll(req, res) {
     try {
       const wishlists = await Wishlist.findAll();
-      res.json(wishlists);
+      res.status(201).json({ success: true, data: wishlists });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -48,7 +48,7 @@ const WishlistController = {
           },
         ],
       });
-      res.json(wishlists);
+      res.status(201).json({ success: true, data: wishlists });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -67,7 +67,7 @@ const WishlistController = {
         return res.status(404).json({
           message: 'Wishlist item not found',
         });
-      res.status(204).send();
+      res.status(201).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -83,9 +83,9 @@ const WishlistController = {
         where: { petOwner_id, product_id, service_id },
       });
       if (item) {
-        res.json({ exists: true });
+        res.status(200).json({ success: true, exists: true });
       } else {
-        res.json({ exists: false });
+        res.status(200).json({ success: true, exists: false });
       }
     } catch (error) {
       res.status(500).json({
@@ -99,7 +99,7 @@ const WishlistController = {
     const { petOwner_id } = req.params;
     try {
       await Wishlist.destroy({ where: { petOwner_id } });
-      res.status(204).send();
+      res.status(201).json({ success: true, message: 'Delete all successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -114,7 +114,7 @@ const WishlistController = {
       const totalItems = await Wishlist.count({
         where: { petOwner_id },
       });
-      res.json({ totalItems });
+      res.status(201).json({ success: true, data: totalItems });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

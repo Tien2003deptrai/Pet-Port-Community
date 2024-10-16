@@ -2,15 +2,8 @@ const { Review, User, Product, Service, sequelize } = require('@models');
 
 const ReviewController = {
   async create(req, res) {
-    const {
-      reviewer_id,
-      product_id,
-      service_id,
-      rating,
-      title,
-      comment,
-      is_verified_purchase,
-    } = req.body;
+    const { reviewer_id, product_id, service_id, rating, title, comment, is_verified_purchase } =
+      req.body;
     try {
       const review = await Review.create({
         reviewer_id,
@@ -21,7 +14,7 @@ const ReviewController = {
         comment,
         is_verified_purchase,
       });
-      res.status(201).json(review);
+      res.status(201).json({ success: true, data: review });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -51,7 +44,7 @@ const ReviewController = {
           },
         ],
       });
-      res.json(reviews);
+      res.status(201).json({ success: true, data: reviews });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -83,7 +76,7 @@ const ReviewController = {
         ],
       });
       if (!review) return res.status(404).json({ message: 'Review not found' });
-      res.json(review);
+      res.status(201).json({ success: true, data: review });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -96,14 +89,10 @@ const ReviewController = {
     const { id } = req.params;
     const { rating, title, comment } = req.body;
     try {
-      const [updated] = await Review.update(
-        { rating, title, comment },
-        { where: { id } },
-      );
-      if (!updated)
-        return res.status(404).json({ message: 'Review not found' });
+      const [updated] = await Review.update({ rating, title, comment }, { where: { id } });
+      if (!updated) return res.status(404).json({ message: 'Review not found' });
       const updatedReview = await Review.findByPk(id);
-      res.json(updatedReview);
+      res.status(201).json({ success: true, data: review });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -118,9 +107,8 @@ const ReviewController = {
       const deleted = await Review.destroy({
         where: { id },
       });
-      if (!deleted)
-        return res.status(404).json({ message: 'Review not found' });
-      res.status(204).send();
+      if (!deleted) return res.status(404).json({ message: 'Review not found' });
+      res.status(201).json({ success: true, message: 'Delete successfully' });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -132,11 +120,9 @@ const ReviewController = {
   async getAverageRating(req, res) {
     try {
       const result = await Review.findAll({
-        attributes: [
-          [sequelize.fn('AVG', sequelize.col('rating')), 'averageRating'],
-        ],
+        attributes: [[sequelize.fn('AVG', sequelize.col('rating')), 'averageRating']],
       });
-      res.json(result[0]);
+      res.status(201).json({ success: true, data: result[0] });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -158,7 +144,7 @@ const ReviewController = {
           },
         ],
       });
-      res.json(reviews);
+      res.status(201).json({ success: true, data: reviews });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -185,7 +171,7 @@ const ReviewController = {
           },
         ],
       });
-      res.json(reviews);
+      res.status(201).json({ success: true, data: reviews });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -212,7 +198,7 @@ const ReviewController = {
           },
         ],
       });
-      res.json(reviews);
+      res.status(201).json({ success: true, data: reviews });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -229,7 +215,7 @@ const ReviewController = {
       const worstReview = await Review.findOne({
         order: [['rating', 'ASC']],
       });
-      res.json({ bestReview, worstReview });
+      res.status(201).json({ success: true, bestReview, worstReview });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -241,13 +227,10 @@ const ReviewController = {
   async verifyReview(req, res) {
     const { id } = req.params;
     try {
-      const updated = await Review.update(
-        { is_verified_purchase: true },
-        { where: { id } },
-      );
-      if (!updated[0])
-        return res.status(404).json({ message: 'Review not found' });
-      res.json({
+      const updated = await Review.update({ is_verified_purchase: true }, { where: { id } });
+      if (!updated[0]) return res.status(404).json({ message: 'Review not found' });
+      rres.status(201).json({
+        success: true,
         message: 'Review verified successfully',
       });
     } catch (error) {
@@ -261,7 +244,7 @@ const ReviewController = {
   async countReviews(req, res) {
     try {
       const totalReviews = await Review.count();
-      res.json({ totalReviews });
+      res.status(201).json({ success: true, totalReviews });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

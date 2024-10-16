@@ -38,7 +38,6 @@ const AdminController = {
     }
   },
 
-  
   async updateAvatar(req, res) {
     const { imageUrl } = req.body;
     const user_up = req.user.id;

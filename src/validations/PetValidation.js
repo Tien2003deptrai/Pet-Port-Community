@@ -17,24 +17,13 @@ const PetValidation = {
       .withMessage('Pet name is required')
       .isString()
       .withMessage('Pet name must be a valid string'),
-    body('breed')
-      .optional()
-      .isString()
-      .withMessage('Breed must be a valid string'),
-    body('age')
-      .optional()
-      .isInt({ min: 0 })
-      .withMessage('Age must be a non-negative integer'),
+    body('breed').optional().isString().withMessage('Breed must be a valid string'),
+    body('age').optional().isInt({ min: 0 }).withMessage('Age must be a non-negative integer'),
     body('gender')
       .optional()
       .isIn(['Male', 'Female', 'Unknown'])
-      .withMessage(
-        'Gender must be one of the following: Male, Female, Unknown',
-      ),
-    body('description')
-      .optional()
-      .isString()
-      .withMessage('Description must be a valid string'),
+      .withMessage('Gender must be one of the following: Male, Female, Unknown'),
+    body('description').optional().isString().withMessage('Description must be a valid string'),
     body('medical_history')
       .optional()
       .isString()
@@ -43,36 +32,16 @@ const PetValidation = {
 
   update: [
     param('id').isInt().withMessage('Pet ID must be a valid integer'),
-    body('owner_id')
-      .optional()
-      .isInt()
-      .withMessage('Owner ID must be a valid integer'),
-    body('category_id')
-      .optional()
-      .isInt()
-      .withMessage('Category ID must be a valid integer'),
-    body('name')
-      .optional()
-      .isString()
-      .withMessage('Pet name must be a valid string'),
-    body('breed')
-      .optional()
-      .isString()
-      .withMessage('Breed must be a valid string'),
-    body('age')
-      .optional()
-      .isInt({ min: 0 })
-      .withMessage('Age must be a non-negative integer'),
+    body('owner_id').optional().isInt().withMessage('Owner ID must be a valid integer'),
+    body('category_id').optional().isInt().withMessage('Category ID must be a valid integer'),
+    body('name').optional().isString().withMessage('Pet name must be a valid string'),
+    body('breed').optional().isString().withMessage('Breed must be a valid string'),
+    body('age').optional().isInt({ min: 0 }).withMessage('Age must be a non-negative integer'),
     body('gender')
       .optional()
       .isIn(['Male', 'Female', 'Unknown'])
-      .withMessage(
-        'Gender must be one of the following: Male, Female, Unknown',
-      ),
-    body('description')
-      .optional()
-      .isString()
-      .withMessage('Description must be a valid string'),
+      .withMessage('Gender must be one of the following: Male, Female, Unknown'),
+    body('description').optional().isString().withMessage('Description must be a valid string'),
     body('medical_history')
       .optional()
       .isString()
@@ -83,14 +52,10 @@ const PetValidation = {
 
   delete: [param('id').isInt().withMessage('Pet ID must be a valid integer')],
 
-  getPetsByOwner: [
-    param('owner_id').isInt().withMessage('Owner ID must be a valid integer'),
-  ],
+  getPetsByOwner: [param('owner_id').isInt().withMessage('Owner ID must be a valid integer')],
 
   getPetsByCategory: [
-    param('category_id')
-      .isInt()
-      .withMessage('Category ID must be a valid integer'),
+    param('category_id').isInt().withMessage('Category ID must be a valid integer'),
   ],
 
   getPetsByGender: [
@@ -98,9 +63,7 @@ const PetValidation = {
       .notEmpty()
       .withMessage('Gender is required')
       .isIn(['Male', 'Female', 'Unknown'])
-      .withMessage(
-        'Gender must be one of the following: Male, Female, Unknown',
-      ),
+      .withMessage('Gender must be one of the following: Male, Female, Unknown'),
   ],
 };
 
