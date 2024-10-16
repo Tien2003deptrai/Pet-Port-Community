@@ -5,7 +5,9 @@ const router = express.Router();
 
 router.post('/', PostValidation.create, PostController.create);
 
-router.get('/', PostController.getAll);
+router.get('/', PostController.getPaginatedAndSelectedPost);
+
+router.get('/all', PostController.getAll);
 
 router.get('/with-user-info', PostController.getPostsWithUserInfo);
 

@@ -148,7 +148,7 @@ const ProductController = {
         });
       }
 
-      res.status(200).json({ success: true, products: products });
+      res.status(200).json({ success: true, data: products });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
