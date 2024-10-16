@@ -143,7 +143,6 @@ const PostController = {
         },
       ];
 
-      // Get total count for pagination metadata
       const { rows: posts, count: totalItems } = await Post.findAndCountAll(options);
 
       if (!posts.length) {
