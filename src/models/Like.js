@@ -21,6 +21,10 @@ const Like = sequelize.define(
     },
     comment_id: {
       type: DataTypes.INTEGER,
+      references: {
+        model: 'Comments',
+        key: 'id',
+      },
     },
   },
   {

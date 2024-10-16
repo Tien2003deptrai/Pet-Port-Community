@@ -1,4 +1,5 @@
-const { Post, User, Op } = require('@models');
+const { Post, User, Op, Like } = require('@models');
+const { Comment } = require('../models');
 
 const PostController = {
   async create(req, res) {
@@ -30,6 +31,64 @@ const PostController = {
           },
         ],
       });
+      res.status(201).json({ success: true, data: posts });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
+
+  async getPaginatedAndSelectedPost(req, res) {
+    const { limit, skip, select } = req.query;
+    const limitValue = parseInt(limit) || 10;
+    const skipValue = parseInt(skip) || 0;
+
+    let selectedFields = null;
+    let includeComments = true;
+
+    if (select) {
+      const userSelectedFields = select.split(',');
+      selectedFields = ['id', ...userSelectedFields];
+
+      includeComments = false;
+    }
+    try {
+
+      const options = {
+        limit: limitValue,
+        where: {
+          id: {
+            [Op.gte]: skipValue,
+          },
+        },
+        attributes: selectedFields ? selectedFields : undefined,
+      };
+
+      if (includeComments) {
+        options.include = [
+          {
+            model: User,
+            as: 'PostOwner',
+            attributes: ['id', 'username', 'full_name'],
+          },
+          {
+            model: Comment,
+            as: 'PostComments',
+            attributes: ['id', 'content', 'createdAt'],
+          },
+        ];
+      }
+
+      const posts = await Post.findAll(options);
+
+      if (posts.length === 0) {
+        return res.status(200).json({
+          message: 'No posts found',
+          posts,
+        });
+      }
       res.status(201).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
