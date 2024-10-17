@@ -4,6 +4,12 @@ const sequelize = require('../config/database');
 const Appointment = sequelize.define(
   'Appointment',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     pet_owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

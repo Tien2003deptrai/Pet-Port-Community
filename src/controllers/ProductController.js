@@ -1,4 +1,4 @@
-const { Product, User, Category, Review, Op } = require('@models');
+const { Product, User, Category, Review, Op, sequelize } = require('@models');
 
 const ProductController = {
   async create(req, res) {
@@ -149,6 +149,63 @@ const ProductController = {
       }
 
       res.status(200).json({ success: true, data: products });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
+
+  async getPaginatedProducts(req, res) {
+    const { limit, page } = req.query;
+    const limitValue = parseInt(limit) || 10;
+    const pageValue = parseInt(page) || 1;
+
+    try {
+      const options = {
+        limit: limitValue,
+        offset: (pageValue - 1) * limitValue,
+        where: {},
+      };
+
+      options.include = [
+        {
+          model: Category,
+          as: 'Category',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Review,
+          as: 'ProductReviews',
+          attributes: ['id', 'rating', 'comment', 'createdAt'],
+        },
+        {
+          model: User,
+          as: 'SalesCenter',
+          attributes: ['id', 'full_name', 'business_name'],
+        },
+      ];
+
+      const { rows: products, count: totalItems } = await Product.findAndCountAll(options);
+
+      if (!products.length) {
+        return res.status(200).json({
+          message: 'No products found',
+          products,
+        });
+      }
+
+      // Send paginated response with total count
+      res.status(200).json({
+        success: true,
+        data: products,
+        pagination: {
+          totalItems,
+          totalPages: Math.ceil(totalItems / limitValue),
+          currentPage: pageValue,
+        },
+      });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -327,6 +384,44 @@ const ProductController = {
       });
     }
   },
+
+  async getTopRatedProducts(req, res) {
+    try {
+      const topRatedProducts = await Product.findAll({
+        attributes: {
+          include: [
+            [sequelize.fn('AVG', sequelize.col('ProductReviews.rating')), 'avgRating']
+          ]
+        },
+        include: [
+          {
+            model: Review,
+            as: 'ProductReviews',
+            attributes: [],
+          },
+          {
+            model: Category,
+            as: 'Category',
+            attributes: ['id', 'name'],
+          },
+        ],
+        group: ['Product.id'],
+        order: [[sequelize.literal('avgRating'), 'DESC']],
+        limit: 10,
+        subQuery: false,
+      });
+
+      res.status(200).json({ success: true, data: topRatedProducts });
+    } catch (error) {
+      console.error('Error fetching top-rated products:', error);
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  }
+
+
 };
 
 module.exports = ProductController;

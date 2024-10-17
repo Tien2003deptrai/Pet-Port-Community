@@ -7,6 +7,8 @@ router.post('/', PostValidation.create, PostController.create);
 
 router.get('/', PostController.getPaginatedAndSelectedPost);
 
+router.get('/panigated', PostController.getPaginatedPosts);
+
 router.get('/all', PostController.getAll);
 
 router.get('/with-user-info', PostController.getPostsWithUserInfo);

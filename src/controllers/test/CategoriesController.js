@@ -7,11 +7,12 @@ const CategoriesController = {
         attributes: [
           'id',
           'name',
-          [sequelize.fn('COUNT', sequelize.col('Products.id')), 'productCount'],
+          [sequelize.fn('COUNT', sequelize.col('CategoryProducts.id')), 'productCount'],
         ],
         include: [
           {
             model: Product,
+            as: 'CategoryProducts',
             attributes: [],
           },
         ],

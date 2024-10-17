@@ -7,6 +7,8 @@ router.post('/', ProductValidation.create, ProductController.create);
 
 router.get('/', ProductController.getPaginatedAndSelectedProducts);
 
+router.get('/panigated', ProductController.getPaginatedProducts);
+
 router.get('/all', ProductController.getAll);
 
 router.get('/search', ProductController.search);
@@ -22,6 +24,8 @@ router.get('/with-category', ProductController.getProductsWithCategory);
 router.get('/with-reviews', ProductController.getProductsWithReviews);
 
 router.get('/filter', ProductController.filterProducts);
+
+router.get('/top-rating', ProductController.getTopRatedProducts);
 
 router.get('/:id', ProductController.getProductById);
 

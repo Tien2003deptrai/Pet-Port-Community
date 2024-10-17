@@ -4,6 +4,12 @@ const sequelize = require('../config/database');
 const Comment = sequelize.define(
   'Comment',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     post_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

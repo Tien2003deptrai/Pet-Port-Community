@@ -4,6 +4,12 @@ const sequelize = require('../config/database');
 const Service = sequelize.define(
   'Service',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     doctor_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

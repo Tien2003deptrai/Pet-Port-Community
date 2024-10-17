@@ -1,5 +1,5 @@
 const { Post, User, Op, Like } = require('@models');
-const { Comment } = require('../models');
+const { Comment, sequelize } = require('../models');
 
 const PostController = {
   async create(req, res) {
@@ -29,7 +29,26 @@ const PostController = {
             as: 'PostOwner',
             attributes: ['id', 'username', 'full_name'],
           },
+          {
+            model: Comment,
+            as: 'PostComments',
+            attributes: ['id', 'content', 'createdAt'],
+          },
+          {
+            model: Like,
+            as: 'PostLikes',
+            attributes: [],
+          },
         ],
+        attributes: {
+          include: [
+            [
+              sequelize.fn('COUNT', sequelize.col('PostLikes.id')),
+              'likeCount',
+            ],
+          ],
+        },
+        group: ['Post.id', 'PostOwner.id', 'PostComments.id'],
       });
       res.status(201).json({ success: true, data: posts });
     } catch (error) {
@@ -90,6 +109,59 @@ const PostController = {
         });
       }
       res.status(201).json({ success: true, data: posts });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
+
+  async getPaginatedPosts(req, res) {
+    const { limit, page } = req.query;
+    const limitValue = parseInt(limit) || 10;
+    const pageValue = parseInt(page) || 1;
+
+    try {
+      const options = {
+        limit: limitValue,
+        offset: (pageValue - 1) * limitValue,
+        distinct: true,
+        where: {},
+      };
+
+      options.include = [
+        {
+          model: User,
+          as: 'PostOwner',
+          attributes: ['id', 'username', 'full_name'],
+        },
+        {
+          model: Comment,
+          as: 'PostComments',
+          attributes: ['id', 'content', 'createdAt'],
+        },
+      ];
+
+      const { rows: posts, count: totalItems } = await Post.findAndCountAll(options);
+
+      if (!posts.length) {
+        return res.status(200).json({
+          message: 'No posts found',
+          posts,
+        });
+      }
+
+      // Send paginated response with total count
+      res.status(200).json({
+        success: true,
+        data: posts,
+        pagination: {
+          totalItems,
+          totalPages: Math.ceil(totalItems / limitValue),
+          currentPage: pageValue,
+        },
+      });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
