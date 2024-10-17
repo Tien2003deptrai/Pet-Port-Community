@@ -384,6 +384,32 @@ const ProductController = {
       });
     }
   },
+
+  async getAllProductByRating(req, res) {
+    try {
+      const products = await Product.findAll({
+        order: [
+          ['ProductReviews', 'rating', 'DESC'],
+        ],
+        include: [
+          {
+            model: Review,
+            as: 'ProductReviews',
+          },
+        ],
+        group: ['Product.id'],
+      });
+
+      res.status(201).json({ success: true, data: products });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+
+    }
+  }
+
 };
 
 module.exports = ProductController;
