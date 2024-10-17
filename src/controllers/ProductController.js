@@ -1,4 +1,4 @@
-const { Product, User, Category, Review, Op } = require('@models');
+const { Product, User, Category, Review, Op, sequelize } = require('@models');
 
 const ProductController = {
   async create(req, res) {
@@ -385,30 +385,37 @@ const ProductController = {
     }
   },
 
-  async getAllProductByRating(req, res) {
+  async getTopRatedProducts(req, res) {
     try {
-      const products = await Product.findAll({
-        order: [
-          ['ProductReviews', 'rating', 'DESC'],
-        ],
+      const topRatedProducts = await Product.findAll({
+        attributes: {
+          include: [
+            [sequelize.fn('AVG', sequelize.col('ProductReviews.rating')), 'avgRating']
+          ]
+        },
         include: [
           {
             model: Review,
             as: 'ProductReviews',
-          },
+            attributes: [],
+          }
         ],
         group: ['Product.id'],
+        order: [[sequelize.literal('avgRating'), 'DESC']],
+        limit: 10,
+        subQuery: false,
       });
 
-      res.status(201).json({ success: true, data: products });
+      res.status(200).json({ success: true, data: topRatedProducts });
     } catch (error) {
+      console.error('Error fetching top-rated products:', error);
       res.status(500).json({
         message: 'Server error',
         error,
       });
-
     }
   }
+
 
 };
 
