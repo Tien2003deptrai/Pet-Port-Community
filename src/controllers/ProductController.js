@@ -398,7 +398,12 @@ const ProductController = {
             model: Review,
             as: 'ProductReviews',
             attributes: [],
-          }
+          },
+          {
+            model: Category,
+            as: 'Category',
+            attributes: ['id', 'name'],
+          },
         ],
         group: ['Product.id'],
         order: [[sequelize.literal('avgRating'), 'DESC']],
