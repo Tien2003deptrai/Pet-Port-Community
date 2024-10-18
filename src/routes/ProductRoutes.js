@@ -1,9 +1,11 @@
 const express = require('express');
 const { ProductController } = require('@controllers');
 const { ProductValidation } = require('@validations');
+const { validate } = require('@middlewares');
+
 const router = express.Router();
 
-router.post('/', ProductValidation.create, ProductController.create);
+router.post('/', validate(ProductValidation.create), ProductController.create);
 
 router.get('/', ProductController.getPaginatedAndSelectedProducts);
 
@@ -23,9 +25,9 @@ router.get('/with-category', ProductController.getProductsWithCategory);
 
 router.get('/with-reviews', ProductController.getProductsWithReviews);
 
-router.get('/filter', ProductController.filterProducts);
+router.get('/filter', validate(ProductValidation.getById), validate(ProductValidation.filterProducts), ProductController.filterProducts);
 
-router.get('/top-rating', ProductController.getTopRatedProducts);
+router.get('/top-rating', validate(ProductValidation.delete), ProductController.getTopRatedProducts);
 
 router.get('/:id', ProductController.getProductById);
 

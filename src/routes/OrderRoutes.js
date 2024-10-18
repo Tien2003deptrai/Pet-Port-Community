@@ -1,28 +1,30 @@
 const express = require('express');
 const { OrderController } = require('@controllers');
 const { OrderValidation } = require('@validations');
+const { validate } = require('@middlewares');
+
 const router = express.Router();
 
 router.get('/', OrderController.getAll);
 
-router.post('/products', OrderValidation.createOrderProduct, OrderController.createOrderProduct);
+router.post('/products', validate(OrderValidation.createOrderProduct), OrderController.createOrderProduct);
 
-router.post('/services', OrderValidation.createOrderService, OrderController.createOrderProduct);
+router.post('/services', validate(OrderValidation.createOrderService), OrderController.createOrderService);
 
 router.get('/total-orders', OrderController.getTotalOrders);
 
 router.get('/total-revenue', OrderController.calculateTotalRevenue);
 
-router.get('/:id', OrderController.getById);
+router.get('/:id', validate(OrderValidation.getById), OrderController.getById);
 
-router.put('/:id', OrderController.update);
+router.put('/:id', validate(OrderValidation.update), OrderController.update);
 
-router.delete('/:id', OrderController.delete);
+router.delete('/:id', validate(OrderValidation.delete), OrderController.delete);
 
-router.get('/pet_owner/:petOwner_id', OrderController.getOrdersByPetOwner);
+router.get('/pet_owner/:petOwner_id', validate(OrderValidation.getOrdersByCustomer), OrderController.getOrdersByPetOwner);
 
-router.get('/details/:id', OrderController.getOrderDetails);
+router.get('/details/:id', validate(OrderValidation.getById), OrderController.getOrderDetails);
 
-router.get('/status/:status', OrderController.getOrdersByStatus);
+router.get('/status/:status', validate(OrderValidation.getOrdersByStatus), OrderController.getOrdersByStatus);
 
 module.exports = router;

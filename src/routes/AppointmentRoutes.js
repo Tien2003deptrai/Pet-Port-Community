@@ -1,26 +1,27 @@
 const express = require('express');
 const { AppointmentController } = require('@controllers');
 const { AppointmentValidation } = require('@validations');
+const { validate } = require('@middlewares');
 const router = express.Router();
 
-router.post('/', AppointmentValidation.create, AppointmentController.create);
+router.post('/', validate(AppointmentValidation.create), AppointmentController.create);
 
-router.get('/', AppointmentValidation.update, AppointmentController.getAll);
+router.get('/', AppointmentController.getAll);
 
-router.get('/:id', AppointmentController.getById);
+router.get('/:id', validate(AppointmentValidation.getById), AppointmentController.getById);
 
-router.put('/:id', AppointmentValidation.update, AppointmentController.update);
+router.put('/:id', validate(AppointmentValidation.update), AppointmentController.update);
 
-router.delete('/:id', AppointmentController.delete);
+router.delete('/:id', validate(AppointmentValidation.delete), AppointmentController.delete);
 
-router.get('/owner/:pet_owner_id', AppointmentController.getByPetOwner);
+router.get('/owner/:pet_owner_id', validate(AppointmentValidation.getByPetOwner), AppointmentController.getByPetOwner);
 
-router.get('/doctor/:doctor_id', AppointmentController.getByDoctor);
+router.get('/doctor/:doctor_id', validate(AppointmentValidation.getByDoctor), AppointmentController.getByDoctor);
 
-router.get('/status/:status', AppointmentController.getByStatus);
+router.get('/status/:status', validate(AppointmentValidation.getByStatus), AppointmentController.getByStatus);
 
 router.get('/details', AppointmentController.getDetailsWithPetsAndDoctors);
 
-router.post('/check-conflict', AppointmentController.checkAppointmentConflict);
+router.post('/check-conflict', validate(AppointmentValidation.checkAppointmentConflict), AppointmentController.checkAppointmentConflict);
 
 module.exports = router;
