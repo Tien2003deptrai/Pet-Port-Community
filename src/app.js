@@ -48,7 +48,7 @@ app.use(
 );
 
 // app.use('/api/v1', require('./routes/index'));
-app.use('/api', require('./routes/index'));
+app.use('/api/v1', require('./routes/index'));
 
 setupSwaggerDocs(app);
 

@@ -1,12 +1,42 @@
 @urlDev=http://localhost:4000/api/v1/locations
 
 ###
+# Get a list of all locations
+# @urlDev=http://localhost:4000/api/v1/locations
+# @returns {array} An array of locations
 GET {{urlDev}}/
 ###
 GET {{urlDev}}/
+
 ###
+# Get a location by id
+# @urlDev=http://localhost:4000/api/v1/locations/:id
+# @returns {object} A location
 GET {{urlDev}}/
 ###
+GET {{urlDev}}/:id
+
 GET {{urlDev}}/
 ###
+# Create a new location
+# @urlDev=http://localhost:4000/api/v1/locations
+# @param {object} location - The location to create
+# @returns {object} The created location
+###
+POST {{urlDev}}/
+
+###
+# Update a location
+# @urlDev=http://localhost:4000/api/v1/locations/:id
+# @param {object} location - The location to update
+# @returns {object} The updated location
+###
+PUT {{urlDev}}/:id
+
+###
+# Delete a location
+# @urlDev=http://localhost:4000/api/v1/locations/:id
+# @returns {object} The deleted location
+###
+DELETE {{urlDev}}/:id
 GET {{urlDev}}/

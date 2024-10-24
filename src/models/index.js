@@ -17,7 +17,6 @@ const Comment = require('./Comment');
 const Like = require('./Like');
 const Review = require('./Review');
 const Coupon = require('./Coupon');
-const Wishlist = require('./Wishlist');
 
 // index
 
@@ -245,24 +244,6 @@ Product.hasMany(Coupon, {
   as: 'ProductCoupons',
 });
 
-// User - Wishlist
-Wishlist.belongsTo(User, {
-  foreignKey: 'petOwner_id',
-  as: 'User',
-});
-
-// Product - Wishlist
-Wishlist.belongsTo(Product, {
-  foreignKey: 'product_id',
-  as: 'WishlistProduct',
-});
-
-// Service - Wishlist
-Wishlist.belongsTo(Service, {
-  foreignKey: 'service_id',
-  as: 'WishlistService',
-});
-
 // Pet - Appointment
 Pet.hasMany(Appointment, {
   foreignKey: 'pet_id',
@@ -323,5 +304,4 @@ module.exports = {
   Like,
   Review,
   Coupon,
-  Wishlist,
 };

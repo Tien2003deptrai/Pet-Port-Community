@@ -46,6 +46,9 @@ const Service = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    images: {
+      type: DataTypes.TEXT,
+    },
   },
   {
     timestamps: true,
