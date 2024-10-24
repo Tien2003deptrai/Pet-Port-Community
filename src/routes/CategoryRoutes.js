@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', validate(CategoryValidation.create), CategoryController.create);
 
-router.get('/', validate(CategoryValidation.update), CategoryController.getAll);
+router.get('/', CategoryController.getAll);
 
 router.get('/:id', validate(CategoryValidation.getById), CategoryController.getById);
 
