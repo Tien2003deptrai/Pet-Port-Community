@@ -12,7 +12,6 @@ const PostController = require('./PostController');
 const ProductController = require('./ProductController');
 const ReviewController = require('./ReviewController');
 const ServiceController = require('./ServiceController');
-const WishlistController = require('./WishlistController');
 
 module.exports = {
   UserController,
@@ -29,5 +28,4 @@ module.exports = {
   ProductController,
   ReviewController,
   ServiceController,
-  WishlistController,
 };
