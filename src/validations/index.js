@@ -12,7 +12,6 @@ const ProductValidation = require('./ProductValidation');
 const ReviewValidation = require('./ReviewValidation');
 const ServiceValidation = require('./ServiceValidation');
 const UserValidation = require('./UserValidation');
-const WishlistValidation = require('./WishlistValidation');
 
 module.exports = {
   AppointmentValidation,
@@ -29,5 +28,4 @@ module.exports = {
   ReviewValidation,
   ServiceValidation,
   UserValidation,
-  WishlistValidation,
 };
