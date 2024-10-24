@@ -10,8 +10,8 @@ const LocationValidation = {
     body('type')
       .notEmpty()
       .withMessage('Location type is required')
-      .isIn(['City', 'District', 'Commune'])
-      .withMessage('Location type must be one of the following: City, District, Commune'),
+      .isIn(['City', 'District'])
+      .withMessage('Location type must be one of the following: City, District'),
     body('parent_id').optional().isInt().withMessage('Parent ID must be a valid integer'),
   ],
 
@@ -20,8 +20,8 @@ const LocationValidation = {
     body('name').optional().isString().withMessage('Location name must be a valid string'),
     body('type')
       .optional()
-      .isIn(['City', 'District', 'Commune'])
-      .withMessage('Location type must be one of the following: City, District, Commune'),
+      .isIn(['City', 'District'])
+      .withMessage('Location type must be one of the following: City, District'),
     body('parent_id').optional().isInt().withMessage('Parent ID must be a valid integer'),
   ],
 
@@ -34,7 +34,7 @@ const LocationValidation = {
       .notEmpty()
       .withMessage('Location type is required')
       .isIn(['City', 'District', 'Commune'])
-      .withMessage('Location type must be one of the following: City, District, Commune'),
+      .withMessage('Location type must be one of the following: City, District'),
   ],
 };
 

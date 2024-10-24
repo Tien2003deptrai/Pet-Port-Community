@@ -64,6 +64,7 @@ CREATE TABLE Pets (
   description TEXT,
   medical_history TEXT,
   is_active BOOLEAN DEFAULT true,
+  images TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (owner_id) REFERENCES Users(id) ON DELETE CASCADE,
@@ -97,6 +98,7 @@ CREATE TABLE Services (
   description TEXT,
   price DECIMAL(10, 2) NOT NULL,
   is_active BOOLEAN DEFAULT true,
+  images TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (doctor_id) REFERENCES Users(id) ON DELETE CASCADE,
@@ -111,6 +113,7 @@ CREATE TABLE Appointments (
   doctor_id INT NOT NULL,
   service_id INT NOT NULL,
   appointment_date DATETIME NOT NULL,
+  appointment_time TIME NOT NULL,
   status ENUM('Scheduled', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
   notes TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -388,17 +391,18 @@ INSERT INTO Users (
 
 
 -- Dữ liệu cho bảng Pets
-INSERT INTO Pets (owner_id, category_id, name, breed, age, gender, description, medical_history, is_active, createdAt, updatedAt) VALUES
-(1, 1, 'Buddy', 'Golden Retriever', 3, 'Male', 'Friendly and playful', 'Vaccinated', true, NOW(), NOW()),
-(2, 2, 'Whiskers', 'Persian', 2, 'Female', 'Calm and independent', 'None', true, NOW(), NOW()),
-(6, 3, 'Tweety', 'Canary', 1, 'Female', 'Loves to sing', 'None', true, NOW(), NOW()),
-(1, 1, 'Rocky', 'Bulldog', 4, 'Male', 'Strong and quiet', 'Hip dysplasia', true, NOW(), NOW()),
-(2, 2, 'Shadow', 'Siamese', 5, 'Male', 'Curious and adventurous', 'Neutered', true, NOW(), NOW()),
-(1, 1, 'Bella', 'Beagle', 2, 'Female', 'Energetic and playful', 'None', true, NOW(), NOW()),
-(6, 4, 'Speedy', 'Turtle', 10, 'Unknown', 'Slow and steady', 'None', true, NOW(), NOW()),
-(1, 1, 'Max', 'Labrador', 3, 'Male', 'Obedient and friendly', 'Vaccinated', true, NOW(), NOW()),
-(2, 2, 'Luna', 'Sphynx', 1, 'Female', 'Affectionate and curious', 'None', true, NOW(), NOW()),
-(6, 3, 'Sunny', 'Parrot', 2, 'Male', 'Talkative and friendly', 'None', true, NOW(), NOW());
+INSERT INTO Pets (owner_id, category_id, name, breed, age, gender, description, medical_history, is_active, images, createdAt, updatedAt) 
+VALUES 
+(1, 1, 'Buddy', 'Golden Retriever', 3, 'Male', 'Friendly and playful', 'Vaccinated', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(2, 2, 'Whiskers', 'Persian', 2, 'Female', 'Calm and independent', 'None', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(6, 3, 'Tweety', 'Canary', 1, 'Female', 'Loves to sing', 'None', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(1, 1, 'Rocky', 'Bulldog', 4, 'Male', 'Strong and quiet', 'Hip dysplasia', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(2, 2, 'Shadow', 'Siamese', 5, 'Male', 'Curious and adventurous', 'Neutered', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(1, 1, 'Bella', 'Beagle', 2, 'Female', 'Energetic and playful', 'None', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(6, 4, 'Speedy', 'Turtle', 10, 'Unknown', 'Slow and steady', 'None', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(1, 1, 'Max', 'Labrador', 3, 'Male', 'Obedient and friendly', 'Vaccinated', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(2, 2, 'Luna', 'Sphynx', 1, 'Female', 'Affectionate and curious', 'None', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW()),
+(6, 3, 'Sunny', 'Parrot', 2, 'Male', 'Talkative and friendly', 'None', true, 'https://cdn.pixabay.com/photo/2023/08/18/15/01/cat-8198717_640.jpg', NOW(), NOW());
 
 -- Dữ liệu cho bảng Products
 INSERT INTO Products (sales_center_id, category_id, name, description, price, stock_quantity, sku, images, createdAt, updatedAt) VALUES
@@ -414,29 +418,33 @@ INSERT INTO Products (sales_center_id, category_id, name, description, price, st
 (7, 5, 'Dog Leash', 'Durable leash for walking dogs', 18.99, 95, 'LEASH001', 'dogleash.jpg', NOW(), NOW());
 
 -- Dữ liệu cho bảng Services
-INSERT INTO Services (doctor_id, category_id, name, description, price, is_active, createdAt, updatedAt) VALUES
-(3, 3, 'Vaccination Package', 'Full vaccination package for pets', 99.99, true, NOW(), NOW()),
-(8, 4, 'Grooming Service', 'Complete grooming for pets', 49.99, true, NOW(), NOW()),
-(3, 7, 'Pet Surgery', 'Expert surgery for pets', 299.99, true, NOW(), NOW()),
-(9, 3, 'Annual Checkup', 'Comprehensive checkup for pets', 79.99, true, NOW(), NOW()),
-(9, 4, 'Dental Cleaning', 'Teeth cleaning service for pets', 59.99, true, NOW(), NOW()),
-(3, 7, 'Emergency Surgery', '24/7 emergency surgery for pets', 399.99, true, NOW(), NOW()),
-(8, 3, 'Neutering Service', 'Neutering for male pets', 99.99, true, NOW(), NOW()),
-(9, 4, 'Pet Daycare', 'Daycare service for pets', 29.99, true, NOW(), NOW()),
-(8, 4, 'Pet Sitting', 'Pet sitting service at your home', 19.99, true, NOW(), NOW()),
-(9, 3, 'Ultrasound Service', 'Ultrasound diagnostics for pets', 89.99, true, NOW(), NOW());
+-- Dữ liệu cho bảng Services
+INSERT INTO Services (doctor_id, category_id, name, description, price, is_active, images, createdAt, updatedAt) 
+VALUES 
+(3, 3, 'Vaccination Package', 'Full vaccination package for pets', 99.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(8, 4, 'Grooming Service', 'Complete grooming for pets', 49.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(3, 7, 'Pet Surgery', 'Expert surgery for pets', 299.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(9, 3, 'Annual Checkup', 'Comprehensive checkup for pets', 79.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(9, 4, 'Dental Cleaning', 'Teeth cleaning service for pets', 59.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(3, 7, 'Emergency Surgery', '24/7 emergency surgery for pets', 399.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(8, 3, 'Neutering Service', 'Neutering for male pets', 99.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(9, 4, 'Pet Daycare', 'Daycare service for pets', 29.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(8, 4, 'Pet Sitting', 'Pet sitting service at your home', 19.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW()),
+(9, 3, 'Ultrasound Service', 'Ultrasound diagnostics for pets', 89.99, true, 'https://vietnamcleanroom.com/vcr-media/22/8/24/bao-che-thuoc.jpg', NOW(), NOW());
+
 
 -- Dữ liệu cho bảng Appointments
-INSERT INTO Appointments (pet_owner_id, pet_id, doctor_id, service_id, appointment_date, status, notes, createdAt, updatedAt) VALUES
-(2, 2, 8, 2, '2024-10-15 14:00:00', 'Scheduled', 'Grooming appointment', NOW(), NOW()),
-(6, 3, 9, 4, '2024-10-18 09:00:00', 'Scheduled', 'Annual checkup for canary', NOW(), NOW()),
-(1, 4, 3, 7, '2024-10-20 16:00:00', 'Completed', 'Hip dysplasia surgery', NOW(), NOW()),
-(2, 5, 9, 3, '2024-10-21 11:00:00', 'Scheduled', 'Vaccination for Siamese cat', NOW(), NOW()),
-(6, 6, 8, 7, '2024-10-22 13:00:00', 'Scheduled', 'Neutering turtle', NOW(), NOW()),
-(1, 7, 3, 1, '2024-10-25 12:00:00', 'Scheduled', 'Vaccination booster for Beagle', NOW(), NOW()),
-(2, 8, 9, 4, '2024-10-27 14:00:00', 'Scheduled', 'Grooming for Sphynx', NOW(), NOW()),
-(6, 9, 8, 3, '2024-10-30 10:00:00', 'Cancelled', 'Ultrasound check for parrot', NOW(), NOW()),
-(1, 10, 3, 1, '2024-11-01 09:00:00', 'Scheduled', 'Routine vaccination for Labrador', NOW(), NOW());
+INSERT INTO Appointments (pet_owner_id, pet_id, doctor_id, service_id, appointment_date, appointment_time, status, notes, createdAt, updatedAt) 
+VALUES
+(2, 2, 8, 2, '2024-10-15', '14:00:00', 'Scheduled', 'Grooming appointment', NOW(), NOW()),
+(6, 3, 9, 4, '2024-10-18', '09:00:00', 'Scheduled', 'Annual checkup for canary', NOW(), NOW()),
+(1, 4, 3, 7, '2024-10-20', '16:00:00', 'Completed', 'Hip dysplasia surgery', NOW(), NOW()),
+(2, 5, 9, 3, '2024-10-21', '11:00:00', 'Scheduled', 'Vaccination for Siamese cat', NOW(), NOW()),
+(6, 6, 8, 7, '2024-10-22', '13:00:00', 'Scheduled', 'Neutering turtle', NOW(), NOW()),
+(1, 7, 3, 1, '2024-10-25', '12:00:00', 'Scheduled', 'Vaccination booster for Beagle', NOW(), NOW()),
+(2, 8, 9, 4, '2024-10-27', '14:00:00', 'Scheduled', 'Grooming for Sphynx', NOW(), NOW()),
+(6, 9, 8, 3, '2024-10-30', '10:00:00', 'Cancelled', 'Ultrasound check for parrot', NOW(), NOW()),
+(1, 10, 3, 1, '2024-11-01', '09:00:00', 'Scheduled', 'Routine vaccination for Labrador', NOW(), NOW());
 
 -- Dữ liệu cho bảng Orders
 INSERT INTO Orders (petOwner_id, total_amount, status, createdAt, updatedAt) VALUES
@@ -556,18 +564,6 @@ INSERT INTO Coupons (code, description, discount_type, discount_value, start_dat
 ('SPRINGSALE', 'Giảm 100k cho đơn hàng từ 500k', 'Fixed Amount', 100.00, '2024-03-01', '2024-04-30', true, 8, NOW(), NOW()),
 ('LOYALTY5', 'Giảm 5% cho khách hàng thân thiết', 'Percentage', 5.00, '2024-01-01', '2024-12-31', true, 9, NOW(), NOW());
 
--- Dữ liệu cho bảng Wishlists
-INSERT INTO Wishlists (petOwner_id, product_id, service_id, createdAt, updatedAt) VALUES
-(1, 1, NULL, NOW(), NOW()),
-(1, 2, NULL, NOW(), NOW()),
-(2, 3, NULL, NOW(), NOW()),
-(2, 4, NULL, NOW(), NOW()),
-(6, 5, NULL, NOW(), NOW()),
-(6, 6, NULL, NOW(), NOW()),
-(1, NULL, 1, NOW(), NOW()),
-(2, NULL, 2, NOW(), NOW()),
-(1, 7, NULL, NOW(), NOW()),
-(6, 8, NULL, NOW(), NOW());
 
 
 

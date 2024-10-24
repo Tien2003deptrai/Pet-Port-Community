@@ -1,30 +1,32 @@
 const express = require('express');
 const { PostController } = require('@controllers');
 const { PostValidation } = require('@validations');
+const { validate } = require('@middlewares');
+
 const router = express.Router();
 
-router.post('/', PostValidation.create, PostController.create);
+router.post('/', validate(PostValidation.create), PostController.create);
 
 router.get('/', PostController.getPaginatedAndSelectedPost);
 
-router.get('/panigated', PostController.getPaginatedPosts);
+router.get('/paginated', PostController.getPaginatedPosts);
 
 router.get('/all', PostController.getAll);
 
 router.get('/with-user-info', PostController.getPostsWithUserInfo);
 
-router.get('/search', PostController.searchPostsByTitle);
+router.get('/search', validate(PostValidation.searchPostsByTitle), PostController.searchPostsByTitle);
 
 router.get('/latest', PostController.getLatestPosts);
 
 router.get('/count', PostController.countPosts);
 
-router.get('/:id', PostController.getById);
+router.get('/:id', validate(PostValidation.getById), PostController.getById);
 
-router.put('/:id', PostController.update);
+router.put('/:id', validate(PostValidation.update), PostController.update);
 
-router.delete('/:id', PostController.delete);
+router.delete('/:id', validate(PostValidation.delete), PostController.delete);
 
-router.get('/pet_owner/:petOwner_Id', PostController.getPostsByUser);
+router.get('/pet_owner/:petOwner_Id', validate(PostValidation.getPostsByUser), PostController.getPostsByUser);
 
 module.exports = router;

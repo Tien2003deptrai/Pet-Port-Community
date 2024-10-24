@@ -1,30 +1,32 @@
 const express = require('express');
 const { ReviewController } = require('@controllers');
 const { ReviewValidation } = require('@validations');
+const { validate } = require('@middlewares');
+
 const router = express.Router();
 
-router.post('/', ReviewValidation.create, ReviewController.create);
+router.post('/', validate(ReviewValidation.create), ReviewController.create);
 
 router.get('/', ReviewController.getAll);
 
 router.get('/average-rating', ReviewController.getAverageRating);
 
-router.get('/product/:product_id', ReviewController.getReviewsByProduct);
+router.get('/product/:product_id', validate(ReviewValidation.getById), ReviewController.getReviewsByProduct);
 
-router.get('/pet_owner/:reviewer_id', ReviewController.getReviewsByPetOwner);
+router.get('/pet_owner/:reviewer_id', validate(ReviewValidation.getById), ReviewController.getReviewsByPetOwner);
 
-router.get('/service/:service_id', ReviewController.getReviewsByService);
+router.get('/service/:service_id', validate(ReviewValidation.getById), ReviewController.getReviewsByService);
 
 router.get('/best-worst', ReviewController.getBestAndWorstReview);
 
-router.put('/verify/:id', ReviewController.verifyReview);
+router.put('/verify/:id', validate(ReviewValidation.verifyReview), ReviewController.verifyReview);
 
 router.get('/count', ReviewController.countReviews);
 
-router.get('/:id', ReviewController.getById);
+router.get('/:id', validate(ReviewValidation.getById), ReviewController.getById);
 
-router.put('/:id', ReviewController.update);
+router.put('/:id', validate(ReviewValidation.update), ReviewController.update);
 
-router.delete('/:id', ReviewController.delete);
+router.delete('/:id', validate(ReviewValidation.delete), ReviewController.delete);
 
 module.exports = router;

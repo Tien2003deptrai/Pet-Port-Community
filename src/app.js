@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const chalk = require('chalk');
 const helmet = require('helmet');
-const { limiter, corsOptions, errorHandler, passport } = require('./utils');
+const { limiter, corsOptions, passport } = require('./utils');
 
 const setupSwaggerDocs = require('./swagger/swagger');
 require('module-alias/register');
@@ -47,6 +47,7 @@ app.use(
   })
 );
 
+// app.use('/api/v1', require('./routes/index'));
 app.use('/api/v1', require('./routes/index'));
 
 setupSwaggerDocs(app);
