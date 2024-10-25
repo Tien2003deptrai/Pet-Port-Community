@@ -73,18 +73,22 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
+            as: 'OrderItems',
             include: [
               {
                 model: Product,
+                as: 'Product',
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
+            as: 'OrderServices',
             include: [
               {
                 model: Service,
+                as: 'Service',
                 attributes: ['name', 'price'],
               },
             ],
@@ -107,18 +111,22 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
+            as: 'OrderItems',
             include: [
               {
                 model: Product,
+                as: 'Product',
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
+            as: 'OrderServices',
             include: [
               {
                 model: Service,
+                as: 'Service',
                 attributes: ['name', 'price'],
               },
             ],
@@ -190,18 +198,22 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
+            as: "OrderItems",
             include: [
               {
                 model: Product,
+                as: 'Product',
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
+            as: 'OrderServices',
             include: [
               {
                 model: Service,
+                as: 'Service',
                 attributes: ['name', 'price'],
               },
             ],
@@ -261,18 +273,22 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
+            as: 'OrderItems',
             include: [
               {
                 model: Product,
+                as: 'Product',
                 attributes: ['name', 'price'],
               },
             ],
           },
           {
             model: OrderService,
+            as: 'OrderServices',
             include: [
               {
                 model: Service,
+                as: 'Service',
                 attributes: ['name', 'price'],
               },
             ],

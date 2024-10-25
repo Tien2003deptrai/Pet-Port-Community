@@ -8,23 +8,19 @@ const OrderValidation = {
       .isInt()
       .withMessage('Pet Owner ID must be a valid integer'),
     body('items')
-      .notEmpty()
-      .withMessage('Order items are required')
-      .isArray()
-      .withMessage('Order items must be an array')
-      .custom(value => {
-        if (!value.length) {
-          throw new Error('Order items cannot be empty');
-        }
-        return true;
-      }),
+      .isArray({ min: 1 })
+      .withMessage('Order items must be an array with at least one item'),
     body('items.*.productId')
       .notEmpty()
       .withMessage('Product ID is required')
       .isInt()
       .withMessage('Product ID must be a valid integer'),
-    body('items.*.quantity').isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
-    body('items.*.price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
+    body('items.*.quantity')
+      .isInt({ min: 1 })
+      .withMessage('Quantity must be a positive integer'),
+    body('items.*.price')
+      .isFloat({ min: 0 })
+      .withMessage('Price must be a positive number'),
   ],
 
   createOrderService: [
@@ -34,23 +30,19 @@ const OrderValidation = {
       .isInt()
       .withMessage('Pet Owner ID must be a valid integer'),
     body('items')
-      .notEmpty()
-      .withMessage('Order items are required')
-      .isArray()
-      .withMessage('Order items must be an array')
-      .custom(value => {
-        if (!value.length) {
-          throw new Error('Order items cannot be empty');
-        }
-        return true;
-      }),
+      .isArray({ min: 1 })
+      .withMessage('Order items must be an array with at least one item'),
     body('items.*.serviceId')
       .notEmpty()
       .withMessage('Service ID is required')
       .isInt()
       .withMessage('Service ID must be a valid integer'),
-    body('items.*.quantity').isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
-    body('items.*.price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
+    body('items.*.quantity')
+      .isInt({ min: 1 })
+      .withMessage('Quantity must be a positive integer'),
+    body('items.*.price')
+      .isFloat({ min: 0 })
+      .withMessage('Price must be a positive number'),
   ],
 
   update: [
