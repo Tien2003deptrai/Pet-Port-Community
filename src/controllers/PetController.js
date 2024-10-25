@@ -2,8 +2,17 @@ const { Pet, User, Category } = require('@models');
 
 const PetController = {
   async create(req, res) {
-    const { owner_id, category_id, name, breed, age, gender, description, medical_history } =
-      req.body;
+    const {
+      owner_id,
+      category_id,
+      name,
+      breed,
+      age,
+      gender,
+      description,
+      medical_history,
+      images,
+    } = req.body;
     try {
       const pet = await Pet.create({
         owner_id,
@@ -14,6 +23,7 @@ const PetController = {
         gender,
         description,
         medical_history,
+        images,
       });
       res.status(201).json({ success: true, data: pet });
     } catch (error) {
@@ -78,8 +88,17 @@ const PetController = {
 
   async update(req, res) {
     const { id } = req.params;
-    const { owner_id, category_id, name, breed, age, gender, description, medical_history } =
-      req.body;
+    const {
+      owner_id,
+      category_id,
+      name,
+      breed,
+      age,
+      gender,
+      description,
+      medical_history,
+      images,
+    } = req.body;
     try {
       const [updated] = await Pet.update(
         {
@@ -91,6 +110,7 @@ const PetController = {
           gender,
           description,
           medical_history,
+          images,
         },
         { where: { id } }
       );
