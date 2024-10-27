@@ -1,6 +1,53 @@
-const { User } = require('@models');
+const { User, Op } = require('@models');
+const { generateRefreshTokenAndSetCookie } = require('../utils');
+const { sendVerificationEmail } = require('../mail/emails');
+const bcrypt = require('bcrypt');
 
 const AdminController = {
+
+  async registerUser(req, res) {
+    try {
+      const { username, password, email, role } = req.body;
+
+      const existingUser = await User.findOne({
+        where: {
+          [Op.or]: [{ email }],
+        },
+      });
+
+      if (existingUser) {
+        return res.status(400).json({
+          error: 'Username or email already taken',
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const newUser = await User.create({
+        username,
+        password: hashedPassword,
+        email,
+        role,
+        verification_token: verificationToken,
+        verification_token_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      });
+
+      // await UserController.sendSMS(phone, `Your verification code is: ${verificationToken}`);
+
+      // Ensure that you're setting the refresh token after user creation
+      generateRefreshTokenAndSetCookie(res, newUser.id);
+
+      await sendVerificationEmail(newUser.email, verificationToken);
+      res.status(201).json({ success: true, newUser });
+    } catch (error) {
+      console.error('Error in register:', error);
+      res.status(500).json({
+        error: 'Error registering user',
+      });
+    }
+  },
+
   async deleteUser(req, res) {
     try {
       const user = await User.findByPk(req.params.id);

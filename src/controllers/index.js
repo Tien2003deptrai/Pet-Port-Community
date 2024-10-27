@@ -12,6 +12,7 @@ const PostController = require('./PostController');
 const ProductController = require('./ProductController');
 const ReviewController = require('./ReviewController');
 const ServiceController = require('./ServiceController');
+const AdminController = require('./AdminController');
 
 module.exports = {
   UserController,
@@ -28,4 +29,5 @@ module.exports = {
   ProductController,
   ReviewController,
   ServiceController,
+  AdminController
 };

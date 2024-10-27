@@ -22,6 +22,7 @@ router.use('/comments', require('./CommentRoutes'));
 router.use('/likes', require('./LikeRoutes'));
 router.use('/reviews', require('./ReviewRoutes'));
 router.use('/coupons', require('./CouponRoutes'));
+router.use('/admin', require('./AdminRoutes'));
 
 // test report
 router.use('/reports', authenticateJWT, require('./ReportRoutes'));
