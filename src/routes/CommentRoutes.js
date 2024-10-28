@@ -17,10 +17,22 @@ router.put('/:id', validate(CommentValidation.update), CommentController.update)
 
 router.delete('/:id', validate(CommentValidation.delete), CommentController.delete);
 
-router.get('/post/:post_id', validate(CommentValidation.getCommentsByPost), CommentController.getCommentsByPost);
+router.get(
+  '/post/:post_id',
+  validate(CommentValidation.getCommentsByPost),
+  CommentController.getCommentsByPost
+);
 
-router.get('/pet_owner/:petOwner_Id', validate(CommentValidation.getCommentsByUser), CommentController.getCommentsByPetOwner);
+router.get(
+  '/pet_owner/:petOwner_Id',
+  validate(CommentValidation.getCommentsByUser),
+  CommentController.getCommentsByPetOwner
+);
 
-router.get('/exists/:id', validate(CommentValidation.checkCommentExists), CommentController.checkCommentExists);
+router.get(
+  '/exists/:id',
+  validate(CommentValidation.checkCommentExists),
+  CommentController.checkCommentExists
+);
 
 module.exports = router;

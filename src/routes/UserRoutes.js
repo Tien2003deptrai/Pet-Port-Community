@@ -10,6 +10,10 @@ router.post('/logout', UserController.logout);
 router.post('/refresh-token', UserController.refreshToken);
 router.post('/verify-email', validate(UserValidation.verifyEmail), UserController.verifyEmail);
 router.post('/forgot-password', UserController.forgotPassword);
-router.post('/reset-password/:token', validate(UserValidation.resetPassword), UserController.resetPassword);
+router.post(
+  '/reset-password/:token',
+  validate(UserValidation.resetPassword),
+  UserController.resetPassword
+);
 
 module.exports = router;

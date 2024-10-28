@@ -25,9 +25,18 @@ router.get('/with-category', ProductController.getProductsWithCategory);
 
 router.get('/with-reviews', ProductController.getProductsWithReviews);
 
-router.get('/filter', validate(ProductValidation.getById), validate(ProductValidation.filterProducts), ProductController.filterProducts);
+router.get(
+  '/filter',
+  validate(ProductValidation.getById),
+  validate(ProductValidation.filterProducts),
+  ProductController.filterProducts
+);
 
-router.get('/top-rating', validate(ProductValidation.delete), ProductController.getTopRatedProducts);
+router.get(
+  '/top-rating',
+  validate(ProductValidation.delete),
+  ProductController.getTopRatedProducts
+);
 
 router.get('/:id', ProductController.getProductById);
 

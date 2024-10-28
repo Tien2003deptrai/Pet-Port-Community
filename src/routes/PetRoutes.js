@@ -17,10 +17,22 @@ router.put('/:id', validate(PetValidation.update), PetController.update);
 
 router.delete('/:id', validate(PetValidation.delete), PetController.delete);
 
-router.get('/owner/:owner_id', validate(PetValidation.getPetsByOwner), PetController.getPetsByOwner);
+router.get(
+  '/owner/:owner_id',
+  validate(PetValidation.getPetsByOwner),
+  PetController.getPetsByOwner
+);
 
-router.get('/category/:category_id', validate(PetValidation.getPetsByCategory), PetController.getPetsByCategory);
+router.get(
+  '/category/:category_id',
+  validate(PetValidation.getPetsByCategory),
+  PetController.getPetsByCategory
+);
 
-router.get('/gender/:gender', validate(PetValidation.getPetsByGender), PetController.getPetsByGender);
+router.get(
+  '/gender/:gender',
+  validate(PetValidation.getPetsByGender),
+  PetController.getPetsByGender
+);
 
 module.exports = router;

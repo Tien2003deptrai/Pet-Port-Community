@@ -14,14 +14,30 @@ router.put('/:id', validate(AppointmentValidation.update), AppointmentController
 
 router.delete('/:id', validate(AppointmentValidation.delete), AppointmentController.delete);
 
-router.get('/owner/:pet_owner_id', validate(AppointmentValidation.getByPetOwner), AppointmentController.getByPetOwner);
+router.get(
+  '/owner/:pet_owner_id',
+  validate(AppointmentValidation.getByPetOwner),
+  AppointmentController.getByPetOwner
+);
 
-router.get('/doctor/:doctor_id', validate(AppointmentValidation.getByDoctor), AppointmentController.getByDoctor);
+router.get(
+  '/doctor/:doctor_id',
+  validate(AppointmentValidation.getByDoctor),
+  AppointmentController.getByDoctor
+);
 
-router.get('/status/:status', validate(AppointmentValidation.getByStatus), AppointmentController.getByStatus);
+router.get(
+  '/status/:status',
+  validate(AppointmentValidation.getByStatus),
+  AppointmentController.getByStatus
+);
 
 router.get('/details', AppointmentController.getDetailsWithPetsAndDoctors);
 
-router.post('/check-conflict', validate(AppointmentValidation.checkAppointmentConflict), AppointmentController.checkAppointmentConflict);
+router.post(
+  '/check-conflict',
+  validate(AppointmentValidation.checkAppointmentConflict),
+  AppointmentController.checkAppointmentConflict
+);
 
 module.exports = router;

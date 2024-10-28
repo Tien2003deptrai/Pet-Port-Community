@@ -29,5 +29,5 @@ module.exports = {
   ProductController,
   ReviewController,
   ServiceController,
-  AdminController
+  AdminController,
 };

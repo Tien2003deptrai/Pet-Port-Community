@@ -19,8 +19,16 @@ router.put('/:id', validate(ServiceValidation.update), ServiceController.update)
 
 router.delete('/:id', validate(ServiceValidation.delete), ServiceController.delete);
 
-router.get('/doctor/:doctor_id', validate(ServiceValidation.getServicesByDoctor), ServiceController.getServicesByDoctor);
+router.get(
+  '/doctor/:doctor_id',
+  validate(ServiceValidation.getServicesByDoctor),
+  ServiceController.getServicesByDoctor
+);
 
-router.get('/category/:category_id', validate(ServiceValidation.getServicesByCategory), ServiceController.getServicesByCategory);
+router.get(
+  '/category/:category_id',
+  validate(ServiceValidation.getServicesByCategory),
+  ServiceController.getServicesByCategory
+);
 
 module.exports = router;

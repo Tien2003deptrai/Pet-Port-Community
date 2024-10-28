@@ -389,9 +389,7 @@ const ProductController = {
     try {
       const topRatedProducts = await Product.findAll({
         attributes: {
-          include: [
-            [sequelize.fn('AVG', sequelize.col('ProductReviews.rating')), 'avgRating']
-          ]
+          include: [[sequelize.fn('AVG', sequelize.col('ProductReviews.rating')), 'avgRating']],
         },
         include: [
           {
@@ -419,9 +417,7 @@ const ProductController = {
         error,
       });
     }
-  }
-
-
+  },
 };
 
 module.exports = ProductController;

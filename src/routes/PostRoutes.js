@@ -15,7 +15,11 @@ router.get('/all', PostController.getAll);
 
 router.get('/with-user-info', PostController.getPostsWithUserInfo);
 
-router.get('/search', validate(PostValidation.searchPostsByTitle), PostController.searchPostsByTitle);
+router.get(
+  '/search',
+  validate(PostValidation.searchPostsByTitle),
+  PostController.searchPostsByTitle
+);
 
 router.get('/latest', PostController.getLatestPosts);
 
@@ -27,6 +31,10 @@ router.put('/:id', validate(PostValidation.update), PostController.update);
 
 router.delete('/:id', validate(PostValidation.delete), PostController.delete);
 
-router.get('/pet_owner/:petOwner_Id', validate(PostValidation.getPostsByUser), PostController.getPostsByUser);
+router.get(
+  '/pet_owner/:petOwner_Id',
+  validate(PostValidation.getPostsByUser),
+  PostController.getPostsByUser
+);
 
 module.exports = router;

@@ -41,12 +41,7 @@ const PostController = {
           },
         ],
         attributes: {
-          include: [
-            [
-              sequelize.fn('COUNT', sequelize.col('PostLikes.id')),
-              'likeCount',
-            ],
-          ],
+          include: [[sequelize.fn('COUNT', sequelize.col('PostLikes.id')), 'likeCount']],
         },
         group: ['Post.id', 'PostOwner.id', 'PostComments.id'],
       });
@@ -74,7 +69,6 @@ const PostController = {
       includeComments = false;
     }
     try {
-
       const options = {
         limit: limitValue,
         where: {

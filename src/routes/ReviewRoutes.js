@@ -11,11 +11,23 @@ router.get('/', ReviewController.getAll);
 
 router.get('/average-rating', ReviewController.getAverageRating);
 
-router.get('/product/:product_id', validate(ReviewValidation.getById), ReviewController.getReviewsByProduct);
+router.get(
+  '/product/:product_id',
+  validate(ReviewValidation.getById),
+  ReviewController.getReviewsByProduct
+);
 
-router.get('/pet_owner/:reviewer_id', validate(ReviewValidation.getById), ReviewController.getReviewsByPetOwner);
+router.get(
+  '/pet_owner/:reviewer_id',
+  validate(ReviewValidation.getById),
+  ReviewController.getReviewsByPetOwner
+);
 
-router.get('/service/:service_id', validate(ReviewValidation.getById), ReviewController.getReviewsByService);
+router.get(
+  '/service/:service_id',
+  validate(ReviewValidation.getById),
+  ReviewController.getReviewsByService
+);
 
 router.get('/best-worst', ReviewController.getBestAndWorstReview);
 

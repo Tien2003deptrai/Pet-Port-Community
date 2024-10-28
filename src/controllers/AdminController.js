@@ -4,7 +4,6 @@ const { sendVerificationEmail } = require('../mail/emails');
 const bcrypt = require('bcrypt');
 
 const AdminController = {
-
   async registerUser(req, res) {
     try {
       const { username, password, email, role } = req.body;

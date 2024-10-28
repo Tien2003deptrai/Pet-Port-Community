@@ -15,12 +15,8 @@ const OrderValidation = {
       .withMessage('Product ID is required')
       .isInt()
       .withMessage('Product ID must be a valid integer'),
-    body('items.*.quantity')
-      .isInt({ min: 1 })
-      .withMessage('Quantity must be a positive integer'),
-    body('items.*.price')
-      .isFloat({ min: 0 })
-      .withMessage('Price must be a positive number'),
+    body('items.*.quantity').isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
+    body('items.*.price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   ],
 
   createOrderService: [
@@ -37,12 +33,8 @@ const OrderValidation = {
       .withMessage('Service ID is required')
       .isInt()
       .withMessage('Service ID must be a valid integer'),
-    body('items.*.quantity')
-      .isInt({ min: 1 })
-      .withMessage('Quantity must be a positive integer'),
-    body('items.*.price')
-      .isFloat({ min: 0 })
-      .withMessage('Price must be a positive number'),
+    body('items.*.quantity').isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
+    body('items.*.price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   ],
 
   update: [

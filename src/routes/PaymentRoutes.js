@@ -7,7 +7,11 @@ const router = express.Router();
 
 router.post('/', validate(PaymentValidation.create), PaymentController.createPayment);
 
-router.post('/payment-status', validate(PaymentValidation.updatePaymentStatus), PaymentController.updatePaymentStatus);
+router.post(
+  '/payment-status',
+  validate(PaymentValidation.updatePaymentStatus),
+  PaymentController.updatePaymentStatus
+);
 
 router.get('/', PaymentController.getAll);
 
@@ -17,11 +21,23 @@ router.delete('/:id', validate(PaymentValidation.delete), PaymentController.dele
 
 router.get('/total', PaymentController.getTotalPayments);
 
-router.get('/order/:orderId', validate(PaymentValidation.getPaymentsByOrderId), PaymentController.getPaymentsByOrderId);
+router.get(
+  '/order/:orderId',
+  validate(PaymentValidation.getPaymentsByOrderId),
+  PaymentController.getPaymentsByOrderId
+);
 
-router.get('/status/:status', validate(PaymentValidation.getPaymentsByStatus), PaymentController.getPaymentsByStatus);
+router.get(
+  '/status/:status',
+  validate(PaymentValidation.getPaymentsByStatus),
+  PaymentController.getPaymentsByStatus
+);
 
-router.get('/date-range/:startDate/:endDate', validate(PaymentValidation.getPaymentsInDateRange), PaymentController.getPaymentsInDateRange);
+router.get(
+  '/date-range/:startDate/:endDate',
+  validate(PaymentValidation.getPaymentsInDateRange),
+  PaymentController.getPaymentsInDateRange
+);
 
 router.post('/webhook', PaymentController.handleWebhook);
 

@@ -198,7 +198,7 @@ const OrderController = {
         include: [
           {
             model: OrderItem,
-            as: "OrderItems",
+            as: 'OrderItems',
             include: [
               {
                 model: Product,

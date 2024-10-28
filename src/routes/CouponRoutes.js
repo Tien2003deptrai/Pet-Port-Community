@@ -19,6 +19,10 @@ router.delete('/:id', validate(CouponValidation.delete), CouponController.delete
 
 router.get('/check/:code', validate(CouponValidation.checkCoupon), CouponController.checkCoupon);
 
-router.get('/discount-type/:discount_type', validate(CouponValidation.getCouponsByDiscountType), CouponController.getCouponsByDiscountType);
+router.get(
+  '/discount-type/:discount_type',
+  validate(CouponValidation.getCouponsByDiscountType),
+  CouponController.getCouponsByDiscountType
+);
 
 module.exports = router;

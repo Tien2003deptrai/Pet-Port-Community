@@ -31,7 +31,7 @@ const AppointmentValidation = {
       .withMessage('Appointment date is required')
       .isISO8601()
       .withMessage('Appointment date must be valid')
-      .custom((value) => {
+      .custom(value => {
         if (new Date(value) <= new Date()) {
           throw new Error('Appointment date must be in the future');
         }
@@ -57,7 +57,7 @@ const AppointmentValidation = {
       .optional()
       .isISO8601()
       .withMessage('Appointment date must be valid')
-      .custom((value) => {
+      .custom(value => {
         if (value && new Date(value) <= new Date()) {
           throw new Error('Appointment date must be in the future');
         }
@@ -129,7 +129,7 @@ const AppointmentValidation = {
       .withMessage('Appointment date is required')
       .isISO8601()
       .withMessage('Appointment date must be valid')
-      .custom((value) => {
+      .custom(value => {
         if (new Date(value) <= new Date()) {
           throw new Error('Appointment date must be in the future');
         }
