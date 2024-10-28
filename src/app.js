@@ -104,6 +104,14 @@ app.use((req, res, next) => {
   next(createError.NotFound('This route does not exist'));
 });
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' 'unsafe-inline' chrome-extension://be05ad2b-262c-45a9-b74d-150144d91459"
+  );
+  next();
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({

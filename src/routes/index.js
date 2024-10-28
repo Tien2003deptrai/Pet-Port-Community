@@ -9,8 +9,8 @@ router.use('/categories', require('./test/categories'));
 
 // api routes
 router.use('/auth', require('./UserRoutes'));
-router.use('/orders', authenticateJWT, require('./OrderRoutes'));
-router.use('/payments', authenticateJWT, require('./PaymentRoutes'));
+router.use('/orders', require('./OrderRoutes'));
+router.use('/payments', require('./PaymentRoutes'));
 router.use('/locations', require('./LocationRoutes'));
 router.use('/categories', require('./CategoryRoutes'));
 router.use('/pets', require('./PetRoutes'));
