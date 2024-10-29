@@ -8,36 +8,45 @@ const AdminController = {
     try {
       const { username, password, email, role } = req.body;
 
+      // Kiểm tra nếu role là chuỗi thay vì mảng, chuyển nó thành mảng
+      const roles = Array.isArray(role) ? role : [role];
+
+      // Kiểm tra email đã tồn tại hay chưa
       const existingUser = await User.findOne({
         where: {
-          [Op.or]: [{ email }],
+          email,
         },
       });
 
       if (existingUser) {
         return res.status(400).json({
-          error: 'Username or email already taken',
+          error: 'Email already taken',
         });
       }
 
+      // Hash mật khẩu
       const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Tạo mã xác thực ngẫu nhiên
       const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
 
+      // Tạo người dùng mới với vai trò là JSON (mảng vai trò)
       const newUser = await User.create({
         username,
         password: hashedPassword,
         email,
-        role,
+        role: roles, // Lưu vai trò dưới dạng JSON (mảng)
         verification_token: verificationToken,
-        verification_token_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        verification_token_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000), // Hết hạn sau 24 giờ
       });
 
-      // await UserController.sendSMS(phone, `Your verification code is: ${verificationToken}`);
-
-      // Ensure that you're setting the refresh token after user creation
+      // Tạo và thiết lập refresh token trong cookie
       generateRefreshTokenAndSetCookie(res, newUser.id);
 
+      // Gửi email xác thực
       await sendVerificationEmail(newUser.email, verificationToken);
+
+      // Phản hồi thành công
       res.status(201).json({ success: true, newUser });
     } catch (error) {
       console.error('Error in register:', error);
@@ -68,17 +77,24 @@ const AdminController = {
     try {
       const { userId } = req.params;
       const { role } = req.body;
+
+      // Tìm người dùng theo userId
       const user = await User.findByPk(userId);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      user.role = role;
+      const roles = Array.isArray(role) ? role : [role];
+
+      user.role = roles;
       await user.save();
+
       res.json({
         message: 'User role updated successfully',
+        user,
       });
     } catch (error) {
+      console.error('Error updating user role:', error);
       res.status(500).json({
         error: 'Error updating user role',
       });
