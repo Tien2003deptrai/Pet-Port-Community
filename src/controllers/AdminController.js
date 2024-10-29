@@ -78,15 +78,18 @@ const AdminController = {
       const { userId } = req.params;
       const { role } = req.body;
 
-      // Tìm người dùng theo userId
       const user = await User.findByPk(userId);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      const roles = Array.isArray(role) ? role : [role];
+      const existingRoles = user.role || [];
 
-      user.role = roles;
+      const newRoles = Array.isArray(role) ? role : [role];
+
+      const updatedRoles = [...new Set([...existingRoles, ...newRoles])];
+
+      user.role = updatedRoles;
       await user.save();
 
       res.json({

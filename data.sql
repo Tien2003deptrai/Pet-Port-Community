@@ -262,7 +262,6 @@ CREATE TABLE Wishlists (
   UNIQUE (petOwner_id, service_id)
 );
 
--- Dữ liệu cho bảng Locations
 INSERT INTO Locations (name, type, createdAt, updatedAt) VALUES
 ('Hà Đông', 'District', NOW(), NOW()),
 ('Ba Đình', 'District', NOW(), NOW()),
@@ -288,7 +287,6 @@ INSERT INTO Categories (name, type, is_active, createdAt, updatedAt) VALUES
 ('Bird', 'Pet', true, NOW(), NOW()),
 ('Reptile', 'Pet', true, NOW(), NOW());
 
--- Dữ liệu cho bảng Users
 INSERT INTO Users (
     username, password, email, phone, role, full_name, 
     date_of_birth, address, location_id, avatar_url, 
@@ -299,7 +297,7 @@ INSERT INTO Users (
     website, business_description, opening_hours, 
     latitude, longitude, createdAt, updatedAt
 ) VALUES
-('nguyenvana', 'password123', 'nguyenvana@example.com', '0912345678', 'PetOwner', 'Nguyễn Văn A', 
+('nguyenvana', 'password123', 'nguyenvana@example.com', '0912345678', '["PetOwner"]', 'Nguyễn Văn A', 
  '1990-05-15', '123 Đường ABC, Ba Đình', 2, NULL, 
  TRUE, TRUE, '2024-04-01 09:00:00', 
  NULL, NULL, 
@@ -308,7 +306,7 @@ INSERT INTO Users (
  NULL, NULL, NULL, 
  21.0277644, 105.8341598, NOW(), NOW()),
 
-('tranngocanh', 'password456', 'tranngocanh@example.com', '0987654321', 'Doctor', 'Trần Ngọc Anh', 
+('tranngocanh', 'password456', 'tranngocanh@example.com', '0987654321', '["PetOwner", "Doctor"]', 'Trần Ngọc Anh', 
  '1985-08-22', '456 Đường DEF, Thanh Xuân', 3, NULL, 
  TRUE, TRUE, '2024-04-02 10:30:00', 
  NULL, NULL, 
@@ -317,7 +315,7 @@ INSERT INTO Users (
  NULL, NULL, NULL, 
  21.030716, 105.852630, NOW(), NOW()),
 
-('salescenter1', 'password789', 'salescenter1@example.com', '0901122334', 'SalesCenter', 'Sales Center 1', 
+('salescenter1', 'password789', 'salescenter1@example.com', '0901122334', '["SalesCenter"]', 'Sales Center 1', 
  NULL, '789 Đường GHI, Quận 1', 5, NULL, 
  TRUE, TRUE, '2024-04-03 12:45:00', 
  NULL, NULL, 
@@ -326,7 +324,7 @@ INSERT INTO Users (
  'http://salescenter1.example.com', 'Chuyên cung cấp sản phẩm cho thú cưng', '8:00 AM - 6:00 PM', 
  10.823099, 106.629664, NOW(), NOW()),
 
-('hoangthihue', 'password123', 'hoangthihue@example.com', '0909988776', 'PetOwner', 'Hoàng Thị Huệ', 
+('hoangthihue', 'password123', 'hoangthihue@example.com', '0909988776', '["PetOwner"]', 'Hoàng Thị Huệ', 
  '1995-03-10', '789 Đường JKL, Cầu Giấy', 4, NULL, 
  TRUE, TRUE, '2024-04-05 11:00:00', 
  NULL, NULL, 
@@ -335,7 +333,7 @@ INSERT INTO Users (
  NULL, NULL, NULL, 
  21.029778, 105.793332, NOW(), NOW()),
 
-('nguyenbvan', 'password321', 'nguyenbvan@example.com', '0977654321', 'Doctor', 'Nguyễn B Văn', 
+('nguyenbvan', 'password321', 'nguyenbvan@example.com', '0977654321', '["Doctor"]', 'Nguyễn B Văn', 
  '1982-11-20', '123 Đường ABC, Đống Đa', 7, NULL, 
  TRUE, TRUE, '2024-04-07 08:15:00', 
  NULL, NULL, 
@@ -344,7 +342,7 @@ INSERT INTO Users (
  NULL, NULL, NULL, 
  21.013657, 105.841984, NOW(), NOW()),
 
-('trankimchi', 'password654', 'trankimchi@example.com', '0902334455', 'PetOwner', 'Trần Kim Chi', 
+('trankimchi', 'password654', 'trankimchi@example.com', '0902334455', '["PetOwner"]', 'Trần Kim Chi', 
  '1990-12-25', '456 Đường XYZ, Hoàn Kiếm', 3, NULL, 
  TRUE, TRUE, '2024-04-10 16:45:00', 
  NULL, NULL, 
@@ -353,7 +351,7 @@ INSERT INTO Users (
  NULL, NULL, NULL, 
  21.028511, 105.848018, NOW(), NOW()),
 
-('phamthidung', 'password789', 'phamthidung@example.com', '0911223344', 'SalesCenter', 'Phạm Thị Dung', 
+('phamthidung', 'password789', 'phamthidung@example.com', '0911223344', '["SalesCenter"]', 'Phạm Thị Dung', 
  '1988-06-30', '789 Đường UVW, Tây Hồ', 5, NULL, 
  TRUE, TRUE, '2024-04-11 14:30:00', 
  NULL, NULL, 
@@ -362,7 +360,7 @@ INSERT INTO Users (
  'http://petsupplies.vn', 'Chuyên cung cấp phụ kiện cho thú cưng', '9:00 AM - 5:00 PM', 
  21.051777, 105.819454, NOW(), NOW()),
 
-('leminhtu', 'password456', 'leminhtu@example.com', '0901444555', 'Doctor', 'Lê Minh Tú', 
+('leminhtu', 'password456', 'leminhtu@example.com', '0901444555', '["Doctor"]', 'Lê Minh Tú', 
  '1979-05-05', '123 Đường OPQ, Hoàng Mai', 9, NULL, 
  TRUE, TRUE, '2024-04-12 07:50:00', 
  NULL, NULL, 
@@ -371,7 +369,7 @@ INSERT INTO Users (
  NULL, NULL, NULL, 
  21.004276, 105.870515, NOW(), NOW()),
 
-('nguyenthuy', 'password888', 'nguyenthuy@example.com', '0909876543', 'PetOwner', 'Nguyễn Thúy', 
+('nguyenthuy', 'password888', 'nguyenthuy@example.com', '0909876543', '["PetOwner"]', 'Nguyễn Thúy', 
  '1994-07-15', '234 Đường STU, Hai Bà Trưng', 8, NULL, 
  TRUE, TRUE, '2024-04-13 13:15:00', 
  NULL, NULL, 
@@ -380,7 +378,7 @@ INSERT INTO Users (
  NULL, NULL, NULL, 
  21.005904, 105.859499, NOW(), NOW()),
 
-('dangkimphu', 'password999', 'dangkimphu@example.com', '0911555666', 'SalesCenter', 'Đặng Kim Phú', 
+('dangkimphu', 'password999', 'dangkimphu@example.com', '0911555666', '["SalesCenter"]', 'Đặng Kim Phú', 
  NULL, '456 Đường VWX, Long Biên', 10, NULL, 
  TRUE, TRUE, '2024-04-14 09:30:00', 
  NULL, NULL, 
@@ -445,6 +443,7 @@ VALUES
 (2, 8, 9, 4, '2024-10-27', '14:00:00', 'Scheduled', 'Grooming for Sphynx', NOW(), NOW()),
 (6, 9, 8, 3, '2024-10-30', '10:00:00', 'Cancelled', 'Ultrasound check for parrot', NOW(), NOW()),
 (1, 10, 3, 1, '2024-11-01', '09:00:00', 'Scheduled', 'Routine vaccination for Labrador', NOW(), NOW());
+
 
 -- Dữ liệu cho bảng Orders
 INSERT INTO Orders (petOwner_id, total_amount, status, createdAt, updatedAt) VALUES
@@ -563,7 +562,3 @@ INSERT INTO Coupons (code, description, discount_type, discount_value, start_dat
 ('NEWYEAR2024', 'Giảm giá 20% nhân dịp năm mới', 'Percentage', 20.00, '2024-12-25', '2024-01-05', true, 7, NOW(), NOW()),
 ('SPRINGSALE', 'Giảm 100k cho đơn hàng từ 500k', 'Fixed Amount', 100.00, '2024-03-01', '2024-04-30', true, 8, NOW(), NOW()),
 ('LOYALTY5', 'Giảm 5% cho khách hàng thân thiết', 'Percentage', 5.00, '2024-01-01', '2024-12-31', true, 9, NOW(), NOW());
-
-
-
-
