@@ -42,7 +42,7 @@ const ProductController = {
           {
             model: User,
             as: 'SalesCenter',
-            attributes: ['id', 'full_name', 'business_name'],
+            attributes: ['id', 'full_name'],
           },
         ],
       });
@@ -74,7 +74,7 @@ const ProductController = {
           {
             model: User,
             as: 'SalesCenter',
-            attributes: ['id', 'full_name', 'business_name'],
+            attributes: ['id', 'full_name'],
           },
         ],
       });
@@ -134,7 +134,7 @@ const ProductController = {
           {
             model: User,
             as: 'SalesCenter',
-            attributes: ['id', 'full_name', 'business_name'],
+            attributes: ['id', 'full_name'],
           },
         ];
       }
@@ -183,7 +183,7 @@ const ProductController = {
         {
           model: User,
           as: 'SalesCenter',
-          attributes: ['id', 'full_name', 'business_name'],
+          attributes: ['id', 'full_name'],
         },
       ];
 
@@ -229,7 +229,7 @@ const ProductController = {
           {
             model: User,
             as: 'SalesCenter',
-            attributes: ['id', 'full_name', 'business_name'],
+            attributes: ['id', 'full_name'],
           },
           {
             model: Category,
@@ -270,7 +270,7 @@ const ProductController = {
           {
             model: User,
             as: 'SalesCenter',
-            attributes: ['id', 'full_name', 'business_name'],
+            attributes: ['id', 'full_name'],
           },
         ],
       });
@@ -290,7 +290,7 @@ const ProductController = {
           {
             model: User,
             as: 'SalesCenter',
-            attributes: ['id', 'full_name', 'business_name'],
+            attributes: ['id', 'full_name'],
           },
         ],
       });
@@ -367,7 +367,7 @@ const ProductController = {
           {
             model: User,
             as: 'SalesCenter',
-            attributes: ['id', 'full_name', 'business_name'],
+            attributes: ['id', 'full_name'],
           },
           {
             model: Category,

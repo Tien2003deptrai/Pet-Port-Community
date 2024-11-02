@@ -64,7 +64,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email'],
           },
           {
             model: Service,
@@ -117,7 +117,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email'],
           },
           {
             model: Service,
@@ -181,7 +181,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email'],
           },
           {
             model: Service,
@@ -253,7 +253,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email'],
           },
           {
             model: Service,
@@ -306,7 +306,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email'],
           },
           {
             model: Service,
@@ -359,7 +359,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email'],
           },
           {
             model: Service,
@@ -417,7 +417,7 @@ const AppointmentController = {
                 attributes: ['id', 'name', 'type'],
               },
             ],
-            attributes: ['id', 'username', 'full_name', 'business_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email'],
           },
           {
             model: Service,
