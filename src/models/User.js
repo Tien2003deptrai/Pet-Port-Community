@@ -81,8 +81,26 @@ const User = sequelize.define(
     verification_token_expires_at: {
       type: DataTypes.DATE,
     },
+    business_name: {
+      type: DataTypes.STRING(100),
+    },
+    license_number: {
+      type: DataTypes.STRING(50),
+    },
+    tax_id: {
+      type: DataTypes.STRING(20),
+    },
+    website: {
+      type: DataTypes.STRING(255),
+    },
+    business_description: {
+      type: DataTypes.TEXT,
+    },
+    opening_hours: {
+      type: DataTypes.TEXT,
+    },
 
-    // New doctor-specific fields
+    // Doctor-specific fields
     cccd: {
       type: DataTypes.STRING(12),
       allowNull: true,
@@ -105,6 +123,19 @@ const User = sequelize.define(
     },
     closing_time: {
       type: DataTypes.TIME,
+      allowNull: true,
+    },
+
+    cccd_front_image: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    cccd_back_image: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    certificate_image: {
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
   },

@@ -139,6 +139,9 @@ const AdminController = {
         experience_years,
         opening_time,
         closing_time,
+        cccd_front_image,
+        cccd_back_image,
+        certificate_image,
       } = req.body;
 
       const user = await User.findByPk(userId);
@@ -155,10 +158,36 @@ const AdminController = {
         experience_years,
         opening_time,
         closing_time,
+        cccd_front_image,
+        cccd_back_image,
+        certificate_image,
         role: updatedRoles,
       });
 
-      res.status(200).json({ message: 'Upgrade to Doctor successful', user });
+      res.status(200).json({
+        message: 'Upgrade to Doctor successful',
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          is_active: user.is_active,
+          is_verified: user.is_verified,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+        },
+        doctor: {
+          cccd: user.cccd,
+          clinic_address: user.clinic_address,
+          practice_certificate: user.practice_certificate,
+          experience_years: user.experience_years,
+          opening_time: user.opening_time,
+          closing_time: user.closing_time,
+          cccd_front_image: user.cccd_front_image,
+          cccd_back_image: user.cccd_back_image,
+          certificate_image: user.certificate_image,
+        },
+      });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
