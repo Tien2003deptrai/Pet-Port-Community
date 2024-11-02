@@ -133,6 +133,9 @@ const AdminController = {
     try {
       const {
         userId,
+        phone,
+        date_of_birth,
+        avatar_url,
         cccd,
         clinic_address,
         practice_certificate,
@@ -152,6 +155,9 @@ const AdminController = {
       const updatedRoles = [...new Set([...user.role, 'Doctor'])];
 
       await user.update({
+        phone,
+        date_of_birth,
+        avatar_url,
         cccd,
         clinic_address,
         practice_certificate,
@@ -171,6 +177,9 @@ const AdminController = {
           username: user.username,
           email: user.email,
           role: user.role,
+          phone,
+          date_of_birth,
+          avatar_url,
           is_active: user.is_active,
           is_verified: user.is_verified,
           createdAt: user.createdAt,
