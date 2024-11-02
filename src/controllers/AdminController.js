@@ -133,6 +133,9 @@ const AdminController = {
     try {
       const {
         userId,
+        phone,
+        date_of_birth,
+        avatar_url,
         cccd,
         clinic_address,
         practice_certificate,
@@ -149,9 +152,10 @@ const AdminController = {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      const updatedRoles = [...new Set([...user.role, 'Doctor'])];
-
       await user.update({
+        phone,
+        date_of_birth,
+        avatar_url,
         cccd,
         clinic_address,
         practice_certificate,
@@ -161,16 +165,19 @@ const AdminController = {
         cccd_front_image,
         cccd_back_image,
         certificate_image,
-        role: updatedRoles,
+        is_doctor_approved: false,
       });
 
       res.status(200).json({
-        message: 'Upgrade to Doctor successful',
+        message: 'Doctor registration request submitted. Awaiting admin approval.',
         user: {
           id: user.id,
           username: user.username,
           email: user.email,
           role: user.role,
+          phone,
+          date_of_birth,
+          avatar_url,
           is_active: user.is_active,
           is_verified: user.is_verified,
           createdAt: user.createdAt,
@@ -186,6 +193,40 @@ const AdminController = {
           cccd_front_image: user.cccd_front_image,
           cccd_back_image: user.cccd_back_image,
           certificate_image: user.certificate_image,
+        },
+      });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
+  async ApproveDoctor(req, res) {
+    try {
+      const { userId } = req.params;
+
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (user.is_doctor_approved) {
+        return res.status(400).json({ message: 'User is already approved as Doctor' });
+      }
+
+      const updatedRoles = [...new Set([...user.role, 'Doctor'])];
+      await user.update({
+        role: updatedRoles,
+        is_doctor_approved: true,
+      });
+
+      res.status(200).json({
+        message: 'User successfully approved as Doctor',
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          is_doctor_approved: user.is_doctor_approved,
         },
       });
     } catch (error) {
