@@ -81,29 +81,31 @@ const User = sequelize.define(
     verification_token_expires_at: {
       type: DataTypes.DATE,
     },
-    business_name: {
-      type: DataTypes.STRING(100),
+
+    // New doctor-specific fields
+    cccd: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
     },
-    license_number: {
-      type: DataTypes.STRING(50),
-    },
-    tax_id: {
-      type: DataTypes.STRING(20),
-    },
-    website: {
+    clinic_address: {
       type: DataTypes.STRING(255),
+      allowNull: true,
     },
-    business_description: {
-      type: DataTypes.TEXT,
+    practice_certificate: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
     },
-    opening_hours: {
-      type: DataTypes.TEXT,
+    experience_years: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
-    latitude: {
-      type: DataTypes.DECIMAL(10, 8),
+    opening_time: {
+      type: DataTypes.TIME,
+      allowNull: true,
     },
-    longitude: {
-      type: DataTypes.DECIMAL(11, 8),
+    closing_time: {
+      type: DataTypes.TIME,
+      allowNull: true,
     },
   },
   {

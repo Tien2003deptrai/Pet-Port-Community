@@ -128,6 +128,41 @@ const AdminController = {
       });
     }
   },
+
+  async UpgradeToDoctor(req, res) {
+    try {
+      const {
+        userId,
+        cccd,
+        clinic_address,
+        practice_certificate,
+        experience_years,
+        opening_time,
+        closing_time,
+      } = req.body;
+
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const updatedRoles = [...new Set([...user.role, 'Doctor'])];
+
+      await user.update({
+        cccd,
+        clinic_address,
+        practice_certificate,
+        experience_years,
+        opening_time,
+        closing_time,
+        role: updatedRoles,
+      });
+
+      res.status(200).json({ message: 'Upgrade to Doctor successful', user });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
 };
 
 module.exports = AdminController;
