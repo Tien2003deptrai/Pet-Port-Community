@@ -10,6 +10,8 @@ router.put('/role/:userId', AdminController.manageUserRoles);
 
 router.post('/upgrade-to-doctor', AdminController.UpgradeToDoctor);
 
+router.post('/approve-doctor/:userId', AdminController.ApproveDoctor);
+
 router.post('/avatar', AdminController.updateAvatar);
 
 module.exports = router;
