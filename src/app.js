@@ -52,6 +52,8 @@ app.use('/api/v1', require('./routes/index'));
 
 setupSwaggerDocs(app);
 
+//
+
 // API routes
 app.get('/index', (req, res) => {
   res.status(200).json({
@@ -106,7 +108,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   res.setHeader(
-    "Content-Security-Policy",
+    'Content-Security-Policy',
     "script-src 'self' 'unsafe-inline' chrome-extension://be05ad2b-262c-45a9-b74d-150144d91459"
   );
   next();

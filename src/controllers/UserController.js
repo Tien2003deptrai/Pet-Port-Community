@@ -1,4 +1,4 @@
-const { User, Op } = require('@models');
+const { User } = require('@models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -10,6 +10,7 @@ const {
   sendResetSuccessEmail,
 } = require('../mail/emails');
 // const client = require('../config/twilio');
+const { Op } = require('sequelize');
 
 const UserController = {
   async register(req, res) {
@@ -281,6 +282,48 @@ const UserController = {
       console.error('Error deleting user: ', error);
       res.status(500).json({
         error: 'Error deleting user',
+      });
+    }
+  },
+
+  async getUserById(req, res) {
+    try {
+      const user = await User.findByPk(req.params.id, {
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt'],
+        },
+      });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.json({ user: user });
+    } catch (error) {
+      console.error('Error getting user by id: ', error);
+      res.status(500).json({
+        error: 'Error getting user by id',
+      });
+    }
+  },
+
+  async getDoctors(req, res) {
+    try {
+      const doctors = await User.findAll({
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt'],
+        },
+      });
+
+      const doctorUsers = doctors.filter(user => user.role.includes('Doctor'));
+
+      if (doctorUsers.length === 0) {
+        return res.status(404).json({ error: 'No doctors found' });
+      }
+
+      res.json({ doctors: doctorUsers });
+    } catch (error) {
+      console.error('Error getting doctors: ', error);
+      res.status(500).json({
+        error: 'Error getting doctors',
       });
     }
   },

@@ -15,5 +15,7 @@ router.post(
   validate(UserValidation.resetPassword),
   UserController.resetPassword
 );
+router.get('/users/:id', UserController.getUserById);
+router.get('/doctors', UserController.getDoctors);
 
 module.exports = router;
