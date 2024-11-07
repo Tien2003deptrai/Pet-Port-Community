@@ -1,42 +1,68 @@
-const { Payment, Order } = require('@models');
+const { Payment, Order, OrderItem, Product } = require('@models');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
+
+const successUrl = `${process.env.BASE_URL}/shop`;
+const cancelUrl = `${process.env.BASE_URL}/cancel`;
+
+if (!/^https?:\/\//.test(successUrl) || !/^https?:\/\//.test(cancelUrl)) {
+  return res.status(500).json({ error: 'Invalid BASE_URL configuration.' });
+}
 
 const PaymentController = {
   async createPayment(req, res) {
-    const { orderId, items } = req.body;
+    const { orderId } = req.body;
 
     try {
-      if (!orderId || !items || items.length === 0) {
+      if (!orderId) {
         return res.status(400).send({
-          error: 'Order ID and items are required',
+          error: 'Order ID is required',
         });
       }
+
+      const order = await Order.findByPk(orderId, {
+        include: [
+          {
+            model: OrderItem,
+            as: 'OrderItems',
+            include: [
+              {
+                model: Product,
+                as: 'Product',
+                attributes: ['name'],
+              },
+            ],
+          },
+        ],
+      });
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
-        line_items: items.map(item => ({
+        line_items: order.OrderItems.map(item => ({
           price_data: {
             currency: 'usd',
             product_data: {
-              name: item.name,
+              name: item.Product.name,
             },
-            unit_amount: item.priceInCents,
+            unit_amount: Math.round(item.unit_price * 100),
           },
           quantity: item.quantity,
         })),
-        success_url: 'http://localhost:3000/success',
-        cancel_url: 'http://localhost:3000/cancel',
+        success_url: `${process.env.BASE_URL}/shop`,
+        cancel_url: `${process.env.BASE_URL}/cancel`,
       });
 
       await Payment.create({
         order_id: orderId,
-        amount: items.reduce((total, item) => total + item.priceInCents * item.quantity, 0),
+        amount: order.total_amount,
         payment_method: 'Credit Card',
         status: 'Pending',
         transaction_id: session.id,
         payment_date: new Date(),
       });
+
+      console.log('session', session);
+
       res.status(200).json({ success: true, id: session.id, url: session.url });
     } catch (error) {
       console.error('Error creating payment session:', error);

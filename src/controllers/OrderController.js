@@ -1,18 +1,23 @@
-const { Order, OrderItem, Product, Service, OrderService } = require('@models');
+const { Order, OrderItem, Product, Service, OrderService, sequelize } = require('@models');
 
 const OrderController = {
   async createOrderProduct(req, res) {
     const { petOwner_id, items } = req.body;
 
+    const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
+
+    const transaction = await sequelize.transaction();
     try {
-      const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
+      const order = await Order.create(
+        {
+          petOwner_id,
+          total_amount: totalAmount,
+          status: 'Pending',
+        },
+        { transaction }
+      );
 
-      const order = await Order.create({
-        petOwner_id: petOwner_id,
-        total_amount: totalAmount,
-        status: 'Pending',
-      });
-
+      // Chuẩn bị dữ liệu cho các mục đơn hàng
       const orderItems = items.map(item => ({
         order_id: order.id,
         product_id: item.productId,
@@ -21,14 +26,14 @@ const OrderController = {
         subtotal: item.price * item.quantity,
       }));
 
-      await OrderItem.bulkCreate(orderItems);
+      // Tạo các mục đơn hàng trong cơ sở dữ liệu
+      await OrderItem.bulkCreate(orderItems, { transaction });
 
-      res.status(201).json({
-        success: true,
-        orderId: order.id,
-        totalAmount,
-      });
+      // Xác nhận transaction
+      await transaction.commit();
+      res.status(201).json({ success: true, orderId: order.id, totalAmount });
     } catch (error) {
+      await transaction.rollback();
       console.error('Error creating order:', error);
       res.status(500).send({ error: error.message });
     }
