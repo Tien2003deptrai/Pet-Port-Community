@@ -1,7 +1,7 @@
 const { User, Op } = require('@models');
 const { generateRefreshTokenAndSetCookie } = require('../utils');
 const { sendVerificationEmail } = require('../mail/emails');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const AdminController = {
   async registerUser(req, res) {
