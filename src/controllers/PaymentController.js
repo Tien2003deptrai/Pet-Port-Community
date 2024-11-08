@@ -1,22 +1,19 @@
-const { Payment, Order, OrderItem, Product } = require('@models');
+const { Payment, Order, OrderItem, Product, Op } = require('@models');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
-
-const successUrl = `${process.env.BASE_URL}/shop`;
-const cancelUrl = `${process.env.BASE_URL}/cancel`;
-
-if (!/^https?:\/\//.test(successUrl) || !/^https?:\/\//.test(cancelUrl)) {
-  return res.status(500).json({ error: 'Invalid BASE_URL configuration.' });
-}
 
 const PaymentController = {
   async createPayment(req, res) {
     const { orderId } = req.body;
+    const successUrl = `${process.env.BASE_URL}/shop`;
+    const cancelUrl = `${process.env.BASE_URL}/cancel`;
+
+    if (!/^https?:\/\//.test(successUrl) || !/^https?:\/\//.test(cancelUrl)) {
+      return res.status(500).json({ error: 'Invalid BASE_URL configuration.' });
+    }
 
     try {
       if (!orderId) {
-        return res.status(400).send({
-          error: 'Order ID is required',
-        });
+        return res.status(400).json({ error: 'Order ID is required' });
       }
 
       const order = await Order.findByPk(orderId, {
@@ -35,21 +32,23 @@ const PaymentController = {
         ],
       });
 
+      if (!order) {
+        return res.status(404).json({ error: 'Order not found' });
+      }
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
         line_items: order.OrderItems.map(item => ({
           price_data: {
             currency: 'usd',
-            product_data: {
-              name: item.Product.name,
-            },
+            product_data: { name: item.Product.name },
             unit_amount: Math.round(item.unit_price * 100),
           },
           quantity: item.quantity,
         })),
-        success_url: `${process.env.BASE_URL}/shop`,
-        cancel_url: `${process.env.BASE_URL}/cancel`,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
       });
 
       await Payment.create({
@@ -61,12 +60,10 @@ const PaymentController = {
         payment_date: new Date(),
       });
 
-      console.log('session', session);
-
       res.status(200).json({ success: true, id: session.id, url: session.url });
     } catch (error) {
       console.error('Error creating payment session:', error);
-      res.status(500).send({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
 
@@ -75,31 +72,19 @@ const PaymentController = {
     try {
       const paymentUpdated = await Payment.update(
         { status },
-        {
-          where: {
-            transaction_id: paymentIntentId,
-          },
-        }
+        { where: { transaction_id: paymentIntentId } }
       );
 
       if (!paymentUpdated[0]) {
-        return res.status(404).send({ message: 'Payment not found' });
+        return res.status(404).json({ message: 'Payment not found' });
       }
 
-      await Order.update(
-        { status: 'Completed' },
-        {
-          where: { id: orderId },
-        }
-      );
+      await Order.update({ status: 'Completed' }, { where: { id: orderId } });
 
-      res.status(200).json({
-        success: true,
-        message: 'Payment and order status updated',
-      });
+      res.status(200).json({ success: true, message: 'Payment and order status updated' });
     } catch (error) {
       console.error('Error updating payment or order status:', error);
-      res.status(500).send({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
 
@@ -108,10 +93,7 @@ const PaymentController = {
       const payments = await Payment.findAll();
       res.status(200).json({ success: true, data: payments });
     } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
+      res.status(500).json({ message: 'Server error', error });
     }
   },
 
@@ -122,26 +104,18 @@ const PaymentController = {
       if (!payment) return res.status(404).json({ message: 'Payment not found' });
       res.json(payment);
     } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
+      res.status(500).json({ message: 'Server error', error });
     }
   },
 
   async delete(req, res) {
     const { id } = req.params;
     try {
-      const deleted = await Payment.destroy({
-        where: { id },
-      });
+      const deleted = await Payment.destroy({ where: { id } });
       if (!deleted) return res.status(404).json({ message: 'Payment not found' });
-      res.status(200).json({ success: true, message: 'Detele successfully' });
+      res.status(200).json({ success: true, message: 'Deleted successfully' });
     } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
+      res.status(500).json({ message: 'Server error', error });
     }
   },
 
@@ -150,40 +124,27 @@ const PaymentController = {
       const totalPayments = await Payment.sum('amount');
       res.status(200).json({ success: true, data: totalPayments });
     } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
+      res.status(500).json({ message: 'Server error', error });
     }
   },
 
   async getPaymentsByOrderId(req, res) {
     const { orderId } = req.params;
     try {
-      const payments = await Payment.findAll({
-        where: { order_id: orderId },
-      });
+      const payments = await Payment.findAll({ where: { order_id: orderId } });
       res.status(200).json({ success: true, data: payments });
     } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
+      res.status(500).json({ message: 'Server error', error });
     }
   },
 
   async getPaymentsByStatus(req, res) {
     const { status } = req.params;
     try {
-      const payments = await Payment.findAll({
-        where: { status },
-      });
+      const payments = await Payment.findAll({ where: { status } });
       res.status(200).json({ success: true, data: payments });
     } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
+      res.status(500).json({ message: 'Server error', error });
     }
   },
 
@@ -195,22 +156,14 @@ const PaymentController = {
           const paymentIntent = event.data.object;
           await Payment.update(
             { status: 'Completed' },
-            {
-              where: {
-                transaction_id: paymentIntent.id,
-              },
-            }
+            { where: { transaction_id: paymentIntent.id } }
           );
           break;
         case 'payment_intent.payment_failed':
           const failedPaymentIntent = event.data.object;
           await Payment.update(
             { status: 'Failed' },
-            {
-              where: {
-                transaction_id: failedPaymentIntent.id,
-              },
-            }
+            { where: { transaction_id: failedPaymentIntent.id } }
           );
           break;
         default:
@@ -219,7 +172,7 @@ const PaymentController = {
       res.status(200).send({ received: true });
     } catch (error) {
       console.error('Error handling webhook:', error);
-      res.status(500).send({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
 
@@ -228,17 +181,12 @@ const PaymentController = {
     try {
       const payments = await Payment.findAll({
         where: {
-          payment_date: {
-            [Op.between]: [new Date(startDate), new Date(endDate)],
-          },
+          payment_date: { [Op.between]: [new Date(startDate), new Date(endDate)] },
         },
       });
       res.status(200).json({ success: true, data: payments });
     } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
+      res.status(500).json({ message: 'Server error', error });
     }
   },
 };
