@@ -39,39 +39,6 @@ const OrderController = {
     }
   },
 
-  async createOrderService(req, res) {
-    const { petOwner_id, items } = req.body;
-
-    try {
-      const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
-
-      const order = await Order.create({
-        petOwner_id: petOwner_id,
-        total_amount: totalAmount,
-        status: 'Pending',
-      });
-
-      const orderServices = items.map(item => ({
-        order_id: order.id,
-        service_id: item.serviceId,
-        quantity: item.quantity,
-        unit_price: item.price,
-        subtotal: item.price * item.quantity,
-      }));
-
-      await OrderService.bulkCreate(orderServices);
-
-      res.status(201).json({
-        success: true,
-        orderId: order.id,
-        totalAmount,
-      });
-    } catch (error) {
-      console.error('Error creating order:', error);
-      res.status(500).send({ error: error.message });
-    }
-  },
-
   async getAll(req, res) {
     try {
       const orders = await Order.findAll({
@@ -83,17 +50,6 @@ const OrderController = {
               {
                 model: Product,
                 as: 'Product',
-                attributes: ['name', 'price'],
-              },
-            ],
-          },
-          {
-            model: OrderService,
-            as: 'OrderServices',
-            include: [
-              {
-                model: Service,
-                as: 'Service',
                 attributes: ['name', 'price'],
               },
             ],
@@ -121,17 +77,6 @@ const OrderController = {
               {
                 model: Product,
                 as: 'Product',
-                attributes: ['name', 'price'],
-              },
-            ],
-          },
-          {
-            model: OrderService,
-            as: 'OrderServices',
-            include: [
-              {
-                model: Service,
-                as: 'Service',
                 attributes: ['name', 'price'],
               },
             ],
@@ -212,17 +157,6 @@ const OrderController = {
               },
             ],
           },
-          {
-            model: OrderService,
-            as: 'OrderServices',
-            include: [
-              {
-                model: Service,
-                as: 'Service',
-                attributes: ['name', 'price'],
-              },
-            ],
-          },
         ],
       });
       res.status(200).json({ success: true, data: orders });
@@ -283,17 +217,6 @@ const OrderController = {
               {
                 model: Product,
                 as: 'Product',
-                attributes: ['name', 'price'],
-              },
-            ],
-          },
-          {
-            model: OrderService,
-            as: 'OrderServices',
-            include: [
-              {
-                model: Service,
-                as: 'Service',
                 attributes: ['name', 'price'],
               },
             ],

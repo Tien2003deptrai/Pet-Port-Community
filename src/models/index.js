@@ -6,11 +6,9 @@ const Location = require('./Location');
 const Category = require('./Category');
 const Pet = require('./Pet');
 const Product = require('./Product');
-const Service = require('./Service');
 const Appointment = require('./Appointment');
 const Order = require('./Order');
 const OrderItem = require('./OrderItem');
-const OrderService = require('./OrderService');
 const Payment = require('./Payment');
 const Post = require('./Post');
 const Comment = require('./Comment');
@@ -48,16 +46,6 @@ User.hasMany(Product, {
 Product.belongsTo(User, {
   foreignKey: 'sales_center_id',
   as: 'SalesCenter',
-});
-
-// User - Service
-User.hasMany(Service, {
-  foreignKey: 'doctor_id',
-  as: 'DoctorServices',
-});
-Service.belongsTo(User, {
-  foreignKey: 'doctor_id',
-  as: 'Doctor',
 });
 
 // User - Appointment (Pet Owner)
@@ -144,32 +132,12 @@ Review.belongsTo(Product, {
   as: 'Product',
 });
 
-// Service - Review
-Service.hasMany(Review, {
-  foreignKey: 'service_id',
-  as: 'ServiceReviews',
-});
-Review.belongsTo(Service, {
-  foreignKey: 'service_id',
-  as: 'Service',
-});
-
 // Category - Product
 Category.hasMany(Product, {
   foreignKey: 'category_id',
   as: 'CategoryProducts',
 });
 Product.belongsTo(Category, {
-  foreignKey: 'category_id',
-  as: 'Category',
-});
-
-// Category - Service
-Category.hasMany(Service, {
-  foreignKey: 'category_id',
-  as: 'CategoryServices',
-});
-Service.belongsTo(Category, {
   foreignKey: 'category_id',
   as: 'Category',
 });
@@ -194,16 +162,6 @@ OrderItem.belongsTo(Order, {
   as: 'Order',
 });
 
-// Order - OrderService
-Order.hasMany(OrderService, {
-  foreignKey: 'order_id',
-  as: 'OrderServices',
-});
-OrderService.belongsTo(Order, {
-  foreignKey: 'order_id',
-  as: 'Order',
-});
-
 // Product - OrderItem
 Product.hasMany(OrderItem, {
   foreignKey: 'product_id',
@@ -212,16 +170,6 @@ Product.hasMany(OrderItem, {
 OrderItem.belongsTo(Product, {
   foreignKey: 'product_id',
   as: 'Product',
-});
-
-// Service - OrderService
-Service.hasMany(OrderService, {
-  foreignKey: 'service_id',
-  as: 'ServiceOrderServices',
-});
-OrderService.belongsTo(Service, {
-  foreignKey: 'service_id',
-  as: 'Service',
 });
 
 // Order - Payment
@@ -254,16 +202,6 @@ Appointment.belongsTo(Pet, {
   as: 'Pet',
 });
 
-// Appointment - Service
-Appointment.belongsTo(Service, {
-  foreignKey: 'service_id',
-  as: 'Service',
-});
-Service.hasMany(Appointment, {
-  foreignKey: 'service_id',
-  as: 'ServiceAppointments',
-});
-
 // User - Comment
 Comment.belongsTo(User, {
   foreignKey: 'petOwner_Id',
@@ -293,11 +231,9 @@ module.exports = {
   Category,
   Pet,
   Product,
-  Service,
   Appointment,
   Order,
   OrderItem,
-  OrderService,
   Payment,
   Post,
   Comment,

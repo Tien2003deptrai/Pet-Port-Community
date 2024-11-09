@@ -2,7 +2,7 @@ const { body, param } = require('express-validator');
 
 const ReviewValidation = {
   create: [
-    body('reviewer_id')
+    body('petOwner_Id')
       .notEmpty()
       .withMessage('Reviewer ID is required')
       .isInt()

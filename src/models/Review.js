@@ -10,7 +10,7 @@ const Review = sequelize.define(
       autoIncrement: true,
       allowNull: false,
     },
-    reviewer_id: {
+    petOwner_Id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -22,13 +22,6 @@ const Review = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: 'Products',
-        key: 'id',
-      },
-    },
-    service_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Services',
         key: 'id',
       },
     },

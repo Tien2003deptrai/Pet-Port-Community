@@ -1,9 +1,9 @@
-const { Appointment, Pet, User, Service, Category, Location, Op } = require('@models');
+const { Appointment, Pet, User, Category, Location, Op } = require('@models');
 
 const AppointmentController = {
   // Tạo cuộc hẹn
   async create(req, res) {
-    const { pet_owner_id, pet_id, doctor_id, service_id, appointment_date, notes } = req.body;
+    const { pet_owner_id, pet_id, doctor_id, appointment_date, appointment_time, notes } = req.body;
     try {
       const existingAppointments = await Appointment.findAll({
         where: {
@@ -26,8 +26,8 @@ const AppointmentController = {
         pet_owner_id,
         pet_id,
         doctor_id,
-        service_id,
         appointment_date,
+        appointment_time,
         notes,
       });
       res.status(201).json({ success: true, data: appointment });
@@ -65,18 +65,6 @@ const AppointmentController = {
             model: User,
             as: 'Doctor',
             attributes: ['id', 'username', 'full_name', 'email'],
-          },
-          {
-            model: Service,
-            as: 'Service',
-            include: [
-              {
-                model: Category,
-                as: 'Category',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
-            attributes: ['id', 'name', 'description', 'price'],
           },
         ],
         order: [['appointment_date', 'ASC']],
@@ -118,18 +106,6 @@ const AppointmentController = {
             model: User,
             as: 'Doctor',
             attributes: ['id', 'username', 'full_name', 'email'],
-          },
-          {
-            model: Service,
-            as: 'Service',
-            include: [
-              {
-                model: Category,
-                as: 'Category',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
-            attributes: ['id', 'name', 'description', 'price'],
           },
         ],
       });
@@ -182,18 +158,6 @@ const AppointmentController = {
             model: User,
             as: 'Doctor',
             attributes: ['id', 'username', 'full_name', 'email'],
-          },
-          {
-            model: Service,
-            as: 'Service',
-            include: [
-              {
-                model: Category,
-                as: 'Category',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
-            attributes: ['id', 'name', 'description', 'price'],
           },
         ],
       });
@@ -255,18 +219,6 @@ const AppointmentController = {
             as: 'Doctor',
             attributes: ['id', 'username', 'full_name', 'email'],
           },
-          {
-            model: Service,
-            as: 'Service',
-            include: [
-              {
-                model: Category,
-                as: 'Category',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
-            attributes: ['id', 'name', 'description', 'price'],
-          },
         ],
         order: [['appointment_date', 'ASC']],
       });
@@ -308,18 +260,6 @@ const AppointmentController = {
             as: 'Doctor',
             attributes: ['id', 'username', 'full_name', 'email'],
           },
-          {
-            model: Service,
-            as: 'Service',
-            include: [
-              {
-                model: Category,
-                as: 'Category',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
-            attributes: ['id', 'name', 'description', 'price'],
-          },
         ],
         order: [['appointment_date', 'ASC']],
       });
@@ -360,18 +300,6 @@ const AppointmentController = {
             model: User,
             as: 'Doctor',
             attributes: ['id', 'username', 'full_name', 'email'],
-          },
-          {
-            model: Service,
-            as: 'Service',
-            include: [
-              {
-                model: Category,
-                as: 'Category',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
-            attributes: ['id', 'name', 'description', 'price'],
           },
         ],
         order: [['appointment_date', 'ASC']],
@@ -418,18 +346,6 @@ const AppointmentController = {
               },
             ],
             attributes: ['id', 'username', 'full_name', 'email'],
-          },
-          {
-            model: Service,
-            as: 'Service',
-            include: [
-              {
-                model: Category,
-                as: 'Category',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
-            attributes: ['id', 'name', 'description', 'price'],
           },
         ],
         order: [['appointment_date', 'ASC']],

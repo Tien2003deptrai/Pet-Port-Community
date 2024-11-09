@@ -15,7 +15,6 @@ router.use('/locations', require('./LocationRoutes'));
 router.use('/categories', require('./CategoryRoutes'));
 router.use('/pets', require('./PetRoutes'));
 router.use('/products', require('./ProductRoutes'));
-router.use('/services', require('./ServiceRoutes'));
 router.use('/appointments', require('./AppointmentRoutes'));
 router.use('/posts', require('./PostRoutes'));
 router.use('/comments', require('./CommentRoutes'));

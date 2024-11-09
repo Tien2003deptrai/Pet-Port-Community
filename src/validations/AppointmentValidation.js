@@ -19,25 +19,12 @@ const AppointmentValidation = {
       .withMessage('Doctor ID is required')
       .isInt()
       .withMessage('Doctor ID must be a valid integer'),
-
-    body('service_id')
-      .notEmpty()
-      .withMessage('Service ID is required')
-      .isInt()
-      .withMessage('Service ID must be a valid integer'),
-
     body('appointment_date')
       .notEmpty()
       .withMessage('Appointment date is required')
       .isISO8601()
-      .withMessage('Appointment date must be valid')
-      .custom(value => {
-        if (new Date(value) <= new Date()) {
-          throw new Error('Appointment date must be in the future');
-        }
-        return true;
-      }),
-
+      .withMessage('Appointment date must be valid'),
+    body('appointment_time').notEmpty().withMessage('Appointment time is required'),
     body('notes')
       .optional()
       .isString()
@@ -53,17 +40,8 @@ const AppointmentValidation = {
       .isInt()
       .withMessage('Appointment ID must be a valid integer'),
 
-    body('appointment_date')
-      .optional()
-      .isISO8601()
-      .withMessage('Appointment date must be valid')
-      .custom(value => {
-        if (value && new Date(value) <= new Date()) {
-          throw new Error('Appointment date must be in the future');
-        }
-        return true;
-      }),
-
+    body('appointment_date').optional().isISO8601().withMessage('Appointment date must be valid'),
+    body('appointment_time').notEmpty().withMessage('Appointment time is required'),
     body('status')
       .optional()
       .isIn(['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'])

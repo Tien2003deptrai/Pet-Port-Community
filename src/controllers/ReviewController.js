@@ -1,12 +1,12 @@
-const { Review, User, Product, Service, sequelize } = require('@models');
+const { Review, User, Product, sequelize } = require('@models');
 
 const ReviewController = {
   async create(req, res) {
-    const { reviewer_id, product_id, service_id, rating, title, comment, is_verified_purchase } =
+    const { petOwner_Id, product_id, service_id, rating, title, comment, is_verified_purchase } =
       req.body;
     try {
       const review = await Review.create({
-        reviewer_id,
+        petOwner_Id,
         product_id,
         service_id,
         rating,
@@ -37,11 +37,6 @@ const ReviewController = {
             as: 'Product',
             attributes: ['id', 'name'],
           },
-          {
-            model: Service,
-            as: 'Service',
-            attributes: ['id', 'name'],
-          },
         ],
       });
       res.status(201).json({ success: true, data: reviews });
@@ -68,11 +63,6 @@ const ReviewController = {
             as: 'Product',
             attributes: ['id', 'name'],
           },
-          {
-            model: Service,
-            as: 'Service',
-            attributes: ['id', 'name'],
-          },
         ],
       });
       if (!review) return res.status(404).json({ message: 'Review not found' });
@@ -92,7 +82,7 @@ const ReviewController = {
       const [updated] = await Review.update({ rating, title, comment }, { where: { id } });
       if (!updated) return res.status(404).json({ message: 'Review not found' });
       const updatedReview = await Review.findByPk(id);
-      res.status(201).json({ success: true, data: review });
+      res.status(201).json({ success: true, data: updatedReview });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -164,38 +154,6 @@ const ReviewController = {
             as: 'Product',
             attributes: ['id', 'name'],
           },
-          {
-            model: Service,
-            as: 'Service',
-            attributes: ['id', 'name'],
-          },
-        ],
-      });
-      res.status(201).json({ success: true, data: reviews });
-    } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
-    }
-  },
-
-  async getReviewsByService(req, res) {
-    const { service_id } = req.params;
-    try {
-      const reviews = await Review.findAll({
-        where: { service_id },
-        include: [
-          {
-            model: User,
-            as: 'PetOwner',
-            attributes: ['id', 'username', 'full_name'],
-          },
-          {
-            model: Product,
-            as: 'Product',
-            attributes: ['id', 'name'],
-          },
         ],
       });
       res.status(201).json({ success: true, data: reviews });
@@ -229,7 +187,7 @@ const ReviewController = {
     try {
       const updated = await Review.update({ is_verified_purchase: true }, { where: { id } });
       if (!updated[0]) return res.status(404).json({ message: 'Review not found' });
-      rres.status(201).json({
+      res.status(201).json({
         success: true,
         message: 'Review verified successfully',
       });

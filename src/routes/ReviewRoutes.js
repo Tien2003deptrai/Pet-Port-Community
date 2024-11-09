@@ -23,12 +23,6 @@ router.get(
   ReviewController.getReviewsByPetOwner
 );
 
-router.get(
-  '/service/:service_id',
-  validate(ReviewValidation.getById),
-  ReviewController.getReviewsByService
-);
-
 router.get('/best-worst', ReviewController.getBestAndWorstReview);
 
 router.put('/verify/:id', validate(ReviewValidation.verifyReview), ReviewController.verifyReview);

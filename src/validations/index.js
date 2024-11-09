@@ -10,7 +10,6 @@ const PetValidation = require('./PetValidation');
 const PostValidation = require('./PostValidation');
 const ProductValidation = require('./ProductValidation');
 const ReviewValidation = require('./ReviewValidation');
-const ServiceValidation = require('./ServiceValidation');
 const UserValidation = require('./UserValidation');
 
 module.exports = {
@@ -26,6 +25,5 @@ module.exports = {
   PostValidation,
   ProductValidation,
   ReviewValidation,
-  ServiceValidation,
   UserValidation,
 };

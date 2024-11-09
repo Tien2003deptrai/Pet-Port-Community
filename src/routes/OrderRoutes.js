@@ -13,12 +13,6 @@ router.post(
   OrderController.createOrderProduct
 );
 
-router.post(
-  '/services',
-  validate(OrderValidation.createOrderService),
-  OrderController.createOrderService
-);
-
 router.get('/total-orders', OrderController.getTotalOrders);
 
 router.get('/total-revenue', OrderController.calculateTotalRevenue);

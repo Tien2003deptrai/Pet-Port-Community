@@ -19,24 +19,6 @@ const OrderValidation = {
     body('items.*.price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   ],
 
-  createOrderService: [
-    body('petOwner_id')
-      .notEmpty()
-      .withMessage('Pet Owner ID is required')
-      .isInt()
-      .withMessage('Pet Owner ID must be a valid integer'),
-    body('items')
-      .isArray({ min: 1 })
-      .withMessage('Order items must be an array with at least one item'),
-    body('items.*.serviceId')
-      .notEmpty()
-      .withMessage('Service ID is required')
-      .isInt()
-      .withMessage('Service ID must be a valid integer'),
-    body('items.*.quantity').isInt({ min: 1 }).withMessage('Quantity must be a positive integer'),
-    body('items.*.price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
-  ],
-
   update: [
     param('id').isInt().withMessage('Order ID must be a valid integer'),
     body('status')

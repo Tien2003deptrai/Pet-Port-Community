@@ -131,7 +131,7 @@ const UserController = {
       if (!user || !(await bcrypt.compare(password, user.password))) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
-      const token = generateToken(user.id, user.role);
+      const { token, expiresAt } = generateToken(user.id, user.role);
       const refreshToken = generateRefreshTokenAndSetCookie(res, user.id);
 
       user.lastLogin = new Date();
@@ -139,6 +139,7 @@ const UserController = {
       res.status(200).json({
         message: 'Logged in successfully',
         token,
+        expiresAt,
         refreshToken,
         user: user,
       });
@@ -164,15 +165,12 @@ const UserController = {
 
     try {
       const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
-      const newToken = jwt.sign({ id: decoded.id, role: decoded.role }, process.env.JWT_SECRET, {
-        expiresIn: '30s',
-      });
-      res.json({ token: newToken });
+      const { token: newAccessToken, expiresAt } = generateToken(decoded.userId, decoded.role);
+
+      res.json({ token: newAccessToken, expiresAt });
     } catch (error) {
-      console.error('Error refreshing token: ', error);
-      res.status(403).json({
-        error: 'Invalid refresh token',
-      });
+      console.error('Error refreshing token:', error);
+      res.status(403).json({ error: 'Invalid refresh token' });
     }
   },
 

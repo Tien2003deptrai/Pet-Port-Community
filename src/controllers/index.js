@@ -11,7 +11,6 @@ const PetController = require('./PetController');
 const PostController = require('./PostController');
 const ProductController = require('./ProductController');
 const ReviewController = require('./ReviewController');
-const ServiceController = require('./ServiceController');
 const AdminController = require('./AdminController');
 
 module.exports = {
@@ -28,6 +27,5 @@ module.exports = {
   PostController,
   ProductController,
   ReviewController,
-  ServiceController,
   AdminController,
 };

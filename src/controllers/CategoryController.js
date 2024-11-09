@@ -22,7 +22,6 @@ const CategoryController = {
       const categories = await Category.findAll({
         include: [
           { model: Product, as: 'CategoryProducts' },
-          { model: Service, as: 'CategoryServices' },
           { model: Pet, as: 'CategoryPets' },
         ],
       });
@@ -41,7 +40,6 @@ const CategoryController = {
       const category = await Category.findByPk(id, {
         include: [
           { model: Product, as: 'CategoryProducts' },
-          { model: Service, as: 'CategoryServices' },
           { model: Pet, as: 'CategoryPets' },
         ],
       });
@@ -120,7 +118,6 @@ const CategoryController = {
         where: { type },
         include: [
           { model: Product, as: 'CategoryProducts' },
-          { model: Service, as: 'CategoryServices' },
           { model: Pet, as: 'CategoryPets' },
         ],
       });
