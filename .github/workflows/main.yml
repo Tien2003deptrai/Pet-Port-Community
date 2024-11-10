@@ -1,31 +1,29 @@
 name: Node.js CI
 
-# Định nghĩa khi nào workflow sẽ chạy
 on:
   push:
-    branches: [ main ] # Chạy khi có thay đổi trên nhánh main
+    branches: [ main ]
   pull_request:
-    branches: [ main ] # Chạy khi có pull request vào nhánh main
+    branches: [ main ]
 
-# Định nghĩa các công việc cần thực hiện trong workflow
 jobs:
   build:
-    runs-on: ubuntu-latest # Chạy trên môi trường Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository content
-        uses: actions/checkout@v2 # Bước này tải mã nguồn từ repository về
+        uses: actions/checkout@v3 # Sử dụng phiên bản mới nhất của checkout
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3 # Cập nhật lên setup-node v3
         with:
-          node-version: '16' # Định nghĩa phiên bản Node.js bạn đang sử dụng
+          node-version: '20' # Sử dụng phiên bản Node.js 20
 
       - name: Install dependencies
-        run: npm install # Cài đặt các package từ package.json
+        run: npm install
 
       - name: Run tests
-        run: npm test # Chạy các bài kiểm thử của dự án
+        run: npm test
 
       - name: Build project
-        run: npm run build # Xây dựng dự án (nếu có script "build" trong package.json)
+        run: npm run build
