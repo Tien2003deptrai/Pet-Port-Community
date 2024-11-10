@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Running tests...\" && exit 0",
+    "build": "echo 'Building project...' && exit 0",
     "start": "nodemon src/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
