@@ -8,7 +8,6 @@ const ReviewValidation = {
       .isInt()
       .withMessage('Reviewer ID must be a valid integer'),
     body('product_id').optional().isInt().withMessage('Product ID must be a valid integer'),
-    body('service_id').optional().isInt().withMessage('Service ID must be a valid integer'),
     body('rating')
       .notEmpty()
       .withMessage('Rating is required')

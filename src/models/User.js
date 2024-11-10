@@ -124,6 +124,32 @@ const User = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+
+    // Seller-specific fields
+    store_name: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
+    store_address: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    business_license: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
+    store_logo: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    store_description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    is_store_verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     timestamps: true,

@@ -4,58 +4,6 @@ const { sendVerificationEmail } = require('../mail/emails');
 const bcrypt = require('bcryptjs');
 
 const AdminController = {
-  async registerUser(req, res) {
-    try {
-      const { username, password, email, role } = req.body;
-
-      // Kiểm tra nếu role là chuỗi thay vì mảng, chuyển nó thành mảng
-      const roles = Array.isArray(role) ? role : [role];
-
-      // Kiểm tra email đã tồn tại hay chưa
-      const existingUser = await User.findOne({
-        where: {
-          email,
-        },
-      });
-
-      if (existingUser) {
-        return res.status(400).json({
-          error: 'Email already taken',
-        });
-      }
-
-      // Hash mật khẩu
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Tạo mã xác thực ngẫu nhiên
-      const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
-
-      // Tạo người dùng mới với vai trò là JSON (mảng vai trò)
-      const newUser = await User.create({
-        username,
-        password: hashedPassword,
-        email,
-        role: roles, // Lưu vai trò dưới dạng JSON (mảng)
-        verification_token: verificationToken,
-        verification_token_expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000), // Hết hạn sau 24 giờ
-      });
-
-      // Tạo và thiết lập refresh token trong cookie
-      generateRefreshTokenAndSetCookie(res, newUser.id);
-
-      // Gửi email xác thực
-      await sendVerificationEmail(newUser.email, verificationToken);
-
-      // Phản hồi thành công
-      res.status(201).json({ success: true, newUser });
-    } catch (error) {
-      console.error('Error in register:', error);
-      res.status(500).json({
-        error: 'Error registering user',
-      });
-    }
-  },
-
   async deleteUser(req, res) {
     try {
       const user = await User.findByPk(req.params.id);
@@ -69,37 +17,6 @@ const AdminController = {
     } catch (error) {
       res.status(500).json({
         error: 'Error deleting user',
-      });
-    }
-  },
-
-  async manageUserRoles(req, res) {
-    try {
-      const { userId } = req.params;
-      const { role } = req.body;
-
-      const user = await User.findByPk(userId);
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-
-      const existingRoles = user.role || [];
-
-      const newRoles = Array.isArray(role) ? role : [role];
-
-      const updatedRoles = [...new Set([...existingRoles, ...newRoles])];
-
-      user.role = updatedRoles;
-      await user.save();
-
-      res.json({
-        message: 'User role updated successfully',
-        user,
-      });
-    } catch (error) {
-      console.error('Error updating user role:', error);
-      res.status(500).json({
-        error: 'Error updating user role',
       });
     }
   },
@@ -227,6 +144,93 @@ const AdminController = {
           email: user.email,
           role: user.role,
           is_doctor_approved: user.is_doctor_approved,
+        },
+      });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
+  async UpgradeToSeller(req, res) {
+    try {
+      const {
+        userId,
+        phone,
+        store_name,
+        store_address,
+        business_license,
+        store_logo,
+        store_description,
+      } = req.body;
+
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      await user.update({
+        phone,
+        store_name,
+        store_address,
+        business_license,
+        store_logo,
+        store_description,
+        is_store_verified: false,
+      });
+
+      res.status(200).json({
+        message: 'Seller registration request submitted. Awaiting admin approval.',
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          phone,
+          is_active: user.is_active,
+          is_verified: user.is_verified,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+        },
+        seller: {
+          store_name: user.store_name,
+          store_address: user.store_address,
+          business_license: user.business_license,
+          store_logo: user.store_logo,
+          store_description: user.store_description,
+        },
+      });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
+  async ApproveSeller(req, res) {
+    try {
+      const { userId } = req.params;
+
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (user.is_store_verified) {
+        return res.status(400).json({ message: 'User is already approved as Seller' });
+      }
+
+      const updatedRoles = [...new Set([...user.role, 'Seller'])];
+      await user.update({
+        role: updatedRoles,
+        is_store_verified: true,
+      });
+
+      res.status(200).json({
+        message: 'User successfully approved as Seller',
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          is_store_verified: user.is_store_verified,
         },
       });
     } catch (error) {
