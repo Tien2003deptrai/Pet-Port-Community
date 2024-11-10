@@ -29,7 +29,11 @@ const Post = sequelize.define(
     image_url: {
       type: DataTypes.STRING(255),
     },
-    // counterLike
+    counterLike: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,

@@ -37,4 +37,6 @@ router.get(
   PostController.getPostsByUser
 );
 
+router.put('/:id/like', validate(PostValidation.updateLikeCount), PostController.updateLikeCount);
+
 module.exports = router;

@@ -1,5 +1,4 @@
-const { Post, User, Op, Like } = require('@models');
-const { Comment, sequelize } = require('../models');
+const { Post, User, Op, Comment } = require('@models');
 
 const PostController = {
   async create(req, res) {
@@ -10,6 +9,7 @@ const PostController = {
         title,
         content,
         image_url,
+        counterLike: 0,
       });
       res.status(201).json({ success: true, data: post });
     } catch (error) {
@@ -34,18 +34,10 @@ const PostController = {
             as: 'PostComments',
             attributes: ['id', 'content', 'createdAt'],
           },
-          {
-            model: Like,
-            as: 'PostLikes',
-            attributes: [],
-          },
         ],
-        attributes: {
-          include: [[sequelize.fn('COUNT', sequelize.col('PostLikes.id')), 'likeCount']],
-        },
         group: ['Post.id', 'PostOwner.id', 'PostComments.id'],
       });
-      res.status(201).json({ success: true, data: posts });
+      res.status(200).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -64,10 +56,10 @@ const PostController = {
 
     if (select) {
       const userSelectedFields = select.split(',');
-      selectedFields = ['id', ...userSelectedFields];
-
+      selectedFields = ['id', 'counterLike', ...userSelectedFields];
       includeComments = false;
     }
+
     try {
       const options = {
         limit: limitValue,
@@ -102,7 +94,7 @@ const PostController = {
           posts,
         });
       }
-      res.status(201).json({ success: true, data: posts });
+      res.status(200).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -146,7 +138,6 @@ const PostController = {
         });
       }
 
-      // Send paginated response with total count
       res.status(200).json({
         success: true,
         data: posts,
@@ -177,7 +168,7 @@ const PostController = {
         ],
       });
       if (!post) return res.status(404).json({ message: 'Post not found' });
-      res.status(201).json({ success: true, data: post });
+      res.status(200).json({ success: true, data: post });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -201,45 +192,7 @@ const PostController = {
           },
         ],
       });
-      res.status(201).json({ success: true, data: updatedPost });
-    } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
-    }
-  },
-
-  async delete(req, res) {
-    const { id } = req.params;
-    try {
-      const deleted = await Post.destroy({
-        where: { id },
-      });
-      if (!deleted) return res.status(404).json({ message: 'Post not found' });
-      res.status(201).json({ success: true, message: 'Detele successfully' });
-    } catch (error) {
-      res.status(500).json({
-        message: 'Server error',
-        error,
-      });
-    }
-  },
-
-  async getPostsByUser(req, res) {
-    const { petOwner_Id } = req.params;
-    try {
-      const posts = await Post.findAll({
-        where: { petOwner_Id },
-        include: [
-          {
-            model: User,
-            as: 'PostOwner',
-            attributes: ['id', 'username', 'full_name'],
-          },
-        ],
-      });
-      res.status(201).json({ success: true, data: posts });
+      res.status(200).json({ success: true, data: updatedPost });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -268,6 +221,63 @@ const PostController = {
     }
   },
 
+  async delete(req, res) {
+    const { id } = req.params;
+    try {
+      const deleted = await Post.destroy({
+        where: { id },
+      });
+      if (!deleted) return res.status(404).json({ message: 'Post not found' });
+      res.status(200).json({ success: true, message: 'Delete successfully' });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
+
+  async updateLikeCount(req, res) {
+    const { id } = req.params;
+    const { increment } = req.body;
+    try {
+      const post = await Post.findByPk(id);
+      if (!post) return res.status(404).json({ message: 'Post not found' });
+
+      post.counterLike += increment ? 1 : -1;
+      await post.save();
+
+      res.status(200).json({ success: true, data: post });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
+
+  async getPostsByUser(req, res) {
+    const { petOwner_Id } = req.params;
+    try {
+      const posts = await Post.findAll({
+        where: { petOwner_Id },
+        include: [
+          {
+            model: User,
+            as: 'PostOwner',
+            attributes: ['id', 'username', 'full_name'],
+          },
+        ],
+      });
+      res.status(200).json({ success: true, data: posts });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Server error',
+        error,
+      });
+    }
+  },
+
   async searchPostsByTitle(req, res) {
     const { title } = req.query;
     try {
@@ -285,7 +295,7 @@ const PostController = {
           },
         ],
       });
-      res.status(201).json({ success: true, data: posts });
+      res.status(200).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -307,7 +317,7 @@ const PostController = {
           },
         ],
       });
-      res.status(201).json({ success: true, data: posts });
+      res.status(200).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
@@ -319,7 +329,7 @@ const PostController = {
   async countPosts(req, res) {
     try {
       const totalPosts = await Post.count();
-      res.status(201).json({ success: true, data: totalPosts });
+      res.status(200).json({ success: true, data: totalPosts });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',

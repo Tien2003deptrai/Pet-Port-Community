@@ -2,7 +2,6 @@ const { Op } = require('sequelize');
 const sequelize = require('../config/database');
 
 const User = require('./User');
-const Location = require('./Location');
 const Category = require('./Category');
 const Pet = require('./Pet');
 const Product = require('./Product');
@@ -12,21 +11,10 @@ const OrderItem = require('./OrderItem');
 const Payment = require('./Payment');
 const Post = require('./Post');
 const Comment = require('./Comment');
-const Like = require('./Like');
 const Review = require('./Review');
 const Coupon = require('./Coupon');
 
 // index
-
-// User - Location
-User.belongsTo(Location, {
-  foreignKey: 'location_id',
-  as: 'Location',
-});
-Location.hasMany(User, {
-  foreignKey: 'location_id',
-  as: 'Users',
-});
 
 // User - Pet
 User.hasMany(Pet, {
@@ -96,30 +84,6 @@ Post.hasMany(Comment, {
 Comment.belongsTo(Post, {
   foreignKey: 'post_id',
   as: 'Post',
-});
-
-// User - Like
-User.hasMany(Like, { foreignKey: 'petOwner_Id', as: 'UserLikes' });
-Like.belongsTo(User, {
-  foreignKey: 'petOwner_Id',
-  as: 'UserLikes',
-});
-
-// Post - Like
-Post.hasMany(Like, {
-  foreignKey: 'post_id',
-  as: 'PostLikes',
-});
-Like.belongsTo(Post, { foreignKey: 'post_id', as: 'Post' });
-
-// Comment - Like
-Comment.hasMany(Like, {
-  foreignKey: 'comment_id',
-  as: 'CommentLikes',
-});
-Like.belongsTo(Comment, {
-  foreignKey: 'comment_id',
-  as: 'Comment',
 });
 
 // Product - Review
@@ -227,7 +191,6 @@ module.exports = {
   sequelize,
   Op,
   User,
-  Location,
   Category,
   Pet,
   Product,
@@ -237,7 +200,6 @@ module.exports = {
   Payment,
   Post,
   Comment,
-  Like,
   Review,
   Coupon,
 };

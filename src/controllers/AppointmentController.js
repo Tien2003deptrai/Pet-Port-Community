@@ -1,4 +1,4 @@
-const { Appointment, Pet, User, Category, Location, Op } = require('@models');
+const { Appointment, Pet, User, Category, Op } = require('@models');
 
 const AppointmentController = {
   // Tạo cuộc hẹn
@@ -338,13 +338,6 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            include: [
-              {
-                model: Location,
-                as: 'Location',
-                attributes: ['id', 'name', 'type'],
-              },
-            ],
             attributes: ['id', 'username', 'full_name', 'email'],
           },
         ],

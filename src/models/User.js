@@ -52,9 +52,6 @@ const User = sequelize.define(
     address: {
       type: DataTypes.STRING(255),
     },
-    location_id: {
-      type: DataTypes.INTEGER,
-    },
     avatar_url: {
       type: DataTypes.STRING(255),
     },

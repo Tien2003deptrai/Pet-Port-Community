@@ -1,22 +1,6 @@
 create database apet0;
 use apet0;
 
-create database pet_1;
-use pet_1;
-
--- Dữ liệu cho bảng Locations
-INSERT INTO Locations (name, type, createdAt, updatedAt) VALUES
-('Hà Đông', 'District', NOW(), NOW()),
-('Ba Đình', 'District', NOW(), NOW()),
-('Hoàn Kiếm', 'District', NOW(), NOW()),
-('Tây Hồ', 'District', NOW(), NOW()),
-('Cầu Giấy', 'District', NOW(), NOW()),
-('Thanh Xuân', 'District', NOW(), NOW()),
-('Đống Đa', 'District', NOW(), NOW()),
-('Hai Bà Trưng', 'District', NOW(), NOW()),
-('Hoàng Mai', 'District', NOW(), NOW()),
-('Long Biên', 'District', NOW(), NOW());
-
 -- Dữ liệu cho bảng Categories
 INSERT INTO Categories (name, type, is_active, createdAt, updatedAt) VALUES
 ('Dog', 'Pet', true, NOW(), NOW()),
@@ -29,13 +13,34 @@ INSERT INTO Categories (name, type, is_active, createdAt, updatedAt) VALUES
 ('Bird', 'Pet', true, NOW(), NOW()),
 ('Reptile', 'Pet', true, NOW(), NOW());
 
--- Dữ liệu cho bảng Users
-INSERT INTO Users (username, password, email, phone, role, full_name, date_of_birth, address, location_id, avatar_url, is_active, is_verified, last_login, reset_password_token, reset_password_expires_at, verification_token, verification_token_expires_at, cccd, clinic_address, practice_certificate, experience_years, opening_time, closing_time, cccd_front_image, cccd_back_image, certificate_image, is_doctor_approved, createdAt, updatedAt) 
+INSERT INTO Users (
+  username, password, email, phone, role, full_name, date_of_birth, address, avatar_url, 
+  is_active, is_verified, last_login, reset_password_token, reset_password_expires_at, verification_token, 
+  verification_token_expires_at, cccd, clinic_address, practice_certificate, experience_years, opening_time, 
+  closing_time, cccd_front_image, cccd_back_image, certificate_image, is_doctor_approved, store_name, 
+  store_address, business_license, store_logo, store_description, is_store_verified, createdAt, updatedAt
+) 
 VALUES 
-('john_doe21', 'hashedpassword1', 'john.doe@example111.com', '123456789', JSON_ARRAY('Doctor'), 'John Doe', '1985-03-25 00:00:00', '123 Elm St', 1, 'http://example.com/avatar1.jpg', 1, 0, NULL, NULL, NULL, NULL, NULL, '048999111111', '101 Main St', 'Cert-101', 5, '08:00:00', '18:00:00', 'http://example.com/cccd_front1.jpg', 'http://example.com/cccd_back1.jpg', 'http://example.com/certificate1.jpg', false, NOW(), NOW()),
-('jane_smith1', 'hashedpassword2', 'jane.smith@example11.com', '987654321', JSON_ARRAY('Seller'), 'Jane Smith', '1990-07-12 00:00:00', '456 Oak St', 2, 'http://example.com/avatar2.jpg', 1, 1, NULL, NULL, NULL, NULL, NULL, '048999222222', '202 Elm St', 'Cert-102', 7, '09:00:00', '17:00:00', 'http://example.com/cccd_front2.jpg', 'http://example.com/cccd_back2.jpg', 'http://example.com/certificate2.jpg', false, NOW(), NOW()),
-('john_doe211', 'hashedpassword12', 'john.doe@example11.com', '123456789', JSON_ARRAY('PetOwner'), 'John Doe', '1985-03-25 00:00:00', '123 Elm St', 1, 'http://example.com/avatar1.jpg', 1, 0, NULL, NULL, NULL, NULL, NULL, '048999111111', '101 Main St', 'Cert-101', 5, '08:00:00', '18:00:00', 'http://example.com/cccd_front1.jpg', 'http://example.com/cccd_back1.jpg', 'http://example.com/certificate1.jpg', false, NOW(), NOW()),
-('jane_smith11', 'hashedpassword22', 'jane.smith@example1111.com', '987654321', JSON_ARRAY('Seller'), 'Jane Smith', '1990-07-12 00:00:00', '456 Oak St', 2, 'http://example.com/avatar2.jpg', 1, 1, NULL, NULL, NULL, NULL, NULL, '048999222222', '202 Elm St', 'Cert-102', 7, '09:00:00', '17:00:00', 'http://example.com/cccd_front2.jpg', 'http://example.com/cccd_back2.jpg', 'http://example.com/certificate2.jpg', false, NOW(), NOW());
+('john_doe21', 'hashedpassword1', 'john.doe@example111.com', '123456789', JSON_ARRAY('Doctor'), 'John Doe', 
+ '1985-03-25', '123 Elm St', 'http://example.com/avatar1.jpg', true, false, NULL, NULL, NULL, NULL, NULL, 
+ '048999111111', '101 Main St', 'Cert-101', 5, '08:00:00', '18:00:00', 'http://example.com/cccd_front1.jpg', 
+ 'http://example.com/cccd_back1.jpg', 'http://example.com/certificate1.jpg', false, 'John\'s Pet Clinic', 
+ '789 Birch St', 'BL12345', 'http://example.com/store_logo1.jpg', 'A reliable pet clinic.', false, NOW(), NOW()),
+
+('jane_smith1', 'hashedpassword2', 'jane.smith@example11.com', '987654321', JSON_ARRAY('Seller'), 'Jane Smith', 
+ '1990-07-12', '456 Oak St', 'http://example.com/avatar2.jpg', true, true, NULL, NULL, NULL, NULL, NULL, 
+ NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Jane\'s Store', '123 Maple St', 'BL54321', 
+ 'http://example.com/store_logo2.jpg', 'High-quality products for everyone.', true, NOW(), NOW()),
+
+('john_doe211', 'hashedpassword12', 'john.doe@example11.com', '123456789', JSON_ARRAY('PetOwner'), 'John Doe', 
+ '1985-03-25', '123 Elm St', 'http://example.com/avatar1.jpg', true, false, NULL, NULL, NULL, NULL, NULL, 
+ '048999111111', '101 Main St', 'Cert-101', 5, '08:00:00', '18:00:00', 'http://example.com/cccd_front1.jpg', 
+ 'http://example.com/cccd_back1.jpg', 'http://example.com/certificate1.jpg', false, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('jane_smith11', 'hashedpassword22', 'jane.smith@example1111.com', '987654321', JSON_ARRAY('Seller'), 'Jane Smith', 
+ '1990-07-12', '456 Oak St', 'http://example.com/avatar2.jpg', true, true, NULL, NULL, NULL, NULL, NULL, 
+ NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Jane\'s Boutique', '456 Cedar St', 'BL67890', 
+ 'http://example.com/store_logo3.jpg', 'Fashionable items for all.', true, NOW(), NOW());
 
 -- Dữ liệu cho bảng Pets
 INSERT INTO Pets (owner_id, category_id, name, breed, age, gender, description, medical_history, is_active, images, createdAt, updatedAt) 
@@ -64,19 +69,14 @@ INSERT INTO Payments (order_id, amount, payment_method, status, transaction_id, 
 (2, 29.99, 'PayPal', 'Pending', 'TX987654321', '2024-10-10 11:00:00', NOW(), NOW());
 
 -- Dữ liệu cho bảng Posts
-INSERT INTO Posts (petOwner_Id, title, content, image_url, createdAt, updatedAt) VALUES
-(1, 'My First Pet Experience', 'Having a pet has changed my life...', 'post1.jpg', NOW(), NOW()),
-(2, 'Grooming Tips for Cats', 'Cats require special care for their fur...', 'post2.jpg', NOW(), NOW());
+INSERT INTO Posts (petOwner_Id, title, content, image_url, counterLike, createdAt, updatedAt) VALUES
+(1, 'My First Pet Experience', 'Having a pet has changed my life...', 'post1.jpg', 1, NOW(), NOW()),
+(2, 'Grooming Tips for Cats', 'Cats require special care for their fur...', 'post2.jpg', 2, NOW(), NOW());
 
 -- Dữ liệu cho bảng Comments
 INSERT INTO Comments (post_id, petOwner_Id, content, createdAt, updatedAt) VALUES
 (1, 2, 'Thanks for sharing your experience!', NOW(), NOW()),
 (2, 1, 'Very helpful grooming tips, thank you!', NOW(), NOW());
-
--- Dữ liệu cho bảng Likes
-INSERT INTO Likes (petOwner_Id, post_id, comment_id, createdAt, updatedAt) VALUES
-(1, 1, 1, NOW(), NOW()),
-(2, 2, 2, NOW(), NOW());
 
 -- Dữ liệu cho bảng Reviews
 INSERT INTO Reviews (petOwner_Id, product_id, rating, title, comment, is_verified_purchase, createdAt, updatedAt) VALUES
@@ -91,6 +91,6 @@ INSERT INTO Coupons (code, description, discount_type, discount_value, start_dat
 -- Dữ liệu cho bảng Appointments
 INSERT INTO Appointments (pet_owner_id, pet_id, doctor_id, appointment_date, appointment_time, status, notes, createdAt, updatedAt) 
 VALUES
-(2, 1, 3, '2024-10-15', '14:00:00', 'Scheduled', 'Grooming appointment', NOW(), NOW()),
-(1, 2, 3, '2024-10-18', '09:00:00', 'Scheduled', 'Annual checkup for canary', NOW(), NOW());
+(2, 1, 1, '2024-10-15', '14:00:00', 'Scheduled', 'Grooming appointment', NOW(), NOW()),
+(1, 2, 2, '2024-10-18', '09:00:00', 'Scheduled', 'Annual checkup for canary', NOW(), NOW());
 
