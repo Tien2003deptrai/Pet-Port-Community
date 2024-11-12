@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 exports.generateToken = (userId, role) => {
-  const token = jwt.sign({ userId, role }, process.env.JWT_SECRET, { expiresIn: '5s' });
+  const token = jwt.sign({ userId, role }, process.env.JWT_SECRET, { expiresIn: '7d' });
   const decoded = jwt.decode(token);
   const expiresAt = decoded.exp; // Dạng UNIX timestamp
 

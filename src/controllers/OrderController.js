@@ -41,7 +41,11 @@ const OrderController = {
 
   async getAll(req, res) {
     try {
-      const orders = await Order.findAll({
+      const page = parseInt(req.query.page, 10) || 1;
+      const limit = parseInt(req.query.limit, 10) || 10;
+      const offset = (page - 1) * limit;
+
+      const orders = await Order.findAndCountAll({
         include: [
           {
             model: OrderItem,
@@ -55,12 +59,25 @@ const OrderController = {
             ],
           },
         ],
+        limit,
+        offset,
       });
-      res.status(201).json({ success: true, data: orders });
+
+      const totalPages = Math.ceil(orders.count / limit);
+
+      res.status(200).json({
+        success: true,
+        data: orders.rows,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalItems: orders.count,
+        },
+      });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
-        error,
+        error: error.message,
       });
     }
   },
