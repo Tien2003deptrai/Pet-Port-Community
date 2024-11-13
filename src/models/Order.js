@@ -23,8 +23,15 @@ const Order = sequelize.define(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'),
-      defaultValue: 'Pending',
+      type: DataTypes.ENUM(
+        'Đang xử lý',
+        'Chờ thanh toán',
+        'Hoàn thành',
+        'Hủy',
+        'Đã giao',
+        'Đang vận chuyển'
+      ),
+      defaultValue: 'Đang xử lý',
     },
   },
   {

@@ -23,12 +23,22 @@ const Payment = sequelize.define(
       allowNull: false,
     },
     payment_method: {
-      type: DataTypes.ENUM('Credit Card', 'PayPal', 'Bank Transfer', 'Cash on Delivery'),
+      // type: DataTypes.ENUM('Thẻ tín dụng'),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('Pending', 'Completed', 'Failed', 'Refunded'),
-      defaultValue: 'Pending',
+      type: DataTypes.ENUM(
+        'Đang xử lý',
+        'Hoàn thành',
+        'Hủy',
+        'Đã giao',
+        'Đang vận chuyển',
+        'Chờ xác nhận',
+        'Chờ xử lý',
+        'Chờ thanh toán'
+      ),
+      defaultValue: 'Đang xử lý',
     },
     transaction_id: {
       type: DataTypes.STRING(100),

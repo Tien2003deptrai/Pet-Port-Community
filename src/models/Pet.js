@@ -39,7 +39,7 @@ const Pet = sequelize.define(
       type: DataTypes.INTEGER,
     },
     gender: {
-      type: DataTypes.ENUM('Male', 'Female', 'Unknown'),
+      type: DataTypes.ENUM('Cái', 'Đực', 'Không xác định'),
       allowNull: false,
     },
     description: {

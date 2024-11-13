@@ -18,7 +18,8 @@ const Category = sequelize.define(
       },
     },
     type: {
-      type: DataTypes.ENUM('Product', 'Service', 'Pet'),
+      type: DataTypes.STRING(100),
+      // type: DataTypes.ENUM('Product', 'Service', 'Pet'),
       allowNull: false,
     },
     is_active: {
