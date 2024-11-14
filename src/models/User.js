@@ -38,6 +38,11 @@ const User = sequelize.define(
     phone: {
       type: DataTypes.STRING(15),
     },
+    gender: {
+      type: DataTypes.ENUM('Nam', 'Nữ', 'Khác'),
+      type: DataTypes.STRING(8),
+      defaultValue: 'Nam',
+    },
     role: {
       type: DataTypes.JSON,
       defaultValue: ['PetOwner'],
@@ -47,7 +52,7 @@ const User = sequelize.define(
       type: DataTypes.STRING(100),
     },
     date_of_birth: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
     address: {
       type: DataTypes.STRING(255),
@@ -78,12 +83,19 @@ const User = sequelize.define(
     verification_token_expires_at: {
       type: DataTypes.DATE,
     },
-
-    // Doctor-specific fields
     cccd: {
       type: DataTypes.STRING(12),
       allowNull: true,
     },
+    cccd_front_image: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    cccd_back_image: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    // Doctor-specific fields
     clinic_address: {
       type: DataTypes.STRING(255),
       allowNull: true,
@@ -104,12 +116,7 @@ const User = sequelize.define(
       type: DataTypes.TIME,
       allowNull: true,
     },
-
-    cccd_front_image: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-    cccd_back_image: {
+    doctor_avatar: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
@@ -136,6 +143,10 @@ const User = sequelize.define(
       allowNull: true,
     },
     store_logo: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    business_license_url: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },

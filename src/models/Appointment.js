@@ -35,7 +35,7 @@ const Appointment = sequelize.define(
       allowNull: false,
     },
     status: {
-      // type: DataTypes.ENUM('Scheduled', 'Completed', 'Cancelled'),
+      type: DataTypes.ENUM('Đã đặt lịch', 'Đã hoàn thành', 'Đã hủy'),
       type: DataTypes.STRING(50),
       defaultValue: 'Đã đặt lịch',
     },
