@@ -44,8 +44,8 @@ const AppointmentValidation = {
     body('appointment_time').notEmpty().withMessage('Appointment time is required'),
     body('status')
       .optional()
-      .isIn(['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'])
-      .withMessage('Status must be one of Scheduled, Completed, Rescheduled, Cancelled'),
+      .isIn(['Đã đặt lịch', 'Hoàn thành', 'Đã lên lịch lại', 'Huỷ'])
+      .withMessage('Status must be one of Đã đặt lịch, Hoàn thành, Đã lên lịch lại, Huỷ'),
 
     body('notes')
       .optional()
@@ -91,7 +91,7 @@ const AppointmentValidation = {
     param('status')
       .notEmpty()
       .withMessage('Status is required')
-      .isIn(['Scheduled', 'Completed', 'Rescheduled', 'Cancelled'])
+      .isIn(['Đã đặt lịch', 'Hoàn thành', 'Đã lên lịch lại', 'Huỷ'])
       .withMessage('Status must be one of Scheduled, Completed, Rescheduled, Cancelled'),
   ],
 

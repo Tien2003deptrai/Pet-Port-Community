@@ -21,8 +21,8 @@ const PetValidation = {
     body('age').optional().isInt({ min: 0 }).withMessage('Age must be a non-negative integer'),
     body('gender')
       .optional()
-      .isIn(['Male', 'Female', 'Unknown'])
-      .withMessage('Gender must be one of the following: Male, Female, Unknown'),
+      .isIn(['Đực', 'Cái'])
+      .withMessage('Gender must be one of the following: Đực, Cái'),
     body('description').optional().isString().withMessage('Description must be a valid string'),
     body('medical_history')
       .optional()
@@ -39,8 +39,8 @@ const PetValidation = {
     body('age').optional().isInt({ min: 0 }).withMessage('Age must be a non-negative integer'),
     body('gender')
       .optional()
-      .isIn(['Male', 'Female', 'Unknown'])
-      .withMessage('Gender must be one of the following: Male, Female, Unknown'),
+      .isIn(['Đực', 'Cái'])
+      .withMessage('Gender must be one of the following: Đực, Cái'),
     body('description').optional().isString().withMessage('Description must be a valid string'),
     body('medical_history')
       .optional()

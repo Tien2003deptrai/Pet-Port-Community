@@ -23,9 +23,9 @@ const OrderValidation = {
     param('id').isInt().withMessage('Order ID must be a valid integer'),
     body('status')
       .optional()
-      .isIn(['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'])
+      .isIn(['Đang xử lý', 'Chờ thanh toán', 'Hoàn thành', 'Hủy', 'Đã giao', 'Đang vận chuyển'])
       .withMessage(
-        'Status must be one of the following: Pending, Processing, Shipped, Delivered, Cancelled'
+        'Status must be one of the following: Đang xử lý, Chờ thanh toán, Hoàn thành, Hủy, Đã giao, Đang vận chuyển'
       ),
   ],
 
@@ -41,7 +41,7 @@ const OrderValidation = {
     param('status')
       .notEmpty()
       .withMessage('Status is required')
-      .isIn(['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'])
+      .isIn(['Đang xử lý', 'Chờ thanh toán', 'Hoàn thành', 'Hủy', 'Đã giao', 'Đang vận chuyển'])
       .withMessage(
         'Status must be one of the following: Pending, Processing, Shipped, Delivered, Cancelled'
       ),

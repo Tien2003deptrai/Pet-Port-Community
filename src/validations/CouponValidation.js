@@ -11,8 +11,8 @@ const CouponValidation = {
     body('discount_type')
       .notEmpty()
       .withMessage('Discount type is required')
-      .isIn(['Percentage', 'Fixed Amount'])
-      .withMessage('Discount type must be either Percentage or Fixed Amount'),
+      .isIn(['Percentage', 'FreeShipping'])
+      .withMessage('Discount type must be either Percentage, FreeShipping'),
     body('discount_value')
       .notEmpty()
       .withMessage('Discount value is required')
@@ -36,8 +36,8 @@ const CouponValidation = {
     body('description').optional().isString().withMessage('Description must be a valid string'),
     body('discount_type')
       .optional()
-      .isIn(['Percentage', 'Fixed Amount'])
-      .withMessage('Discount type must be either Percentage or Fixed Amount'),
+      .isIn(['Percentage', 'FreeShipping'])
+      .withMessage('Discount type must be either Percentage, FreeShipping'),
     body('discount_value').optional().isNumeric().withMessage('Discount value must be a number'),
     body('start_date').optional().isISO8601().withMessage('Start date must be a valid date'),
     body('end_date').optional().isISO8601().withMessage('End date must be a valid date'),
@@ -60,8 +60,8 @@ const CouponValidation = {
     param('discount_type')
       .notEmpty()
       .withMessage('Discount type is required')
-      .isIn(['Percentage', 'Fixed Amount'])
-      .withMessage('Discount type must be either Percentage or Fixed Amount'),
+      .isIn(['Percentage', 'FreeShipping'])
+      .withMessage('Discount type must be either Percentage, FreeShipping'),
   ],
 };
 
