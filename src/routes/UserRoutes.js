@@ -17,5 +17,6 @@ router.post(
 );
 router.get('/users/:id', UserController.getUserById);
 router.get('/doctors', UserController.getDoctors);
+router.put('/users/:id', UserController.updateUserInfo);
 
 module.exports = router;
