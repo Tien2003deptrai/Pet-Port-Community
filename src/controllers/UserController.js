@@ -325,6 +325,36 @@ const UserController = {
       });
     }
   },
+
+  async updateUserInfo(req, res) {
+    try {
+      const user = await User.findByPk(req.params.id, {
+        attributes: {
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt'],
+          },
+        },
+      });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      const { username, phone, gender, address, avatar_url } = req.body;
+      user.username = username;
+      user.phone = phone;
+      user.gender = gender;
+      user.address = address;
+      user.avatar_url = avatar_url;
+
+      await user.save();
+
+      res.json({ message: 'Profile updated successfully', user });
+    } catch (error) {
+      console.error('Error: ', error);
+      res.status(500).json({
+        error: error,
+      });
+    }
+  },
 };
 
 module.exports = UserController;
