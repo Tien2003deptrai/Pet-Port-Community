@@ -17,14 +17,14 @@ const PostValidation = {
       .withMessage('Content is required')
       .isString()
       .withMessage('Content must be a valid string'),
-    body('image_url').optional().isURL().withMessage('Image URL must be a valid URL'),
+    // body('image_url').optional().isURL().withMessage('Image URL must be a valid URL'),
   ],
 
   update: [
     param('id').isInt().withMessage('Post ID must be a valid integer'),
     body('title').optional().isString().withMessage('Title must be a valid string'),
     body('content').optional().isString().withMessage('Content must be a valid string'),
-    body('image_url').optional().isURL().withMessage('Image URL must be a valid URL'),
+    // body('image_url').optional().isURL().withMessage('Image URL must be a valid URL'),
   ],
 
   getById: [param('id').isInt().withMessage('Post ID must be a valid integer')],

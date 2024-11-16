@@ -64,7 +64,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email', 'avatar_url'],
           },
         ],
         order: [['appointment_date', 'ASC']],
@@ -105,7 +105,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email', 'avatar_url'],
           },
         ],
       });
@@ -157,7 +157,7 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'email'],
+            attributes: ['id', 'username', 'full_name', 'email', 'avatar_url'],
           },
         ],
       });
@@ -204,7 +204,7 @@ const AppointmentController = {
               {
                 model: User,
                 as: 'PetOwner',
-                attributes: ['id', 'username', 'full_name', 'email'],
+                attributes: ['id', 'username', 'full_name', 'email', 'avatar_url', 'phone'],
               },
               {
                 model: Category,
@@ -217,7 +217,15 @@ const AppointmentController = {
           {
             model: User,
             as: 'Doctor',
-            attributes: ['id', 'username', 'full_name', 'email'],
+            attributes: [
+              'id',
+              'username',
+              'full_name',
+              'email',
+              'doctor_avatar',
+              'phone',
+              'clinic_address',
+            ],
           },
         ],
         order: [['appointment_date', 'ASC']],
