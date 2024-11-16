@@ -1,5 +1,5 @@
-create database apet0;
-use apet0;
+create database a_new1;
+use a_new1;
 drop database apet0;
 
 INSERT INTO Categories (name, type, is_active, createdAt, updatedAt) VALUES
@@ -15,33 +15,77 @@ INSERT INTO Categories (name, type, is_active, createdAt, updatedAt) VALUES
 ('Phụ kiện', 'Sản phẩm', true, NOW(), NOW());
 
 INSERT INTO Users (
-  username, password, email, phone, role, full_name, date_of_birth, address, avatar_url, 
-  is_active, is_verified, createdAt, updatedAt
+  username, password, email, phone, gender, role, full_name, date_of_birth, address, avatar_url,
+  is_active, is_verified, last_login, reset_password_token, 
+  reset_password_expires_at, verification_token, verification_token_expires_at, cccd, 
+  cccd_front_image, cccd_back_image, clinic_address, practice_certificate, experience_years, 
+  opening_time, closing_time, doctor_avatar, certificate_image, is_doctor_approved, 
+  store_name, store_address, business_license, store_logo, business_license_url, 
+  store_description, is_store_verified, createdAt, updatedAt
 ) 
 VALUES 
-('nguyen_van_a', 'hashedpassword1', 'nguyenvana@example.com', '0909123456', JSON_ARRAY('Doctor'), 'Nguyễn Văn A', 
- '1980-02-15', '123 Đường ABC, Quận 10, TP.HCM', 'http://example.com/avatar_nguyenvana.jpg', true, true, NOW(), NOW()),
-('le_thi_b', 'hashedpassword2', 'lethib@example.com', '0918123456', JSON_ARRAY('Seller'), 'Lê Thị B', 
- '1985-06-20', '456 Đường DEF, Quận 1, TP.HCM', 'http://example.com/avatar_lethib.jpg', true, true, NOW(), NOW()),
-('tran_huy_c', 'hashedpassword3', 'tranhuyc@example.com', '0987654321', JSON_ARRAY('PetOwner'), 'Trần Huy C', 
- '1993-10-11', '789 Đường GHI, Quận 5, TP.HCM', 'http://example.com/avatar_tranhuyc.jpg', true, false, NOW(), NOW()),
-('pham_thu_d', 'hashedpassword4', 'phamthud@example.com', '0901234567', JSON_ARRAY('PetOwner'), 'Phạm Thu D', 
- '1990-12-30', '101 Đường JKL, Quận 3, TP.HCM', 'http://example.com/avatar_phamthud.jpg', true, true, NOW(), NOW()),
-('vo_quoc_e', 'hashedpassword5', 'voquoce@example.com', '0978123456', JSON_ARRAY('Doctor'), 'Võ Quốc E', 
- '1982-08-25', '202 Đường MNO, Quận 7, TP.HCM', 'http://example.com/avatar_voquoce.jpg', true, false, NOW(), NOW()),
-('nguyen_hoa_f', 'hashedpassword6', 'nguyenhoaf@example.com', '0967543210', JSON_ARRAY('Seller'), 'Nguyễn Hoà F', 
- '1988-09-09', '303 Đường PQR, Quận 4, TP.HCM', 'http://example.com/avatar_nguyenhoaf.jpg', true, true, NOW(), NOW()),
-('hoang_an_g', 'hashedpassword7', 'hoangan@example.com', '0934567890', JSON_ARRAY('PetOwner'), 'Hoàng An G', 
- '1991-01-19', '404 Đường STU, Quận 8, TP.HCM', 'http://example.com/avatar_hoangan.jpg', true, false, NOW(), NOW()),
-('le_khanh_h', 'hashedpassword8', 'lekhanh@example.com', '0951237894', JSON_ARRAY('Seller'), 'Lê Khánh H', 
- '1984-05-05', '505 Đường VWX, Quận 6, TP.HCM', 'http://example.com/avatar_lekhanh.jpg', true, true, NOW(), NOW()),
-('tran_van_i', 'hashedpassword9', 'tranvani@example.com', '0945678901', JSON_ARRAY('Doctor'), 'Trần Văn I', 
- '1979-11-14', '606 Đường YZA, Quận 2, TP.HCM', 'http://example.com/avatar_tranvani.jpg', true, true, NOW(), NOW()),
-('pham_thi_j', 'hashedpassword10', 'phamthij@example.com', '0921345678', JSON_ARRAY('PetOwner'), 'Phạm Thị J', 
- '1995-03-03', '707 Đường BCD, Quận 9, TP.HCM', 'http://example.com/avatar_phamthij.jpg', true, false, NOW(), NOW());
+('nguyen_van_a', 'hashedpassword1', 'nguyenvana@example.com', '0909123456', 'Nam', JSON_ARRAY('Doctor'), 'Nguyễn Văn A', 
+ '1980-02-15', '123 Đường ABC, Quận 10, TP.HCM', 'https://randomuser.me/api/portraits/men/1.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '0123456789', NULL, NULL, '456 Clinic Address', 'Doctor Certificate', 15, 
+ '08:00:00', '17:00:00', 'https://randomuser.me/api/portraits/men/2.jpg', 'https://example.com/certificate1.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false,  NOW(), NOW()),
+
+('tran_thi_b', 'hashedpassword2', 'tranthib@example.com', '0912345678', 'Nu', JSON_ARRAY('Doctor'), 'Trần Thị B', 
+ '1985-05-22', '456 Đường DEF, Quận 3, TP.HCM', 'https://randomuser.me/api/portraits/women/3.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '9876543210', NULL, NULL, '789 Clinic Address', 'Doctor Certificate', 10, 
+ '09:00:00', '18:00:00', 'https://randomuser.me/api/portraits/women/4.jpg', 'https://example.com/certificate2.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('le_van_c', 'hashedpassword3', 'levanc@example.com', '0923456789', 'Nam', JSON_ARRAY('Doctor'), 'Lê Văn C', 
+ '1978-11-10', '789 Đường GHI, Quận 5, TP.HCM', 'https://randomuser.me/api/portraits/men/5.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '1122334455', NULL, NULL, '123 Clinic Address', 'Doctor Certificate', 20, 
+ '07:00:00', '16:00:00', 'https://randomuser.me/api/portraits/men/6.jpg', 'https://example.com/certificate3.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('pham_thi_d', 'hashedpassword4', 'phamthid@example.com', '0934567890', 'Nu', JSON_ARRAY('Doctor'), 'Phạm Thị D', 
+ '1990-08-30', '101 Đường JKL, Quận 7, TP.HCM', 'https://randomuser.me/api/portraits/women/7.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '2233445566', NULL, NULL, '987 Clinic Address', 'Doctor Certificate', 8, 
+ '10:00:00', '19:00:00', 'https://randomuser.me/api/portraits/women/8.jpg', 'https://example.com/certificate4.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('hoang_van_e', 'hashedpassword5', 'hoangvane@example.com', '0945678901', 'Nam', JSON_ARRAY('Doctor'), 'Hoàng Văn E', 
+ '1975-03-18', '202 Đường MNO, Quận 8, TP.HCM', 'https://randomuser.me/api/portraits/men/9.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '3344556677', NULL, NULL, '654 Clinic Address', 'Doctor Certificate', 25, 
+ '08:30:00', '17:30:00', 'https://randomuser.me/api/portraits/men/10.jpg', 'https://example.com/certificate5.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('vu_thi_f', 'hashedpassword6', 'vuthif@example.com', '0956789012', 'Nu', JSON_ARRAY('Doctor'), 'Vũ Thị F', 
+ '1983-07-12', '303 Đường PQR, Quận 9, TP.HCM', 'https://randomuser.me/api/portraits/women/11.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '4455667788', NULL, NULL, '321 Clinic Address', 'Doctor Certificate', 12, 
+ '07:30:00', '16:30:00', 'https://randomuser.me/api/portraits/women/12.jpg', 'https://example.com/certificate6.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('nguyen_van_g', 'hashedpassword7', 'nguyenvang@example.com', '0967890123', 'Nam', JSON_ARRAY('Doctor'), 'Nguyễn Văn G', 
+ '1988-12-25', '404 Đường STU, Quận 1, TP.HCM', 'https://randomuser.me/api/portraits/men/13.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '5566778899', NULL, NULL, '159 Clinic Address', 'Doctor Certificate', 7, 
+ '09:00:00', '18:00:00', 'https://randomuser.me/api/portraits/men/14.jpg', 'https://example.com/certificate7.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('pham_thi_h', 'hashedpassword8', 'phamthih@example.com', '0978901234', 'Nu', JSON_ARRAY('Doctor'), 'Phạm Thị H', 
+ '1995-01-14', '505 Đường VWX, Quận 4, TP.HCM', 'https://randomuser.me/api/portraits/women/15.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '6677889900', NULL, NULL, '852 Clinic Address', 'Doctor Certificate', 5, 
+ '10:00:00', '19:00:00', 'https://randomuser.me/api/portraits/women/16.jpg', 'https://example.com/certificate8.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('le_van_i', 'hashedpassword9', 'levani@example.com', '0989012345', 'Nam', JSON_ARRAY('Doctor'), 'Lê Văn I', 
+ '1972-04-05', '606 Đường YZ, Quận 6, TP.HCM', 'https://randomuser.me/api/portraits/men/17.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '7788990011', NULL, NULL, '753 Clinic Address', 'Doctor Certificate', 28, 
+ '08:00:00', '17:00:00', 'https://randomuser.me/api/portraits/men/18.jpg', 'https://example.com/certificate9.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW()),
+
+('tran_thi_j', 'hashedpassword10', 'tranthij@example.com', '0990123456', 'Nu', JSON_ARRAY('Doctor'), 'Trần Thị J', 
+ '1992-09-09', '707 Đường ABC, Quận 2, TP.HCM', 'https://randomuser.me/api/portraits/women/19.jpg', true, true,
+ NULL, NULL, NULL, NULL, NULL, '8899001122', NULL, NULL, '951 Clinic Address', 'Doctor Certificate', 6, 
+ '07:00:00', '16:00:00', 'https://randomuser.me/api/portraits/women/20.jpg', 'https://example.com/certificate10.jpg', 
+ true, NULL, NULL, NULL, NULL, NULL, NULL, false, NOW(), NOW());
+
  
- 
- INSERT INTO Pets (owner_id, category_id, name, breed, age, gender, description, medical_history, is_active, images, createdAt, updatedAt) 
+INSERT INTO Pets (owner_id, category_id, name, breed, age, gender, description, medical_history, is_active, images, createdAt, updatedAt) 
 VALUES 
 (3, 1, 'Lucky', 'Phốc Sóc', 2, 'Đực', 'Thân thiện và năng động', 'Chích ngừa đầy đủ', true, 'https://example.com/lucky_phoc_soc.jpg', NOW(), NOW()),
 (4, 2, 'Miu', 'Mèo Ba Tư', 3, 'Cái', 'Trầm tĩnh, thích yên tĩnh', 'Đã chích ngừa dại', true, 'https://example.com/miu_ba_tu.jpg', NOW(), NOW()),
@@ -55,16 +99,16 @@ VALUES
 (3, 9, 'Bé Tròn', 'Rùa Cạn', 5, 'Cái', 'Rất hiền lành', 'Khám định kỳ hàng năm', true, 'https://example.com/rua_can.jpg', NOW(), NOW());
 
 INSERT INTO Products (sales_center_id, category_id, name, description, price, stock_quantity, sku, images, createdAt, updatedAt) VALUES
-(2, 5, 'Thức ăn cao cấp cho chó', 'Dinh dưỡng đầy đủ cho chó mọi lứa tuổi', 300000, 150, 'DOGFOOD_VN001', 'https://example.com/dogfood_vn1.jpg', NOW(), NOW()),
-(6, 6, 'Đồ chơi thông minh cho mèo', 'Giúp mèo hoạt động và giảm căng thẳng', 120000, 80, 'CATTOY_VN001', 'https://example.com/cattoy_vn1.jpg', NOW(), NOW()),
-(2, 5, 'Thức ăn cho mèo lông dài', 'Bổ sung Omega 3 và 6 cho lông mượt', 250000, 100, 'CATFOOD_VN001', 'https://example.com/catfood_vn1.jpg', NOW(), NOW()),
-(6, 7, 'Vitamin tổng hợp cho thú cưng', 'Giúp thú cưng khỏe mạnh hơn', 180000, 200, 'VITAMIN_VN001', 'https://example.com/vitamin_vn1.jpg', NOW(), NOW()),
-(2, 6, 'Bóng đồ chơi cho chó', 'Chất liệu cao su bền, an toàn', 70000, 300, 'DOGTOY_VN001', 'https://example.com/dogtoy_vn1.jpg', NOW(), NOW()),
-(6, 7, 'Omega 3 cho chó', 'Giúp da và lông khỏe mạnh', 220000, 120, 'OMEGA_VN001', 'https://example.com/omega_vn1.jpg', NOW(), NOW()),
-(2, 5, 'Thức ăn hạt cho chim', 'Dinh dưỡng cân đối cho các loại chim', 100000, 50, 'BIRDFOOD_VN001', 'https://example.com/birdfood_vn1.jpg', NOW(), NOW()),
-(6, 10, 'Dây dắt chó', 'Chất liệu nylon bền bỉ', 90000, 200, 'LEASH_VN001', 'https://example.com/leash_vn1.jpg', NOW(), NOW()),
-(2, 7, 'Bột canxi cho chó mèo', 'Bổ sung canxi giúp xương chắc khỏe', 150000, 90, 'CALCIUM_VN001', 'https://example.com/calcium_vn1.jpg', NOW(), NOW()),
-(6, 6, 'Mèo cào', 'Giúp mèo mài móng, giảm căng thẳng', 300000, 60, 'CATSCRATCH_VN001', 'https://example.com/catscratch_vn1.jpg', NOW(), NOW());
+(2, 5, 'Thức ăn cao cấp cho chó', 'Dinh dưỡng đầy đủ cho chó mọi lứa tuổi', 300000, 150, 'DOGFOOD_VN0012', 'https://example.com/dogfood_vn1.jpg', NOW(), NOW()),
+(6, 6, 'Đồ chơi thông minh cho mèo', 'Giúp mèo hoạt động và giảm căng thẳng', 120000, 80, 'CATTOY_VN0013', 'https://example.com/cattoy_vn1.jpg', NOW(), NOW()),
+(2, 5, 'Thức ăn cho mèo lông dài', 'Bổ sung Omega 3 và 6 cho lông mượt', 250000, 100, 'CATFOOD_VN0014', 'https://example.com/catfood_vn1.jpg', NOW(), NOW()),
+(6, 7, 'Vitamin tổng hợp cho thú cưng', 'Giúp thú cưng khỏe mạnh hơn', 180000, 200, 'VITAMIN_VN0015', 'https://example.com/vitamin_vn1.jpg', NOW(), NOW()),
+(2, 6, 'Bóng đồ chơi cho chó', 'Chất liệu cao su bền, an toàn', 70000, 300, 'DOGTOY_VN0016', 'https://example.com/dogtoy_vn1.jpg', NOW(), NOW()),
+(6, 7, 'Omega 3 cho chó', 'Giúp da và lông khỏe mạnh', 220000, 120, 'OMEGA_VN0017', 'https://example.com/omega_vn1.jpg', NOW(), NOW()),
+(2, 5, 'Thức ăn hạt cho chim', 'Dinh dưỡng cân đối cho các loại chim', 100000, 50, 'BIRDFOOD_VN0018', 'https://example.com/birdfood_vn1.jpg', NOW(), NOW()),
+(6, 10, 'Dây dắt chó', 'Chất liệu nylon bền bỉ', 90000, 200, 'LEASH_VN0019', 'https://example.com/leash_vn1.jpg', NOW(), NOW()),
+(2, 7, 'Bột canxi cho chó mèo', 'Bổ sung canxi giúp xương chắc khỏe', 150000, 90, 'CALCIUM_VN00110', 'https://example.com/calcium_vn1.jpg', NOW(), NOW()),
+(6, 6, 'Mèo cào', 'Giúp mèo mài móng, giảm căng thẳng', 300000, 60, 'CATSCRATCH_VN00111', 'https://example.com/catscratch_vn1.jpg', NOW(), NOW());
 
 INSERT INTO Orders (petOwner_id, total_amount, status, createdAt, updatedAt) VALUES
 (3, 300000, 'Đang xử lý', NOW(), NOW()),

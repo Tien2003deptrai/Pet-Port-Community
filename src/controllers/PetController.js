@@ -35,8 +35,13 @@ const PetController = {
   },
 
   async getAll(req, res) {
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
+
     try {
-      const pets = await Pet.findAll({
+      const { count, rows } = await Pet.findAndCountAll({
+        offset: parseInt(offset, 10),
+        limit: parseInt(limit, 10),
         include: [
           {
             model: User,
@@ -50,7 +55,19 @@ const PetController = {
           },
         ],
       });
-      res.status(201).json({ success: true, data: pets });
+
+      const totalPages = Math.ceil(count / limit);
+
+      res.status(200).json({
+        success: true,
+        data: rows,
+        pagination: {
+          totalItems: count,
+          totalPages,
+          currentPage: parseInt(page, 10),
+          itemsPerPage: parseInt(limit, 10),
+        },
+      });
     } catch (error) {
       res.status(500).json({
         message: 'Server error',
