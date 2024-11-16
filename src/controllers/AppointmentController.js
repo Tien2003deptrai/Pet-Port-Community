@@ -253,7 +253,7 @@ const AppointmentController = {
               {
                 model: User,
                 as: 'PetOwner',
-                attributes: ['id', 'username', 'full_name', 'email'],
+                attributes: ['id', 'username', 'full_name', 'email', 'phone', 'avatar_url'],
               },
               {
                 model: Category,
